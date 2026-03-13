@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta name="version" content="v14-20260314-0130">
+<meta name="version" content="v15-20260314-audio-interaction">
 <title>WiseLaw × 諾圻健康 — Lawrence AI 法律合規數字員工</title>
 <meta name="description" content="不是聊天機器人——是懂法律、會執行、能進化的數字員工。長期駐場在諾圻健康的工作環境，擁有獨立工作區與記憶系統。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 8v8c0 7.7 5.1 14.5 12 16 6.9-1.5 12-8.3 12-16V8L16 2z' fill='%23C9A84C'/%3E%3Cpath d='M16 5L7 9.5v6.5c0 6.2 3.8 11.5 9 13 5.2-1.5 9-6.8 9-13V9.5L16 5z' fill='%23080808'/%3E%3Cpath d='M16 8l-6 3v5c0 4.5 2.7 8.5 6 9.5 3.3-1 6-5 6-9.5v-5l-6-3z' fill='%23C9A84C' opacity='0.3'/%3E%3C/svg%3E">
@@ -2958,6 +2958,204 @@ body.audio-active { padding-bottom: 56px !important; }
 }
 
 /* ============================================================
+   V15: SUBTITLE BAR
+   ============================================================ */
+#subtitle-bar {
+  position: fixed;
+  bottom: 56px;
+  left: 0; right: 0;
+  height: 40px;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  background: rgba(8, 8, 8, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(201, 168, 76, 0.1);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+#audio-player.ap-visible ~ #subtitle-bar,
+body.audio-active #subtitle-bar {
+  /* controlled by JS class */
+}
+#subtitle-bar.sub-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+body.audio-active.subtitle-active { padding-bottom: 96px !important; }
+
+.sub-text {
+  font-family: var(--font-sans, 'Noto Sans TC', 'Inter', sans-serif);
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 800px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: opacity 0.3s ease;
+}
+.sub-text .sub-highlight {
+  color: var(--gold);
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(201,168,76,0.3);
+}
+.sub-text .sub-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--gold);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: sub-blink 0.6s ease-in-out infinite alternate;
+}
+@keyframes sub-blink {
+  0% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+/* V15: Subtitle fade transition */
+.sub-text.sub-fade-out {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.sub-text.sub-fade-in {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+/* ============================================================
+   V15: AUDIO-HIGHLIGHT for bento cards
+   ============================================================ */
+.bento-card.audio-highlight {
+  border: 1.5px solid var(--gold) !important;
+  box-shadow: 0 0 20px rgba(201,168,76,0.35), 0 0 40px rgba(201,168,76,0.15), inset 0 0 20px rgba(201,168,76,0.05);
+  transform: scale(1.02);
+  transition: border 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease !important;
+  z-index: 2;
+}
+
+/* V15: Generic audio-highlight for any section element */
+.audio-highlight-generic {
+  position: relative;
+}
+.audio-highlight-generic::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1.5px solid var(--gold);
+  border-radius: inherit;
+  box-shadow: 0 0 16px rgba(201,168,76,0.3);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.audio-highlight-generic.audio-active-el::after {
+  opacity: 1;
+}
+
+/* V15: Pricing card audio highlight */
+.pricing-card.audio-highlight-pricing {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 24px rgba(201,168,76,0.3), 0 0 48px rgba(201,168,76,0.1);
+  transform: translateY(-6px) scale(1.02);
+  transition: all 0.5s ease !important;
+}
+
+/* V15: Section header pulse when narrating */
+.section-narrating .section-num {
+  animation: section-pulse 2s ease-in-out infinite;
+}
+@keyframes section-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; text-shadow: 0 0 12px rgba(201,168,76,0.5); }
+}
+
+/* V15: Chapter mini-card on progress hover */
+.ap-chapter-preview {
+  position: absolute;
+  bottom: 28px;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 10, 0.97);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 8px;
+  padding: 8px 14px 6px;
+  min-width: 120px;
+  max-width: 200px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+  text-align: center;
+}
+.ap-progress-area:hover .ap-chapter-preview {
+  opacity: 1;
+}
+.ap-chapter-preview-title {
+  font-size: 11px;
+  color: var(--gold);
+  font-family: 'PingFang TC', 'Noto Sans TC', sans-serif;
+  margin-bottom: 3px;
+  white-space: nowrap;
+}
+.ap-chapter-preview-time {
+  font-size: 9px;
+  color: rgba(255,255,255,0.45);
+  font-variant-numeric: tabular-nums;
+}
+.ap-chapter-preview-bar {
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+.ap-chapter-preview-progress {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: width 0.1s;
+}
+
+/* (V15: Chapter preview - see .ap-chapter-preview below) */
+
+/* ============================================================
+   V15: PREV/NEXT chapter buttons
+   ============================================================ */
+.ap-nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.2s;
+  line-height: 0;
+  width: 24px;
+  height: 24px;
+}
+.ap-nav-btn:hover { color: var(--gold); }
+
+@media (max-width: 600px) {
+  #subtitle-bar { height: 36px; padding: 0 12px; }
+  .sub-text { font-size: 12px; }
+  .ap-nav-btn { width: 20px; height: 20px; }
+  body.audio-active.subtitle-active { padding-bottom: 92px !important; }
+}
+
+/* ============================================================
    V8: SCROLL PROGRESS BAR
    ============================================================ */
 .scroll-progress {
@@ -4651,12 +4849,24 @@ body.audio-active { padding-bottom: 56px !important; }
     </svg>
   </button>
 
+  <button id="ap-prev" class="ap-nav-btn" aria-label="上一章" title="上一章">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+  </button>
+  <button id="ap-next" class="ap-nav-btn" aria-label="下一章" title="下一章">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 6h2v12h-2zm-2 6L5.5 18V6z"/></svg>
+  </button>
+
   <div class="ap-center">
     <div style="display:flex; align-items:center; gap:8px;">
       <div id="ap-section-title" class="ap-title">準備中…</div>
       <span style="font-size:10px; color:var(--gold); border:1px solid rgba(201,168,76,0.3); border-radius:4px; padding:1px 6px; white-space:nowrap; letter-spacing:0.5px; flex-shrink:0;">AI 多角色語音演示</span>
     </div>
     <div class="ap-progress-area">
+      <div class="ap-chapter-preview" id="ap-chapter-preview">
+        <div class="ap-chapter-preview-title" id="ap-chapter-preview-title"></div>
+        <div class="ap-chapter-preview-time" id="ap-chapter-preview-time"></div>
+        <div class="ap-chapter-preview-bar"><div class="ap-chapter-preview-progress" id="ap-chapter-preview-progress"></div></div>
+      </div>
       <div class="ap-markers" id="ap-markers" aria-hidden="true"></div>
       <div class="ap-track" id="ap-track" role="slider" aria-label="進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
         <div class="ap-track-bg"></div>
@@ -4681,6 +4891,11 @@ body.audio-active { padding-bottom: 56px !important; }
       </svg>
     </button>
   </div>
+</div>
+
+<!-- V15: Subtitle bar -->
+<div id="subtitle-bar" aria-live="polite" aria-label="字幕">
+  <span class="sub-text" id="sub-text"></span>
 </div>
 
 <!-- V8: Scroll-to-top button -->
@@ -5189,7 +5404,17 @@ body.audio-active { padding-bottom: 56px !important; }
   }
 
   function showPlayer() { player.classList.add('ap-visible'); document.body.classList.add('audio-active'); }
-  function hidePlayer() { player.classList.remove('ap-visible'); document.body.classList.remove('audio-active'); }
+  function hidePlayer() {
+    player.classList.remove('ap-visible'); document.body.classList.remove('audio-active');
+    // V15: clean up subtitle & highlights on hide
+    var sb = document.getElementById('subtitle-bar');
+    if (sb) { sb.classList.remove('sub-visible'); }
+    document.body.classList.remove('subtitle-active');
+    document.querySelectorAll('.bento-card.audio-highlight').forEach(function(c) { c.classList.remove('audio-highlight'); });
+    document.querySelectorAll('.audio-highlight-pricing').forEach(function(c) { c.classList.remove('audio-highlight-pricing'); });
+    document.querySelectorAll('.section-narrating').forEach(function(c) { c.classList.remove('section-narrating'); });
+    activeHighlights = new Set();
+  }
 
   function setPlayingState(playing) {
     iconPlay.style.display  = playing ? 'none' : '';
@@ -5208,8 +5433,12 @@ body.audio-active { padding-bottom: 56px !important; }
 
   audio.addEventListener('timeupdate', () => {
     if (isDragging) return;
-    updateProgress(audio.currentTime);
-    syncSection(audio.currentTime);
+    const t = audio.currentTime;
+    updateProgress(t);
+    syncSection(t);
+    syncSubtitle(t);
+    syncHighlight(t);
+    syncStatCountUp(t);
   });
 
   audio.addEventListener('loadedmetadata', () => { buildMarkers(); updateProgress(0); });
@@ -5282,6 +5511,229 @@ body.audio-active { padding-bottom: 56px !important; }
   }, { passive: true });
 
   if (audio.readyState >= 1) { buildMarkers(); updateProgress(0); }
+
+  // ── V15: Subtitle System ────────────────────────────────────
+  const subtitleCues = [
+    { start: 0, end: 8, text: '每年因合規失誤造成的損失，遠超您的想像' },
+    { start: 8, end: 18, text: '法規更新頻率越來越快，傳統團隊已經跟不上' },
+    { start: 18, end: 30, text: '您需要的不是更多人力，而是更聰明的解決方案' },
+    { start: 30, end: 45, text: '如果有一位數字員工，能 7×24 小時處理法律事務' },
+    { start: 45, end: 60, text: '不需要休假，不會遺漏，持續學習進化' },
+    { start: 60, end: 80, text: '這不是科幻，這是 Lawrence' },
+    { start: 80, end: 96, text: 'WiseLaw 打造的 AI 法律合規數字員工' },
+    { start: 96, end: 110, text: 'Lawrence 不是一個聊天機器人' },
+    { start: 110, end: 125, text: '他是一位真正的數字員工，擁有獨立工作區與記憶系統' },
+    { start: 125, end: 145, text: '基於 120+ 國家法規數據庫，即時提供跨法域法律意見' },
+    { start: 145, end: 165, text: '覆蓋大陸、香港、東南亞及歐盟主要司法管轄區' },
+    { start: 165, end: 180, text: '秒級響應法規查詢，準確率超過人工檢索' },
+    { start: 180, end: 192, text: '讓我們看看他的核心能力' },
+    { start: 192, end: 210, text: '第一，法規智能檢索' },
+    { start: 210, end: 230, text: '第二，合約智能審查，多份文件同時處理' },
+    { start: 230, end: 250, text: '第三，數據隱私保護，個保法、PDPO、GDPR 全覆蓋' },
+    { start: 250, end: 270, text: '第四，盡職調查分析，自動梳理證據鏈' },
+    { start: 270, end: 290, text: '第五，合規風險評估，多維度企業合規體檢' },
+    { start: 290, end: 312, text: '第六，7×24 自主工作，跨時區全天候運行' },
+    { start: 312, end: 340, text: '每一個場景都來自法律從業者的日常工作流' },
+    { start: 340, end: 370, text: 'Lawrence 不是概念驗證，他已經在運行' },
+    { start: 370, end: 400, text: '從諮詢到執行的全流程覆蓋' },
+    { start: 400, end: 432, text: '讓 AI 處理重複性工作，讓專業人員聚焦高價值判斷' },
+    { start: 432, end: 460, text: '安全是我們的底線，不是附加功能' },
+    { start: 460, end: 490, text: '端到端加密，私有化部署，數據永不外流' },
+    { start: 490, end: 522, text: '通過多項國際安全認證，值得企業信賴' },
+    { start: 522, end: 545, text: 'WiseLaw，學術嚴謹與商業實戰深度融合' },
+    { start: 545, end: 565, text: '法律 AI 領域的開拓者' },
+    { start: 565, end: 582, text: '我們的團隊來自頂尖學府與國際律所' },
+    { start: 582, end: 610, text: 'AI 實戰培訓費用可 100% 折抵首年年費' },
+    { start: 610, end: 640, text: '零風險入場，先體驗再決定' },
+    { start: 640, end: 672, text: '每年為企業節省超過 22 萬元法律合規成本' },
+    { start: 672, end: 700, text: '讓 Lawrence 成為您的法律合規夥伴' },
+    { start: 700, end: 730, text: '不是取代律師，而是讓律師更強大' },
+    { start: 730, end: 750, text: '現在就開始，預約專屬演示' },
+    { start: 750, end: 770, text: 'WiseLaw — 讓合規成為競爭優勢' },
+  ];
+
+  const subtitleBar = document.getElementById('subtitle-bar');
+  const subTextEl   = document.getElementById('sub-text');
+  let currentCueIdx = -1;
+
+  function syncSubtitle(t) {
+    let found = -1;
+    for (let i = 0; i < subtitleCues.length; i++) {
+      if (t >= subtitleCues[i].start && t < subtitleCues[i].end) { found = i; break; }
+    }
+    if (found === currentCueIdx) return;
+    currentCueIdx = found;
+    if (found === -1) {
+      subtitleBar.classList.remove('sub-visible');
+      document.body.classList.remove('subtitle-active');
+      subTextEl.innerHTML = '';
+      return;
+    }
+    // Fade transition between cues
+    subTextEl.classList.add('sub-fade-out');
+    subTextEl.classList.remove('sub-fade-in');
+    setTimeout(() => {
+      renderKaraoke(t);
+      subTextEl.classList.remove('sub-fade-out');
+      subTextEl.classList.add('sub-fade-in');
+    }, 120);
+    subtitleBar.classList.add('sub-visible');
+    document.body.classList.add('subtitle-active');
+  }
+
+  function renderKaraoke(t) {
+    if (currentCueIdx < 0) return;
+    const cue = subtitleCues[currentCueIdx];
+    if (t < cue.start || t >= cue.end) return;
+    const chars = cue.text.split('');
+    const progress = Math.min((t - cue.start) / (cue.end - cue.start), 1);
+    const highlightCount = Math.ceil(progress * chars.length);
+    const highlighted = chars.slice(0, highlightCount).join('');
+    const rest = chars.slice(highlightCount).join('');
+    subTextEl.innerHTML = '<span class="sub-highlight">' + escapeHtml(highlighted) + '</span>' + escapeHtml(rest) + '<span class="sub-cursor"></span>';
+  }
+
+  // High-frequency karaoke update using rAF for smooth animation
+  let karaokeRafId = null;
+  function karaokeLoop() {
+    if (!audio.paused && currentCueIdx >= 0) renderKaraoke(audio.currentTime);
+    karaokeRafId = requestAnimationFrame(karaokeLoop);
+  }
+  audio.addEventListener('play', () => { if (!karaokeRafId) karaokeLoop(); });
+  audio.addEventListener('pause', () => { if (karaokeRafId) { cancelAnimationFrame(karaokeRafId); karaokeRafId = null; } });
+  audio.addEventListener('ended', () => { if (karaokeRafId) { cancelAnimationFrame(karaokeRafId); karaokeRafId = null; } });
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // ── V15: Keyword-to-UI Linking (multi-section highlight) ────
+  const bentoCards = document.querySelectorAll('#capabilities .bento-card');
+  const pricingCards = document.querySelectorAll('.pricing-card');
+  const sectionEls = {};
+  audioSections.forEach(s => { sectionEls[s.id] = document.getElementById(s.id); });
+
+  const highlightRanges = [
+    // Capabilities bento cards
+    { start: 192, end: 210, type: 'bento', cardIdx: 0 },
+    { start: 210, end: 230, type: 'bento', cardIdx: 1 },
+    { start: 230, end: 250, type: 'bento', cardIdx: 2 },
+    { start: 250, end: 270, type: 'bento', cardIdx: 3 },
+    { start: 270, end: 290, type: 'bento', cardIdx: 4 },
+    { start: 290, end: 312, type: 'bento', cardIdx: 5 },
+    // Pricing section
+    { start: 582, end: 640, type: 'pricing', cardIdx: 1 }, // highlight the recommended card
+    // Security section emphasis
+    { start: 432, end: 522, type: 'section', sectionId: 'security' },
+  ];
+  let activeHighlights = new Set();
+
+  function syncHighlight(t) {
+    const newActive = new Set();
+    highlightRanges.forEach((range, i) => {
+      if (t >= range.start && t < range.end) newActive.add(i);
+    });
+    // Remove old
+    activeHighlights.forEach(i => {
+      if (!newActive.has(i)) {
+        const r = highlightRanges[i];
+        if (r.type === 'bento' && bentoCards[r.cardIdx]) bentoCards[r.cardIdx].classList.remove('audio-highlight');
+        if (r.type === 'pricing' && pricingCards[r.cardIdx]) pricingCards[r.cardIdx].classList.remove('audio-highlight-pricing');
+        if (r.type === 'section' && sectionEls[r.sectionId]) sectionEls[r.sectionId].classList.remove('section-narrating');
+      }
+    });
+    // Add new
+    newActive.forEach(i => {
+      if (!activeHighlights.has(i)) {
+        const r = highlightRanges[i];
+        if (r.type === 'bento' && bentoCards[r.cardIdx]) bentoCards[r.cardIdx].classList.add('audio-highlight');
+        if (r.type === 'pricing' && pricingCards[r.cardIdx]) pricingCards[r.cardIdx].classList.add('audio-highlight-pricing');
+        if (r.type === 'section' && sectionEls[r.sectionId]) sectionEls[r.sectionId].classList.add('section-narrating');
+      }
+    });
+    activeHighlights = newActive;
+  }
+
+  // ── V15: Data Count-Up Sync ─────────────────────────────────
+  let statCountUpTriggered = false;
+  const heroStats = document.querySelectorAll('.hero-stats .stat-value[data-target]');
+
+  function syncStatCountUp(t) {
+    if (statCountUpTriggered) return;
+    if (t >= 125 && t < 165) {
+      statCountUpTriggered = true;
+      // Reset then animate
+      heroStats.forEach(el => { el.textContent = '0'; });
+      setTimeout(() => {
+        heroStats.forEach(el => {
+          const target = parseInt(el.dataset.target, 10);
+          const suffix = el.dataset.suffix || '';
+          const dur = 1800;
+          const startT = performance.now();
+          function step(now) {
+            const p = Math.min((now - startT) / dur, 1);
+            const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+            el.textContent = Math.round(eased * target) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+      }, 100);
+    }
+  }
+  // Reset flag when audio restarted from beginning
+  audio.addEventListener('seeked', () => {
+    if (audio.currentTime < 10) statCountUpTriggered = false;
+  });
+
+  // ── V15: Prev/Next Chapter Buttons ──────────────────────────
+  const prevBtn = document.getElementById('ap-prev');
+  const nextBtn = document.getElementById('ap-next');
+
+  prevBtn.addEventListener('click', () => {
+    const idx = getSectionByTime(audio.currentTime);
+    // If more than 3s into current section, go to its start; else go to previous
+    const sec = audioSections[idx];
+    if (audio.currentTime - sec.start > 3 && idx >= 0) {
+      audio.currentTime = sec.start;
+    } else if (idx > 0) {
+      audio.currentTime = audioSections[idx - 1].start;
+    } else {
+      audio.currentTime = 0;
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    const idx = getSectionByTime(audio.currentTime);
+    if (idx < audioSections.length - 1) {
+      audio.currentTime = audioSections[idx + 1].start;
+    }
+  });
+
+  // ── V15: Chapter Preview on Progress Bar Hover ───────────────
+  const chapterPreview   = document.getElementById('ap-chapter-preview');
+  const previewTitle     = document.getElementById('ap-chapter-preview-title');
+  const previewTime      = document.getElementById('ap-chapter-preview-time');
+  const previewProgress  = document.getElementById('ap-chapter-preview-progress');
+  const progressArea     = document.querySelector('.ap-progress-area');
+
+  progressArea.addEventListener('mousemove', (e) => {
+    const rect = track.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, x / rect.width));
+    const hoverTime = pct * getDuration();
+    const idx = getSectionByTime(hoverTime);
+    const sec = audioSections[idx];
+    previewTitle.textContent = sec.title;
+    previewTime.textContent = fmt(sec.start) + ' — ' + fmt(sec.end);
+    // Chapter internal progress
+    const chapterPct = Math.min(((hoverTime - sec.start) / (sec.end - sec.start)) * 100, 100);
+    previewProgress.style.width = chapterPct + '%';
+    // Position at mouse X
+    const areaRect = progressArea.getBoundingClientRect();
+    const tooltipX = e.clientX - areaRect.left;
+    chapterPreview.style.left = tooltipX + 'px';
+  });
 
   // V7: Scroll Animation Observer
   const animObserver = new IntersectionObserver((entries) => {
