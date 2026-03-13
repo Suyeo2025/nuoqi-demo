@@ -1,0 +1,5393 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WiseLaw × 諾圻健康 — Lawrence AI 法律合規數字員工</title>
+<meta name="description" content="不是聊天機器人——是懂法律、會執行、能進化的數字員工。長期駐場在諾圻健康的工作環境，擁有獨立工作區與記憶系統。">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 8v8c0 7.7 5.1 14.5 12 16 6.9-1.5 12-8.3 12-16V8L16 2z' fill='%23C9A84C'/%3E%3Cpath d='M16 5L7 9.5v6.5c0 6.2 3.8 11.5 9 13 5.2-1.5 9-6.8 9-13V9.5L16 5z' fill='%23080808'/%3E%3Cpath d='M16 8l-6 3v5c0 4.5 2.7 8.5 6 9.5 3.3-1 6-5 6-9.5v-5l-6-3z' fill='%23C9A84C' opacity='0.3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   GLOBAL RESET & BASE (shared across all sections)
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary:    #080808;
+  --bg-secondary:  #111111;
+  --bg-tertiary:   #161616;
+  --gold:          #C9A84C;
+  --gold-light:    #E0C26A;
+  --gold-dim:      rgba(201,168,76,0.55);
+  --gold-glow:     rgba(201,168,76,0.12);
+  --gold-glow-md:  rgba(201,168,76,0.22);
+  --white:         #FFFFFF;
+  --text-primary:  rgba(255,255,255,0.95);
+  --text-secondary:rgba(255,255,255,0.72);
+  --text-tertiary: rgba(255,255,255,0.55);
+  --border-subtle: rgba(255,255,255,0.08);
+  --border-card:   rgba(255,255,255,0.09);
+  --card-bg:       rgba(255,255,255,0.035);
+  --card-hover-border: rgba(201,168,76,0.45);
+  --green-online:  #4ADE80;
+  --green:         #10B981;
+  --blue:          #4A7AFF;
+  --red:           #E05252;
+  --purple:        #5B5BD6;
+
+  --terminal-bg:     #0a0a0a;
+  --terminal-green:  #10B981;
+  --terminal-red:    #EF4444;
+  --terminal-yellow: #F59E0B;
+  --terminal-dim:    rgba(255,255,255,0.35);
+  --terminal-cmd:    #10B981;
+
+  --font-serif: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+  --font-sans:  'Inter', 'Noto Sans TC', -apple-system, sans-serif;
+  --font-mono:  'SF Mono', 'Fira Code', 'Fira Mono', 'JetBrains Mono', Consolas, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grid lines overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Layout */
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+}
+
+section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section label (shared) */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.section-num {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-subtle), transparent);
+  max-width: 140px;
+}
+
+/* Section padding */
+.section-padding {
+  padding: 140px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding { padding: 80px 0; }
+}
+
+.section-dark { background: var(--bg-primary); }
+.section-alt  { background: var(--bg-secondary); }
+
+/* Typography shared */
+.heading-lg {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+
+.heading-md {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--white);
+}
+
+/* Status dot (shared) */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  animation: statusPulse 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+/* ============================================================
+   SECTION 01: NAVIGATION
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: rgba(8,8,8,0.0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  z-index: 1000;
+  border-bottom: 1px solid transparent;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+}
+
+.nav.scrolled {
+  background: rgba(8,8,8,0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--gold-dim);
+}
+
+.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo img {
+  height: 28px;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+.nav-shield {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover { color: var(--white); }
+
+.nav-cta {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--gold);
+  color: var(--bg-primary) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background 0.25s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.nav-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  background: none;
+  border: none;
+}
+
+.nav-hamburger span {
+  width: 22px;
+  height: 1.5px;
+  background: var(--text-secondary);
+  display: block;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: rgba(8,8,8,0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--gold-dim);
+  padding: 24px 24px 32px;
+  z-index: 999;
+}
+
+.nav-mobile.open { display: block; }
+
+.nav-mobile ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.nav-mobile a {
+  display: block;
+  padding: 12px 0;
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-subtle);
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+
+.nav-mobile a:hover { color: var(--white); }
+
+.nav-mobile .nav-cta {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  font-size: 14px !important;
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-inner { padding: 0 20px; }
+}
+
+/* ============================================================
+   SECTION 01: HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  padding-top: 64px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('nuoqi/hero-bg-opt.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transform: scale(1.04);
+  transition: transform 12s ease-out;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8,8,8,0.72) 0%, rgba(8,8,8,0.45) 50%, rgba(8,8,8,0.88) 100%),
+    linear-gradient(90deg, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.2) 60%, rgba(8,8,8,0.65) 100%);
+}
+
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 15%;
+  left: 35%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 52% 1fr;
+  gap: 60px;
+  align-items: center;
+  padding: 80px 0;
+}
+
+@media (max-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 60px 0;
+  }
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 16px 5px 12px;
+  border: 1px solid rgba(201,168,76,0.35);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  background: rgba(201,168,76,0.06);
+  margin-bottom: 32px;
+  text-transform: uppercase;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+}
+
+.hero-tag-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse-gold 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+
+.hero-title .name {
+  display: block;
+  color: var(--white);
+  font-weight: 300;
+  font-style: italic;
+  opacity: 0.98;
+}
+
+.hero-title .line2 {
+  display: block;
+  font-size: clamp(32px, 4.5vw, 62px);
+  color: var(--text-secondary);
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+.hero-title .line3 {
+  display: block;
+  font-size: clamp(32px, 4.5vw, 62px);
+  color: var(--gold);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.hero-desc {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.95;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin-bottom: 36px;
+  letter-spacing: 0.01em;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 52px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--gold);
+  color: var(--bg-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201,168,76,0.25);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s, transform 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold-dim);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 640px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+.hero-stat {
+  padding: 20px 0;
+  position: relative;
+}
+
+.hero-stat + .hero-stat {
+  border-left: 1px solid var(--border-subtle);
+  padding-left: 20px;
+}
+
+@media (max-width: 640px) {
+  .hero-stat:nth-child(2) { border-left: 1px solid var(--border-subtle); padding-left: 16px; }
+  .hero-stat:nth-child(3) { border-top: 1px solid var(--border-subtle); border-left: none; padding-left: 0; }
+  .hero-stat:nth-child(4) { border-top: 1px solid var(--border-subtle); border-left: 1px solid var(--border-subtle); padding-left: 16px; }
+}
+
+.stat-value {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+}
+
+.hero-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  margin-top: 28px;
+}
+
+.online-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green-online);
+  box-shadow: 0 0 0 0 rgba(74,222,128,0.6);
+  animation: pulse-green 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-green {
+  0%   { box-shadow: 0 0 0 0 rgba(74,222,128,0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+  100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+}
+
+.hero-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+@media (max-width: 960px) {
+  .hero-right {
+    justify-content: center;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}
+
+.lawrence-float {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  animation: float-y 6s ease-in-out infinite;
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+.lawrence-glow-ring {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glow-breathe 4s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1; transform: scale(1.06); }
+}
+
+.lawrence-img-container {
+  position: relative;
+  border: 1px solid rgba(201,168,76,0.22);
+  overflow: hidden;
+}
+
+.lawrence-img-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), rgba(201,168,76,0.1));
+  z-index: 2;
+}
+
+.lawrence-img-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to top, rgba(8,8,8,0.85), transparent);
+  z-index: 2;
+}
+
+.lawrence-hero-img {
+  width: 100%;
+  display: block;
+  filter: grayscale(10%);
+  opacity: 0.88;
+  transition: filter 0.5s, opacity 0.5s;
+}
+
+.lawrence-float:hover .lawrence-hero-img {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.lawrence-card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px 24px;
+  z-index: 3;
+  background: linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.6) 60%, transparent 100%);
+}
+
+.lc-name {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.lc-role {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.45;
+  animation: fade-bounce 2.5s ease-in-out infinite;
+}
+
+@keyframes fade-bounce {
+  0%, 100% { opacity: 0.35; transform: translateX(-50%) translateY(0); }
+  50%       { opacity: 0.65; transform: translateX(-50%) translateY(6px); }
+}
+
+.scroll-indicator span {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.scroll-indicator svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gold-dim);
+}
+
+/* ============================================================
+   SECTION 01: ABOUT — 認識 Lawrence
+   ============================================================ */
+.about {
+  background: var(--bg-secondary);
+  padding: 140px 0;
+  position: relative;
+}
+
+.about::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+}
+
+@media (max-width: 768px) {
+  .about { padding: 80px 0; }
+}
+
+.about-header {
+  max-width: 760px;
+  margin-bottom: 72px;
+}
+
+.about-title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 3.8vw, 56px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.about-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.about-subtitle {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-secondary);
+  max-width: 600px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 100px;
+}
+
+@media (max-width: 640px) {
+  .features-grid { grid-template-columns: 1fr; }
+}
+
+.feature-card {
+  background: var(--card-bg);
+  padding: 40px;
+  position: relative;
+  transition: background 0.3s, box-shadow 0.3s;
+  border: 1px solid transparent;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--gold-glow);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.feature-card:hover {
+  background: rgba(255,255,255,0.055);
+  border-color: var(--card-hover-border);
+  box-shadow: 0 0 40px rgba(201,168,76,0.08), inset 0 0 40px rgba(201,168,76,0.04);
+}
+
+.feature-card:hover::before { opacity: 1; }
+
+.feature-num {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--gold-dim);
+  letter-spacing: 0.18em;
+  margin-bottom: 20px;
+  display: block;
+  font-weight: 500;
+}
+
+.feature-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(201,168,76,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-icon-wrap svg {
+  width: 20px;
+  height: 20px;
+  color: var(--gold);
+}
+
+.feature-name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   SECTION 01: TIMELINE (Paradigm)
+   ============================================================ */
+.timeline-section {
+  margin-top: 24px;
+}
+
+.timeline-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 2.8vw, 36px);
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+
+.timeline-sub {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 52px;
+  letter-spacing: 0.02em;
+}
+
+.timeline-track {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+}
+
+@media (max-width: 760px) {
+  .timeline-track {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.timeline-phase {
+  flex: 1;
+  padding: 36px 32px;
+  position: relative;
+  border: 1px solid var(--border-subtle);
+  background: var(--card-bg);
+  transition: background 0.3s;
+}
+
+.timeline-phase + .timeline-phase {
+  border-left: none;
+}
+
+@media (max-width: 760px) {
+  .timeline-phase + .timeline-phase {
+    border-left: 1px solid var(--border-subtle);
+    border-top: none;
+  }
+}
+
+.timeline-phase.active {
+  background: rgba(201,168,76,0.06);
+  border-color: rgba(201,168,76,0.3);
+  z-index: 2;
+}
+
+.timeline-phase.active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+}
+
+.timeline-arrow {
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 28px;
+  height: 28px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-arrow svg {
+  width: 12px;
+  height: 12px;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 760px) {
+  .timeline-arrow {
+    right: auto;
+    top: auto;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .timeline-arrow svg { transform: rotate(90deg); }
+}
+
+.timeline-period {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Scoped to paradigm timeline to avoid conflict with onboarding .timeline-node */
+.timeline-phase .timeline-node {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.timeline-phase.active .timeline-phase .timeline-node {
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(201,168,76,0.5);
+}
+
+.timeline-phase.active .timeline-period {
+  color: var(--gold-dim);
+}
+
+.timeline-role {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.timeline-phase.active .timeline-role {
+  color: var(--gold);
+}
+
+.timeline-detail {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text-tertiary);
+}
+
+.timeline-phase.active .timeline-detail {
+  color: var(--text-secondary);
+}
+
+.timeline-badge {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 4px 12px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ============================================================
+   SECTION 01: REVEAL ANIMATIONS
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ============================================================
+   SECTION 02: BENTO GRID — CAPABILITIES
+   ============================================================ */
+#capabilities {
+  background: var(--bg-primary);
+}
+
+.bento-header {
+  margin-bottom: 56px;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.bento-card {
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--border-card);
+  background-size: cover;
+  background-position: center;
+  cursor: default;
+  transition: border-color 0.35s ease, transform 0.35s ease;
+}
+
+.bento-card.large {
+  grid-column: span 2;
+  min-height: 340px;
+}
+
+.bento-card:hover {
+  border-color: var(--card-hover-border);
+  transform: translateY(-2px);
+}
+
+.bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(8,8,8,0.82) 0%, rgba(8,8,8,0.92) 100%);
+  border-radius: inherit;
+}
+
+.bento-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.07) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.bento-card:hover::after { opacity: 1; }
+
+.bento-content {
+  position: relative;
+  z-index: 2;
+  padding: 36px 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.bento-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.bento-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.bento-card.large .bento-title {
+  font-size: 32px;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bento-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  max-width: 480px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+  animation-play-state: paused;
+}
+
+.bento-card.large .bento-desc {
+  font-size: 15px;
+  max-width: 680px;
+}
+
+.bento-card.visible .bento-desc {
+  animation-play-state: running;
+}
+
+.bento-card:nth-child(1) .bento-desc { animation-delay: 0.1s; }
+.bento-card:nth-child(2) .bento-desc { animation-delay: 0.2s; }
+.bento-card:nth-child(3) .bento-desc { animation-delay: 0.3s; }
+.bento-card:nth-child(4) .bento-desc { animation-delay: 0.2s; }
+.bento-card:nth-child(5) .bento-desc { animation-delay: 0.3s; }
+.bento-card:nth-child(6) .bento-desc { animation-delay: 0.1s; }
+
+.bento-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  align-self: flex-start;
+}
+
+@media (max-width: 768px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-card.large { grid-column: span 1; min-height: 280px; }
+  .bento-content { padding: 28px 24px; }
+}
+
+/* ============================================================
+   SECTION 02: PAIN POINTS
+   ============================================================ */
+#pain-points {
+  background: var(--bg-secondary);
+}
+
+.pain-header {
+  margin-bottom: 56px;
+}
+
+.pain-grid {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.pain-card {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: border-color 0.35s ease, transform 0.35s ease, background 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pain-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 16px 16px 0 0;
+  opacity: 0.6;
+  transition: opacity 0.35s ease;
+}
+
+.pain-card.gold-accent::before { background: var(--gold); }
+.pain-card.blue-accent::before { background: var(--blue); }
+.pain-card.red-accent::before  { background: var(--red); }
+
+.pain-card:hover {
+  border-color: var(--card-hover-border);
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-3px);
+}
+
+.pain-card:hover::before { opacity: 1; }
+
+.pain-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.pain-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.pain-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  flex: 1;
+  margin-bottom: 28px;
+}
+
+.pain-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.pain-items li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.pain-items li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--text-tertiary);
+}
+
+.pain-tag {
+  display: inline-block;
+  margin-top: auto;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  align-self: flex-start;
+}
+
+.pain-card.gold-accent .pain-tag {
+  background: rgba(201,168,76,0.12);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.25);
+}
+
+.pain-card.blue-accent .pain-tag {
+  background: rgba(74,122,255,0.12);
+  color: var(--blue);
+  border: 1px solid rgba(74,122,255,0.25);
+}
+
+.pain-card.red-accent .pain-tag {
+  background: rgba(224,82,82,0.12);
+  color: var(--red);
+  border: 1px solid rgba(224,82,82,0.25);
+}
+
+@media (max-width: 768px) {
+  .pain-grid { flex-direction: column; }
+  .pain-card { padding: 32px 24px; }
+}
+
+/* ============================================================
+   SECTION 03: SCENARIOS
+   ============================================================ */
+#scenarios {
+  background: var(--bg-secondary);
+  padding: 140px 0;
+}
+
+@media (max-width: 768px) {
+  #scenarios { padding: 80px 0; }
+}
+
+.scenarios-header {
+  max-width: 760px;
+  margin-bottom: 72px;
+}
+
+.scenarios-title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.scenarios-subtitle {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--text-secondary);
+  max-width: 640px;
+}
+
+/* Accordion */
+.accordion {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+
+.accordion-item.is-open .accordion-chevron {
+  transform: rotate(180deg);
+}
+
+.accordion-trigger {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 28px 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  text-align: left;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.accordion-trigger:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.accordion-trigger:hover .accordion-num {
+  color: var(--gold);
+}
+
+.accordion-num {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--text-tertiary);
+  min-width: 52px;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.accordion-item.is-open .accordion-num { color: var(--gold); }
+
+.accordion-title-group {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
+
+.accordion-title {
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.accordion-item.is-open .accordion-title { color: var(--gold); }
+
+.tag-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-pill {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-tertiary);
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.accordion-item.is-open .tag-pill {
+  border-color: rgba(201,168,76,0.3);
+  color: var(--gold-dim);
+}
+
+.accordion-chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--text-tertiary);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s;
+}
+
+.accordion-item.is-open .accordion-chevron { color: var(--gold); }
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-content {
+  padding: 0 0 48px 76px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .accordion-content {
+    grid-template-columns: 1fr;
+    padding: 0 0 40px 0;
+  }
+}
+
+.scenario-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scenario-desc {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-secondary);
+}
+
+.scenario-quote {
+  border-left: 2px solid var(--gold-dim);
+  padding: 12px 0 12px 20px;
+  margin-top: 4px;
+}
+
+.scenario-quote p {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.75);
+}
+
+.scenario-quote cite {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-top: 10px;
+  font-style: normal;
+}
+
+/* Terminal */
+.terminal-wrap {
+  background: var(--terminal-bg);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #1a1a1a;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
+.terminal-dot.red    { background: #FF5F56; }
+.terminal-dot.yellow { background: #FFBD2E; }
+.terminal-dot.green  { background: #27C93F; }
+
+.terminal-titlename {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.25);
+  margin-left: -42px;
+}
+
+.terminal-body {
+  padding: 18px 18px 22px;
+  min-height: 280px;
+}
+
+.tline {
+  display: block;
+  color: rgba(255,255,255,0.7);
+  white-space: pre-wrap;
+  word-break: break-all;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  min-height: 1.7em;
+}
+
+.tline.visible { opacity: 1; transform: translateY(0); }
+.tline.cmd   { color: var(--terminal-cmd); font-weight: 600; }
+.tline.info  { color: rgba(255,255,255,0.5); }
+.tline.ok    { color: rgba(255,255,255,0.7); }
+.tline.warn  { color: #F59E0B; }
+.tline.arrow { color: var(--gold); }
+.tline.blank { min-height: 0.6em; }
+
+.label-found { color: var(--terminal-green); }
+.label-risk  { color: var(--terminal-red); }
+.label-req   { color: #F59E0B; }
+.label-ok    { color: var(--terminal-green); }
+.label-mid   { color: #F59E0B; }
+
+.cursor {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  background: var(--terminal-green);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Scenario 04 timeline (vertical) */
+#scenarios .scenario-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tl-item {
+  display: flex;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.tl-item.visible { opacity: 1; transform: translateY(0); }
+
+.tl-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 52px;
+}
+
+.tl-time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1.4;
+  text-align: center;
+  padding-top: 2px;
+}
+
+.tl-time.faint {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.tl-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 30px;
+}
+
+.tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 0 2px var(--gold-dim);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+}
+
+.tl-dot.pulse::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: tl-pulse 2s ease-out infinite;
+}
+
+@keyframes tl-pulse {
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; }
+}
+
+.tl-line {
+  width: 1px;
+  flex: 1;
+  min-height: 24px;
+  background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  margin-top: 4px;
+}
+
+.tl-right {
+  flex: 1;
+  padding-bottom: 24px;
+}
+
+.tl-event {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+.tl-action {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--terminal-green);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tl-arrow { color: var(--gold-dim); }
+
+@media (max-width: 768px) {
+  .accordion-trigger { gap: 16px; padding: 22px 0; }
+  .accordion-num { font-size: 22px; min-width: 40px; }
+  .accordion-title { font-size: 16px; }
+  .tag-pills { display: none; }
+}
+
+@media (max-width: 480px) {
+  .scenarios-title { font-size: 30px; }
+}
+
+/* ============================================================
+   SECTION 04: AI EMPLOYEE MATRIX
+   ============================================================ */
+#ai-team { background: var(--bg-primary); }
+
+.ai-team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .ai-team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .ai-team-grid { grid-template-columns: 1fr; }
+}
+
+.ai-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-card:hover {
+  border-color: var(--card-hover-border);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+}
+
+.ai-card.featured {
+  border-color: rgba(201,168,76,0.5);
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.15), 0 8px 40px rgba(201,168,76,0.08);
+}
+
+.ai-card.featured::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), rgba(201,168,76,0.2));
+}
+
+.ai-card.featured:hover {
+  border-color: rgba(201,168,76,0.8);
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.3), 0 20px 60px rgba(201,168,76,0.12);
+}
+
+.ai-avatar-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-tertiary);
+}
+
+.ai-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 0;
+  display: block;
+}
+
+.ai-avatar-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to top, rgba(8,8,8,0.7), transparent);
+  pointer-events: none;
+}
+
+/* Pet video overlay for AI cards */
+.ai-pet-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ai-pet-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  border-radius: 0;
+}
+.ai-pet-wrap .ai-avatar-small {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  z-index: 3;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.wiselaw-badge-ai {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background: rgba(8,8,8,0.75);
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  backdrop-filter: blur(8px);
+  animation: badgePulseAi 2.5s ease-in-out infinite;
+}
+.wiselaw-badge-ai svg {
+  width: 18px;
+  height: 18px;
+}
+@keyframes badgePulseAi {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.35); }
+  50% { box-shadow: 0 0 16px 6px rgba(201,168,76,0.15); }
+}
+
+/* V7: Scroll Animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-card { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }
+.feature-card:nth-child(4) { animation-delay: 0.4s; }
+.feature-card:nth-child(5) { animation-delay: 0.5s; }
+.feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+.ai-card { animation-delay: 0.1s; }
+.ai-card:nth-child(2) { animation-delay: 0.2s; }
+.ai-card:nth-child(3) { animation-delay: 0.3s; }
+.ai-card:nth-child(4) { animation-delay: 0.4s; }
+
+.team-card { animation-delay: 0.1s; }
+.team-card:nth-child(2) { animation-delay: 0.2s; }
+.team-card:nth-child(3) { animation-delay: 0.3s; }
+.team-card:nth-child(4) { animation-delay: 0.4s; }
+
+.pricing-card { animation-delay: 0.1s; }
+.pricing-card:nth-child(2) { animation-delay: 0.2s; }
+
+.ai-card-body {
+  padding: 20px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.ai-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ai-name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+}
+
+.ai-role-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--bg-primary);
+  background: var(--gold);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.ai-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.ai-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ai-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.02em;
+}
+
+.featured-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 100px;
+  background: rgba(201,168,76,0.06);
+}
+
+/* ============================================================
+   SECTION 04: HUMAN TEAM
+   ============================================================ */
+#team { background: var(--bg-secondary); }
+
+.team-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+
+@media (max-width: 900px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .team-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+}
+
+.team-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
+}
+
+.team-card:hover {
+  border-color: var(--card-hover-border);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+}
+
+.team-photo-wrap {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-tertiary);
+}
+
+.team-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(10%);
+  transition: filter 0.4s, transform 0.4s;
+  border-radius: 0;
+}
+
+.team-card:hover .team-photo-wrap img {
+  filter: grayscale(0%);
+  transform: scale(1.03);
+}
+
+.team-photo-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(8,8,8,0.85), transparent);
+  pointer-events: none;
+}
+
+.team-info {
+  padding: 20px 20px 24px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+  background: rgba(0,0,0,0.3);
+}
+
+.team-name {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+}
+
+.team-role-en {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+  display: block;
+}
+
+.team-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-top: 10px;
+}
+
+/* ============================================================
+   SECTION 04: PRICING
+   ============================================================ */
+#pricing { background: var(--bg-primary); }
+
+.pricing-header { margin-bottom: 16px; }
+
+.pricing-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+}
+
+.pricing-subtitle span {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.pricing-grid {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  margin-top: 56px;
+}
+
+@media (max-width: 768px) {
+  .pricing-grid { flex-direction: column; }
+}
+
+.pricing-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 4px;
+  padding: 40px;
+  position: relative;
+  transition: border-color 0.35s, box-shadow 0.35s, background 0.35s;
+}
+
+.pricing-card:hover {
+  border-color: var(--card-hover-border);
+  background: rgba(255,255,255,0.065);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+}
+
+.pricing-card.featured {
+  border-color: rgba(201,168,76,0.5);
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.15);
+}
+
+.pricing-card.featured::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), rgba(201,168,76,0.2));
+}
+
+.pricing-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--bg-primary);
+  background: var(--gold);
+  border-radius: 2px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.pricing-plan {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.pricing-plan-en {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text-tertiary);
+  letter-spacing: 0.08em;
+  margin-bottom: 28px;
+  display: block;
+}
+
+.price-amount {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.price-unit {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-left: 4px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.price-rmb {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+  margin-bottom: 28px;
+}
+
+.features {
+  flex: 1;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.features li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.cta-btn {
+  margin-top: auto;
+  display: block;
+  width: 100%;
+  padding: 16px 24px;
+  min-height: 48px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-btn.primary {
+  background: var(--gold);
+  color: var(--bg-primary);
+}
+
+.cta-btn.primary:hover {
+  background: #d4b35a;
+  transform: translateY(-2px);
+}
+
+.cta-btn.secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.cta-btn.secondary:hover {
+  border-color: var(--gold-dim);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.addons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 28px;
+}
+
+@media (max-width: 600px) {
+  .addons-grid { grid-template-columns: 1fr; }
+}
+
+.addon-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 4px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.addon-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.addon-price-hkd {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1.1;
+}
+
+.addon-price-rmb {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.addon-note {
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.roi-bar {
+  margin-top: 60px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .roi-bar { padding: 24px; flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+.roi-label {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.roi-comparison {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.roi-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roi-item-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.roi-item-value {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1;
+}
+
+.roi-item-value.strike {
+  text-decoration: line-through;
+  color: var(--text-tertiary);
+  font-size: 20px;
+}
+
+.roi-item-value.highlight { color: var(--gold); }
+.roi-item-value.saving    { color: var(--green); }
+
+.roi-arrow {
+  font-size: 20px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   SECTION 04: ONBOARDING
+   ============================================================ */
+#onboarding { background: var(--bg-secondary); }
+
+.onboarding-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+.onboarding-header .heading-md {
+  margin-top: 8px;
+}
+
+/* Scoped to #onboarding to avoid conflict with scenario timeline */
+#onboarding .timeline {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+#onboarding .timeline::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: calc(12.5% + 16px);
+  right: calc(12.5% + 16px);
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(201,168,76,0.15),
+    rgba(201,168,76,0.5) 25%,
+    rgba(201,168,76,0.5) 75%,
+    rgba(201,168,76,0.15)
+  );
+  z-index: 0;
+}
+
+.timeline-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 0 12px;
+}
+
+/* Scoped onboarding timeline node (44px circles) */
+.timeline-step .timeline-node {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 16px rgba(201,168,76,0.15);
+}
+
+.timeline-node-inner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.timeline-day {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.timeline-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.timeline-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 180px;
+}
+
+@media (max-width: 640px) {
+  #onboarding .timeline {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  #onboarding .timeline::before {
+    top: calc(12.5% + 22px);
+    bottom: calc(12.5% + 22px);
+    left: 22px;
+    right: auto;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg,
+      rgba(201,168,76,0.15),
+      rgba(201,168,76,0.5) 25%,
+      rgba(201,168,76,0.5) 75%,
+      rgba(201,168,76,0.15)
+    );
+  }
+
+  .timeline-step {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0 0 40px 0;
+  }
+
+  .timeline-step .timeline-node {
+    flex-shrink: 0;
+    margin-bottom: 0;
+    margin-top: 2px;
+  }
+
+  .timeline-desc { max-width: none; }
+}
+
+/* ============================================================
+   SECTION 04: CTA
+   ============================================================ */
+#cta {
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+#cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-inner {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.cta-inner .heading-lg {
+  font-size: clamp(36px, 5vw, 72px);
+  margin-bottom: 16px;
+}
+
+.cta-inner .heading-lg span { color: var(--gold); }
+
+.cta-desc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-pulse {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 40px;
+  min-height: 48px;
+  background: var(--gold);
+  color: var(--bg-primary);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px;
+  animation: goldGlowPulse 2.8s ease-in-out infinite;
+  transition: transform 0.2s;
+}
+
+.btn-pulse:hover {
+  transform: translateY(-3px);
+  animation-play-state: paused;
+  box-shadow: 0 8px 32px rgba(201,168,76,0.4);
+}
+
+@keyframes goldGlowPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.0), 0 4px 20px rgba(201,168,76,0.3); }
+  50%       { box-shadow: 0 0 0 12px rgba(201,168,76,0.0), 0 4px 20px rgba(201,168,76,0.5); }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+  padding: 40px 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo img {
+  height: 24px;
+  filter: invert(1) brightness(0.6);
+  display: block;
+}
+
+.footer-copy {
+  font-size: 14px;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+@media (max-width: 640px) {
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-links { display: none; }
+}
+
+/* ============================================================
+   COUNT-UP (shared)
+   ============================================================ */
+.count-up { display: inline-block; }
+
+/* ============================================================
+   AUDIO PLAYER — Fixed Bottom Bar
+   ============================================================ */
+#audio-player {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 56px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(201, 168, 76, 0.2);
+  box-sizing: border-box;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+#audio-player.ap-visible { transform: translateY(0); }
+
+body.audio-active { padding-bottom: 56px !important; }
+
+.ap-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.2s, background 0.2s;
+  line-height: 0;
+}
+
+.ap-btn:hover {
+  color: #C9A84C;
+  background: rgba(201, 168, 76, 0.1);
+}
+
+.ap-play {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+}
+
+.ap-play:hover { border-color: #C9A84C; }
+
+.ap-close { width: 28px; height: 28px; opacity: 0.6; }
+.ap-close:hover { opacity: 1; }
+
+.ap-center {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.ap-title {
+  font-size: 11px;
+  color: #C9A84C;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'PingFang TC', 'Noto Serif TC', serif;
+  line-height: 1.2;
+}
+
+.ap-progress-area {
+  position: relative;
+  height: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.ap-markers {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ap-marker-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.45);
+  border: 1.5px solid rgba(201, 168, 76, 0.7);
+  transition: background 0.3s, transform 0.2s;
+}
+
+.ap-marker-dot.ap-marker-active {
+  background: #C9A84C;
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.ap-track {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.ap-track-bg {
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 3px;
+}
+
+.ap-track-fill {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  background: #C9A84C;
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+.ap-track-thumb {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #C9A84C;
+  left: 0%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  box-shadow: 0 0 4px rgba(201, 168, 76, 0.6);
+  transition: left 0.1s linear;
+}
+
+.ap-time {
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.ap-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ap-volume-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ap-vol-icon {
+  color: rgba(255,255,255,0.5);
+  flex-shrink: 0;
+}
+
+.ap-volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 72px;
+  height: 3px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  accent-color: #C9A84C;
+}
+
+.ap-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #C9A84C;
+  cursor: pointer;
+}
+
+.ap-volume::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #C9A84C;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  #ap-volume-wrap { display: none !important; }
+  .ap-title { font-size: 10px; }
+  .ap-time  { font-size: 9px; }
+}
+
+/* ============================================================
+   V8: SCROLL PROGRESS BAR
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  z-index: 1001;
+  transition: none;
+  pointer-events: none;
+}
+
+/* ============================================================
+   V8: AI CARD 3D TILT + PET VIDEO SCALE + GLOW
+   ============================================================ */
+.ai-card {
+  transform-style: preserve-3d;
+  perspective: 800px;
+}
+.ai-card:hover .ai-pet-video {
+  transform: scale(1.05);
+  transition: transform 0.4s ease;
+}
+.ai-pet-video {
+  transition: transform 0.4s ease;
+}
+.ai-card:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 24px rgba(201,168,76,0.15);
+}
+.ai-card.featured:hover {
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.3), 0 20px 60px rgba(201,168,76,0.12), 0 0 32px rgba(201,168,76,0.2);
+}
+
+/* ============================================================
+   V8: PRICING CARD HOVER + SHIMMER
+   ============================================================ */
+.pricing-card {
+  transition: border-color 0.35s, box-shadow 0.35s, background 0.35s, transform 0.35s ease;
+}
+.pricing-card:hover {
+  transform: translateY(-8px);
+}
+
+.pricing-card.featured {
+  overflow: hidden;
+}
+.pricing-card.featured::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(201,168,76,0.15), transparent, transparent);
+  animation: shimmerRotate 4s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+@keyframes shimmerRotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.pricing-card.featured > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   V8: CTA GRADIENT ANIMATION + TYPING
+   ============================================================ */
+#cta {
+  background: linear-gradient(135deg, var(--bg-primary), #12100a, var(--bg-primary));
+  background-size: 400% 400%;
+  animation: ctaGradient 8s ease infinite;
+}
+@keyframes ctaGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.cta-typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  background: var(--gold);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: ctaCursorBlink 0.7s step-end infinite;
+}
+@keyframes ctaCursorBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ============================================================
+   V8: SCROLL-TO-TOP BUTTON
+   ============================================================ */
+.scroll-to-top {
+  position: fixed;
+  bottom: 80px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--bg-primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.25s;
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+}
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.scroll-to-top:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+}
+.scroll-to-top svg {
+  width: 20px;
+  height: 20px;
+}
+/* ============================================================
+   V9: LOADING OVERLAY
+   ============================================================ */
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #080808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+#loading-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+#loading-overlay img {
+  width: 120px;
+  height: auto;
+  filter: invert(1);
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+@keyframes loadingPulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+/* ============================================================
+   CHAT DEMO (About section)
+   ============================================================ */
+.chat-demo {
+  max-width: 620px;
+  margin: 60px auto 48px;
+  background: #0d0d0d;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 28px 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.chat-demo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 30% 0%, rgba(201,168,76,0.06) 0%, transparent 60%);
+}
+.chat-demo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.chat-demo-header .chat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green-online);
+  box-shadow: 0 0 6px rgba(74,222,128,0.4);
+}
+.chat-demo-header span {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+}
+.chat-msg {
+  display: flex;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.chat-msg.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chat-msg.user {
+  justify-content: flex-end;
+}
+.chat-msg.lawrence {
+  justify-content: flex-start;
+}
+.chat-bubble {
+  max-width: 80%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.75;
+  position: relative;
+}
+.chat-msg.user .chat-bubble {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-primary);
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.lawrence .chat-bubble {
+  background: rgba(201,168,76,0.10);
+  border-left: 2px solid var(--gold);
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+}
+.chat-bubble .chat-sender {
+  display: block;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.chat-bubble .chat-time {
+  display: block;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* ============================================================
+   RADAR CHART (Capabilities section)
+   ============================================================ */
+.radar-chart-wrap {
+  max-width: 500px;
+  margin: 60px auto 0;
+  text-align: center;
+}
+.radar-chart-wrap h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  color: var(--gold);
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+.radar-svg {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: block;
+}
+.radar-grid-line {
+  fill: none;
+  stroke: var(--border-subtle);
+  stroke-width: 0.8;
+}
+.radar-axis {
+  stroke: var(--border-subtle);
+  stroke-width: 0.5;
+}
+.radar-score-polygon {
+  fill: rgba(201,168,76,0.18);
+  stroke: var(--gold);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  transform: scale(0);
+  transform-origin: 200px 200px;
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.radar-score-polygon.animate {
+  transform: scale(1);
+}
+.radar-dot {
+  fill: var(--gold);
+  opacity: 0;
+  transition: opacity 0.6s ease 0.8s;
+}
+.radar-dot.animate {
+  opacity: 1;
+}
+.radar-label {
+  fill: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* ============================================================
+   TESTIMONIALS / SOCIAL PROOF
+   ============================================================ */
+.testimonials-section {
+  padding: 100px 0;
+  background: var(--bg-secondary);
+  position: relative;
+  z-index: 1;
+}
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+.testimonial-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  position: relative;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.testimonial-card:hover {
+  border-color: var(--card-hover-border);
+  transform: translateY(-4px);
+}
+.testimonial-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  font-family: var(--font-serif);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.testimonial-quote {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  margin-top: 20px;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+.testimonial-person {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+}
+.testimonial-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.testimonial-role {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+.testimonial-industry {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-top: 8px;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 900px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ============================================================
+   ANIMATED SECTION DIVIDER
+   ============================================================ */
+.section-divider {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, transparent, var(--border-subtle), transparent);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.section-divider.full-width {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle) 30%, var(--border-subtle) 70%, transparent);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-divider.full-width.divider-visible {
+  width: 100%;
+}
+.section-divider:not(.full-width) {
+  height: 0;
+  transition: height 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-divider:not(.full-width).divider-visible {
+  height: 60px;
+}
+.pet-voice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 20px;
+  color: var(--gold);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.pet-voice-btn:hover {
+  background: rgba(201,168,76,0.25);
+  border-color: var(--gold);
+  transform: scale(1.05);
+}
+.pet-voice-btn.playing {
+  background: var(--gold);
+  color: var(--bg-primary);
+  animation: voicePulse 1s infinite;
+}
+@keyframes voicePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+  50% { box-shadow: 0 0 12px 4px rgba(201,168,76,0.2); }
+}
+</style>
+</head>
+<body>
+
+<!-- V9: Loading overlay -->
+<div id="loading-overlay">
+  <img src="nuoqi/wiselaw-logo-black.png" alt="Loading...">
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="主導航">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" aria-label="WiseLaw 首頁">
+      <svg class="nav-shield" viewBox="0 0 26 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M13 1L2 5.5V13.5C2 19.5 7 24.5 13 27.5C19 24.5 24 19.5 24 13.5V5.5L13 1Z"
+          stroke="#C9A84C" stroke-width="1.4" fill="rgba(201,168,76,0.08)"/>
+        <path d="M9 14.5L11.5 17L17 11" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <img src="nuoqi/wiselaw-logo-black.png" alt="WiseLaw">
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#pain-points">痛點分析</a></li>
+      <li><a href="#capabilities">核心能力</a></li>
+      <li><a href="#scenarios">演示場景</a></li>
+      <li><a href="#team">團隊</a></li>
+      <li><a href="#pricing">報價</a></li>
+      <li><a href="#contact" class="nav-cta">預約演示</a></li>
+    </ul>
+
+    <button class="nav-hamburger" id="hamburger-btn" aria-label="開啟選單" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- V8: Scroll progress indicator -->
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+<!-- Mobile nav -->
+<div class="nav-mobile" id="mobile-nav" role="navigation" aria-label="手機導航">
+  <ul>
+    <li><a href="#pain-points">痛點分析</a></li>
+    <li><a href="#capabilities">核心能力</a></li>
+    <li><a href="#scenarios">演示場景</a></li>
+    <li><a href="#team">團隊</a></li>
+    <li><a href="#pricing">報價</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">預約演示</a>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" aria-label="主視覺">
+  <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="container">
+      <div class="hero-grid">
+
+        <div class="hero-left">
+          <div class="hero-tag reveal">
+            <span class="hero-tag-dot"></span>
+            法律&nbsp;AI&nbsp;·&nbsp;全新範式&nbsp;·&nbsp;2026
+          </div>
+
+          <h1 class="hero-title reveal reveal-delay-1">
+            <span class="name">Lawrence</span>
+            <span class="line2">新一代法律合規</span>
+            <span class="line3">數字員工</span>
+          </h1>
+
+          <p class="hero-desc reveal reveal-delay-2">
+            不是聊天機器人&nbsp;—&nbsp;是懂法律、會執行、能進化的數字員工。長期駐場在諾圻健康的工作環境，擁有獨立工作區與記憶系統。你睡著的時候，它繼續推進任務。
+          </p>
+
+          <div class="hero-buttons reveal reveal-delay-3">
+            <button class="btn-primary" id="hero-play-btn" aria-label="開始語音講解">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polygon points="5,3 19,12 5,21"/>
+              </svg>
+              開始語音講解
+            </button>
+            <a href="#cta" class="btn-secondary">
+              預約演示
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="hero-stats reveal reveal-delay-4" role="list">
+            <div class="hero-stat" role="listitem">
+              <div class="stat-value" data-target="120" data-suffix="+">0</div>
+              <div class="stat-label">國家法規覆蓋</div>
+            </div>
+            <div class="hero-stat" role="listitem">
+              <div class="stat-value" data-target="7" data-suffix="×24">0</div>
+              <div class="stat-label">不間斷主動工作</div>
+            </div>
+            <div class="hero-stat" role="listitem">
+              <div class="stat-value" data-target="5" data-suffix="–10×">0</div>
+              <div class="stat-label">效率倍增</div>
+            </div>
+            <div class="hero-stat" role="listitem">
+              <div class="stat-value" data-target="3" data-suffix=" 層">0</div>
+              <div class="stat-label">安全防護體系</div>
+            </div>
+          </div>
+
+          <div class="hero-online reveal reveal-delay-5" aria-label="系統狀態：在線">
+            <span class="online-dot" aria-hidden="true"></span>
+            在線&nbsp;·&nbsp;隨時待命
+          </div>
+        </div>
+
+        <div class="hero-right reveal reveal-delay-2">
+          <div class="lawrence-float" id="lawrence-parallax">
+            <div class="lawrence-glow-ring" aria-hidden="true"></div>
+            <div class="lawrence-img-container">
+              <img
+                class="lawrence-hero-img"
+                src="nuoqi/lawrence-hero-opt.jpg"
+                alt="Lawrence — WiseLaw 法律數字員工"
+                loading="eager"
+              >
+              <div class="lawrence-card-info">
+                <div class="lc-name">Lawrence</div>
+                <div class="lc-role">法律合規數字員工 · WiseLaw</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <span>向下捲動</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT — 認識 Lawrence
+     ============================================================ -->
+<section class="about" id="about" aria-label="認識 Lawrence">
+  <div class="container">
+
+    <div class="section-label reveal">
+      <span class="section-num">I &nbsp;·&nbsp; 認識 Lawrence</span>
+      <div class="section-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="about-header">
+      <h2 class="about-title reveal reveal-delay-1">
+        大模型是員工的大腦，<br>
+        <em>WiseLaw 是整套工位</em>
+      </h2>
+      <p class="about-subtitle reveal reveal-delay-2">
+        Lawrence 不依賴單一模型，而是由 WiseLaw 完整的工作台架構驅動——記憶、任務調度、多渠道協作、法規知識庫，一體整合。
+      </p>
+    </div>
+
+    <div class="features-grid" role="list">
+
+      <div class="feature-card reveal" role="listitem">
+        <span class="feature-num">i.</span>
+        <div class="feature-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/>
+            <circle cx="12" cy="9" r="2.5"/>
+          </svg>
+        </div>
+        <div class="feature-name">專業性</div>
+        <p class="feature-desc">120+ 國家法規資料庫，由執業律師與 AI 工程師深度共創。每一條規則背後，都是真實合規經驗的沉澱。</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-1" role="listitem">
+        <span class="feature-num">ii.</span>
+        <div class="feature-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8M12 17v4"/>
+          </svg>
+        </div>
+        <div class="feature-name">實用性</div>
+        <p class="feature-desc">7×24 主動工作，無縫接入飛書、WhatsApp、郵件等多渠道。任務不等人，它永遠在線。</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2" role="listitem">
+        <span class="feature-num">iii.</span>
+        <div class="feature-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+            <path d="M8 12h8M12 8v8"/>
+          </svg>
+        </div>
+        <div class="feature-name">靈活性</div>
+        <p class="feature-desc">深度記憶系統讓 Lawrence 持續累積對諾圻的認知——你的業務邏輯、偏好與慣例，它都記得清楚，越用越懂你。</p>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3" role="listitem">
+        <span class="feature-num">iv.</span>
+        <div class="feature-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="feature-name">安全性</div>
+        <p class="feature-desc">支援本地部署，三層安全體系（傳輸加密、訪問控制、審計日誌）確保敏感合規數據不離境、不外洩。</p>
+      </div>
+
+    </div>
+
+    <!-- Chat Demo -->
+    <div class="chat-demo reveal">
+      <div class="chat-demo-header">
+        <span class="chat-dot"></span>
+        <span>Lawrence · 線上</span>
+      </div>
+      <div class="chat-msg user" data-chat-delay="0">
+        <div class="chat-bubble">
+          <span class="chat-sender">你</span>
+          幫我審查這份合同的保密條款
+          <span class="chat-time">14:32</span>
+        </div>
+      </div>
+      <div class="chat-msg lawrence" data-chat-delay="600">
+        <div class="chat-bubble">
+          <span class="chat-sender">Lawrence</span>
+          已完成審查。發現 3 個風險點：<br>
+          1. 保密期限未明確——建議補充具體年限或「合同終止後 N 年」條款<br>
+          2. 違約責任缺失——目前無違約賠償條款，建議增加違約金或損害賠償機制<br>
+          3. 競業禁止範圍過寬——現有條款覆蓋「所有相關行業」，可能被認定為不合理限制，建議限縮至核心業務領域
+          <span class="chat-time">14:32</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+      <h3 class="timeline-heading reveal">AI 範式躍遷時間線</h3>
+      <p class="timeline-sub reveal reveal-delay-1">你在哪個階段，決定了你能從 AI 拿到多少價值</p>
+
+      <div class="timeline-track" role="list">
+
+        <div class="timeline-phase reveal" role="listitem">
+          <div class="timeline-arrow" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </div>
+          <div class="timeline-period">
+            <span class="timeline-node"></span>
+            2022 – 2023
+          </div>
+          <div class="timeline-role">Prompt Engineer</div>
+          <p class="timeline-detail">學會和 AI 說話。通過指令設計讓模型輸出更好的結果，是入門門檻。</p>
+        </div>
+
+        <div class="timeline-phase reveal reveal-delay-1" role="listitem">
+          <div class="timeline-arrow" aria-hidden="true">
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 6h8M6 2l4 4-4 4"/>
+            </svg>
+          </div>
+          <div class="timeline-period">
+            <span class="timeline-node"></span>
+            2024 – 2025
+          </div>
+          <div class="timeline-role">Context Engineer</div>
+          <p class="timeline-detail">學會給 AI 喂資訊。RAG、記憶注入、知識庫構建，讓模型在正確的上下文中工作。</p>
+        </div>
+
+        <div class="timeline-phase active reveal reveal-delay-2" role="listitem">
+          <div class="timeline-period">
+            <span class="timeline-node"></span>
+            2026 — Now
+          </div>
+          <div class="timeline-role">Harness Engineer</div>
+          <p class="timeline-detail">學會駕馭 AI 組織。讓多個 AI 角色分工協作、自主執行，形成可信賴的數字工作隊伍。</p>
+          <span class="timeline-badge">你現在所在的位置</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION II: 六大核心能力
+     ============================================================ -->
+<section id="capabilities" class="section-padding">
+  <div class="container">
+
+    <div class="bento-header">
+      <div class="section-label">
+        <span class="section-num">II · 六大核心能力</span>
+        <span class="section-line"></span>
+      </div>
+      <h2 class="heading-lg">Lawrence 具備完整的法律數字員工能力矩陣</h2>
+      <p class="section-subtitle" style="font-size:15px;color:var(--text-secondary);margin-top:12px;letter-spacing:0.02em;">覆蓋從諮詢到執行的全流程</p>
+    </div>
+
+    <div class="bento-grid">
+
+      <!-- Card 1 — 法規智能檢索 (large) -->
+      <div class="bento-card large" style="background-image: url('nuoqi/capability-medical-device-opt.jpg');">
+        <div class="bento-overlay"></div>
+        <div class="bento-content">
+          <span class="bento-tag">核心能力</span>
+          <svg class="bento-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="18" cy="18" r="10" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="25.5" y1="25.5" x2="34" y2="34" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="13" y1="18" x2="23" y2="18" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="18" y1="13" x2="18" y2="23" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <h3 class="bento-title">法規智能檢索</h3>
+          <p class="bento-desc">基於 120+ 國家法規數據庫，即時提供跨法域法律意見。覆蓋大陸、香港、東南亞及歐盟主要司法管轄區，秒級響應法規查詢，準確率超過人工檢索。</p>
+        </div>
+      </div>
+
+      <!-- Card 2 — 合約智能審查 -->
+      <div class="bento-card" style="background-image: url('nuoqi/capability-contract-opt.jpg');">
+        <div class="bento-overlay"></div>
+        <div class="bento-content">
+          <svg class="bento-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="6" width="24" height="30" rx="3" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="13" y1="13" x2="27" y2="13" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="13" y1="19" x2="27" y2="19" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="13" y1="25" x2="21" y2="25" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="28" cy="28" r="5" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="1.5"/>
+            <path d="M26 28l1.5 1.5L30.5 26" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3 class="bento-title">合約智能審查</h3>
+          <p class="bento-desc">多份關聯文件同時處理，自動標注風險條款，生成審查意見報告。</p>
+        </div>
+      </div>
+
+      <!-- Card 3 — 數據隱私保護 -->
+      <div class="bento-card" style="background-image: url('nuoqi/capability-data-privacy-opt.jpg');">
+        <div class="bento-overlay"></div>
+        <div class="bento-content">
+          <svg class="bento-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 5L8 10v10c0 7.73 5.2 14.96 12 17 6.8-2.04 12-9.27 12-17V10L20 5z" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M15 20l3.5 3.5L25 16" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3 class="bento-title">數據隱私保護</h3>
+          <p class="bento-desc">個保法 / PDPO / GDPR 全覆蓋，評估數據處理合規性。</p>
+        </div>
+      </div>
+
+      <!-- Card 4 — 盡職調查分析 -->
+      <div class="bento-card" style="background-image: url('nuoqi/capability-due-diligence-opt.jpg');">
+        <div class="bento-overlay"></div>
+        <div class="bento-content">
+          <svg class="bento-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="28" width="6" height="8" rx="1" stroke="#C9A84C" stroke-width="1.5"/>
+            <rect x="17" y="20" width="6" height="16" rx="1" stroke="#C9A84C" stroke-width="1.5"/>
+            <rect x="28" y="12" width="6" height="24" rx="1" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="6" y1="10" x2="34" y2="10" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 3"/>
+          </svg>
+          <h3 class="bento-title">盡職調查分析</h3>
+          <p class="bento-desc">自動梳理證據鏈，生成可視化時間線，全面評估目標主體風險。</p>
+        </div>
+      </div>
+
+      <!-- Card 5 — 合規風險評估 -->
+      <div class="bento-card" style="background-image: url('nuoqi/capability-governance-opt.jpg');">
+        <div class="bento-overlay"></div>
+        <div class="bento-content">
+          <svg class="bento-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="13" stroke="#C9A84C" stroke-width="1.5"/>
+            <path d="M20 10v2M20 28v2M10 20h2M28 20h2" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="20" cy="20" r="5" stroke="#C9A84C" stroke-width="1.5"/>
+            <line x1="20" y1="15" x2="20" y2="20" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="20" y1="20" x2="24" y2="20" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+          <h3 class="bento-title">合規風險評估</h3>
+          <p class="bento-desc">多維度企業合規體檢，輸出結構化風險報告與整改建議。</p>
+        </div>
+      </div>
+
+      <!-- Card 6 — 7×24 自主工作 (large) -->
+      <div class="bento-card large" style="background-image: url('nuoqi/capability-24x7-opt.jpg');">
+        <div class="bento-overlay"></div>
+        <div class="bento-content">
+          <span class="bento-tag">全天候運行</span>
+          <svg class="bento-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="13" stroke="#C9A84C" stroke-width="1.5"/>
+            <path d="M20 11v9l5 5" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 8l3 3M32 8l-3 3" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+          <h3 class="bento-title">7×24 自主工作</h3>
+          <p class="bento-desc">跨時區自動接收、分析、回復法律事務。夜間、節假日、高峰期均保持同等響應速度，替代傳統「辦公時間外等待」模式，顯著縮短客戶等待週期。</p>
+        </div>
+      </div>
+
+    </div><!-- /bento-grid -->
+
+    <!-- Radar Chart -->
+    <div class="radar-chart-wrap reveal">
+      <h3>能力雷達圖</h3>
+      <svg class="radar-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid levels (5 levels) -->
+        <polygon class="radar-grid-line" points="200,80 303.92,140 303.92,260 200,320 96.08,260 96.08,140"/>
+        <polygon class="radar-grid-line" points="200,104 282.94,152 282.94,248 200,296 117.06,248 117.06,152"/>
+        <polygon class="radar-grid-line" points="200,128 261.96,164 261.96,236 200,272 138.04,236 138.04,164"/>
+        <polygon class="radar-grid-line" points="200,152 240.98,176 240.98,224 200,248 159.02,224 159.02,176"/>
+        <polygon class="radar-grid-line" points="200,176 219.99,188 219.99,212 200,224 180.01,212 180.01,188"/>
+        <!-- Axes -->
+        <line class="radar-axis" x1="200" y1="200" x2="200" y2="80"/>
+        <line class="radar-axis" x1="200" y1="200" x2="303.92" y2="140"/>
+        <line class="radar-axis" x1="200" y1="200" x2="303.92" y2="260"/>
+        <line class="radar-axis" x1="200" y1="200" x2="200" y2="320"/>
+        <line class="radar-axis" x1="200" y1="200" x2="96.08" y2="260"/>
+        <line class="radar-axis" x1="200" y1="200" x2="96.08" y2="140"/>
+        <!-- Score polygon: 合同審查9, 合規報告8, 法規追蹤9, 多語言7, 實時響應10, 持續學習8 -->
+        <!-- Scores mapped: 9/10, 8/10, 9/10, 7/10, 10/10, 8/10 of the distance from center(200,200) to vertex -->
+        <polygon class="radar-score-polygon" id="radar-polygon"
+          points="200,92 293.53,146 293.53,254 200,308 112.85,248 112.85,152"/>
+        <!-- Dots at score points -->
+        <circle class="radar-dot" cx="200" cy="92" r="4"/>
+        <circle class="radar-dot" cx="293.53" cy="146" r="4"/>
+        <circle class="radar-dot" cx="293.53" cy="254" r="4"/>
+        <circle class="radar-dot" cx="200" cy="308" r="4"/>
+        <circle class="radar-dot" cx="112.85" cy="248" r="4"/>
+        <circle class="radar-dot" cx="112.85" cy="152" r="4"/>
+        <!-- Labels -->
+        <text class="radar-label" x="200" y="62">合同審查 (9)</text>
+        <text class="radar-label" x="324" y="135">合規報告 (8)</text>
+        <text class="radar-label" x="324" y="270">法規追蹤 (9)</text>
+        <text class="radar-label" x="200" y="342">多語言 (7)</text>
+        <text class="radar-label" x="72" y="270">實時響應 (10)</text>
+        <text class="radar-label" x="72" y="135">持續學習 (8)</text>
+      </svg>
+    </div>
+
+  </div><!-- /container -->
+</section>
+
+<!-- Visual separator -->
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     SECTION III: 諾圻健康面臨的合規挑戰
+     ============================================================ -->
+<section id="pain-points" class="section-padding">
+  <div class="container">
+
+    <div class="pain-header">
+      <div class="section-label">
+        <span class="section-num">III · 諾圻健康面臨的合規挑戰</span>
+        <span class="section-line"></span>
+      </div>
+      <h2 class="heading-lg">三重合規壓力並發</h2>
+      <p style="font-size:15px;color:var(--text-secondary);margin-top:12px;">跨境業務鏈路上的每一環節，均面臨獨立且嚴苛的法律監管要求</p>
+    </div>
+
+    <div class="pain-grid">
+
+      <div class="pain-card gold-accent">
+        <svg class="pain-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="16" stroke="#C9A84C" stroke-width="1.5"/>
+          <ellipse cx="24" cy="24" rx="7" ry="16" stroke="#C9A84C" stroke-width="1.5"/>
+          <line x1="8" y1="24" x2="40" y2="24" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="10" y1="17" x2="38" y2="17" stroke="#C9A84C" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <line x1="10" y1="31" x2="38" y2="31" stroke="#C9A84C" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+        <h3 class="pain-title">多法域合規</h3>
+        <p class="pain-desc">深圳研發、香港中轉、東南亞出口的三地業務模式，面臨三套截然不同的法律體系，合規標準無法統一套用。</p>
+        <ul class="pain-items">
+          <li>大陸：《網絡安全法》《個人信息保護法》</li>
+          <li>香港：PDPO 個人資料（私隱）條例</li>
+          <li>東南亞：PDPA 及各國本地化要求</li>
+        </ul>
+        <span class="pain-tag">高複雜度</span>
+      </div>
+
+      <div class="pain-card blue-accent">
+        <svg class="pain-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 6L10 12v14c0 9.94 6.69 19.25 14 22 7.31-2.75 14-12.06 14-22V12L24 6z" stroke="#4A7AFF" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M18 24l4.5 4.5L30 20" stroke="#4A7AFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="24" cy="24" r="4" stroke="#4A7AFF" stroke-width="1" stroke-dasharray="2 2"/>
+        </svg>
+        <h3 class="pain-title">健康數據出境</h3>
+        <p class="pain-desc">可穿戴設備採集的心率、血氧、睡眠等敏感個人信息，在跨境傳輸環節須通過安全評估或標準合同，流程繁複。</p>
+        <ul class="pain-items">
+          <li>敏感個人信息境外傳輸需單獨取得授權</li>
+          <li>安全評估 / 標準合同 / 個人信息保護認證</li>
+          <li>數據最小化與本地化存儲雙重要求</li>
+        </ul>
+        <span class="pain-tag">高風險</span>
+      </div>
+
+      <div class="pain-card red-accent">
+        <svg class="pain-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="8" width="28" height="34" rx="3" stroke="#E05252" stroke-width="1.5"/>
+          <line x1="16" y1="17" x2="32" y2="17" stroke="#E05252" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="24" x2="32" y2="24" stroke="#E05252" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="31" x2="24" y2="31" stroke="#E05252" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="34" cy="34" r="6" fill="rgba(224,82,82,0.15)" stroke="#E05252" stroke-width="1.5"/>
+          <line x1="34" y1="31" x2="34" y2="37" stroke="#E05252" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="31" y1="34" x2="37" y2="34" stroke="#E05252" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <h3 class="pain-title">醫療器械監管</h3>
+        <p class="pain-desc">可穿戴健康設備涉及醫療屬性認定模糊地帶，各市場備案要求差異顯著，一旦錯判監管類別將面臨重大合規風險。</p>
+        <ul class="pain-items">
+          <li>國家藥監局第二類醫療器械備案流程</li>
+          <li>香港醫療儀器條例分類認定</li>
+          <li>東南亞各國器械上市准入差異</li>
+        </ul>
+        <span class="pain-tag">高門檻</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
+     SECTION IV: 真實場景演示
+     ============================================================ -->
+<section id="scenarios">
+  <div class="container">
+
+    <div class="section-label">
+      <span class="section-num">IV · 為諾圻健康量身定制</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="scenarios-header">
+      <h2 class="scenarios-title">真實場景，實戰交付</h2>
+      <p class="scenarios-subtitle">每一個場景都來自法律從業者的日常工作流。Lawrence 不是概念驗證 — 他已經在運行。</p>
+    </div>
+
+    <div class="accordion" id="scenariosAccordion">
+
+      <!-- SCENARIO 01 -->
+      <div class="accordion-item is-open" data-index="0">
+        <button class="accordion-trigger" aria-expanded="true">
+          <span class="accordion-num">01</span>
+          <div class="accordion-title-group">
+            <span class="accordion-title">醫療器械跨境合規 · 全鏈路檢索</span>
+            <div class="tag-pills">
+              <span class="tag-pill">中國大陸</span>
+              <span class="tag-pill">香港</span>
+              <span class="tag-pill">新加坡</span>
+              <span class="tag-pill">馬來西亞</span>
+            </div>
+          </div>
+          <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="scenario-left">
+              <p class="scenario-desc">四個法域，四套監管體系，一次查詢全覆蓋。Lawrence 同步掃描 NMPA、MDCO、HSA、MDA 的最新規則，自動生成跨法域合規矩陣，標注關鍵差異與優先路徑。</p>
+              <p class="scenario-desc">傳統做法需要 4 名律師耗費 2–3 個工作日完成的多法域研究，Lawrence 在分鐘內完成初稿，讓律師將精力集中在策略判斷上。</p>
+              <div class="scenario-quote">
+                <p>「以前跨境合規研究要逐一打電話給各地所，現在 Lawrence 幫我先把框架梳理清楚，我直接審核結論就好。」</p>
+                <cite>— 諾圻健康法務總監</cite>
+              </div>
+            </div>
+            <div class="terminal-wrap" data-terminal="s01"
+                 data-lines='[{"cls":"cmd","t":"> lawrence query --jurisdiction CN,HK,SG,MY --topic \"medical-device-class-II\""},{"cls":"blank","t":""},{"cls":"info","t":"[搜索中...] 掃描 4 個法域醫療器械監管體系"},{"cls":"blank","t":""},{"cls":"ok","t":"✓ 中國大陸 — NMPA 二類醫療器械備案  ","label":"[已找到]","labelCls":"label-found"},{"cls":"ok","t":"✓ 香港 — MDCO 註冊路徑              ","label":"[已找到]","labelCls":"label-found"},{"cls":"ok","t":"✓ 新加坡 — HSA Class B 分類          ","label":"[已找到]","labelCls":"label-found"},{"cls":"ok","t":"✓ 馬來西亞 — MDA 強制認證            ","label":"[已找到]","labelCls":"label-found"},{"cls":"blank","t":""},{"cls":"arrow","t":"→ 生成跨法域合規矩陣報告..."},{"cls":"arrow","t":"→ 標注關鍵差異 3 處"},{"cls":"arrow","t":"→ 輸出建議: 優先完成 NMPA 備案（時間最長）"}]'>
+              <div class="terminal-titlebar">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-titlename">lawrence — multi-jurisdiction query</span>
+              </div>
+              <div class="terminal-body" id="terminal-s01"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENARIO 02 -->
+      <div class="accordion-item" data-index="1">
+        <button class="accordion-trigger" aria-expanded="false">
+          <span class="accordion-num">02</span>
+          <div class="accordion-title-group">
+            <span class="accordion-title">健康數據隱私 · 合規深度評估</span>
+            <div class="tag-pills">
+              <span class="tag-pill">個保法</span>
+              <span class="tag-pill">PDPO</span>
+              <span class="tag-pill">數據出境</span>
+            </div>
+          </div>
+          <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="scenario-left">
+              <p class="scenario-desc">健康生物特徵數據屬於敏感個人信息，跨境傳輸面臨最嚴格的監管審查。Lawrence 自動追蹤深圳→香港→新加坡的完整數據流路徑，逐層評估個保法、PDPO 的合規義務。</p>
+              <p class="scenario-desc">系統自動生成數據出境影響評估報告（DPIA），附標準合同範本與安全評估清單，大幅縮短合規準備週期。</p>
+              <div class="scenario-quote">
+                <p>「健康數據出境合規一直是我們最頭疼的問題。Lawrence 把每條路徑的風險點都列得清清楚楚，給我們省了大量溝通成本。」</p>
+                <cite>— 諾圻健康數據合規負責人</cite>
+              </div>
+            </div>
+            <div class="terminal-wrap" data-terminal="s02"
+                 data-lines='[{"cls":"cmd","t":"> lawrence assess --data-type \"health-biometric\" --flow \"SZ→HK→SG\""},{"cls":"blank","t":""},{"cls":"info","t":"[分析中...] 評估敏感個人信息跨境傳輸路徑"},{"cls":"blank","t":""},{"cls":"warn","t":"⚠ 路徑 1: 深圳 → 香港"},{"cls":"ok","t":"  個保法 Art.38 — 需簽署標準合同  ","label":"[必要]","labelCls":"label-req"},{"cls":"ok","t":"  數據出境安全評估 — 健康數據超閾值  ","label":"[高風險]","labelCls":"label-risk"},{"cls":"blank","t":""},{"cls":"warn","t":"⚠ 路徑 2: 香港 → 新加坡"},{"cls":"ok","t":"  PDPO S33 — 需確保同等保護水平  ","label":"[必要]","labelCls":"label-req"},{"cls":"blank","t":""},{"cls":"arrow","t":"→ 自動生成: 數據出境影響評估報告 (DPIA)"},{"cls":"arrow","t":"→ 附錄: 標準合同範本 + 安全評估清單"}]'>
+              <div class="terminal-titlebar">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-titlename">lawrence — data flow assessment</span>
+              </div>
+              <div class="terminal-body" id="terminal-s02"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENARIO 03 -->
+      <div class="accordion-item" data-index="2">
+        <button class="accordion-trigger" aria-expanded="false">
+          <span class="accordion-num">03</span>
+          <div class="accordion-title-group">
+            <span class="accordion-title">合約審查 · 醫療器械經銷協議</span>
+            <div class="tag-pills">
+              <span class="tag-pill">風險識別</span>
+              <span class="tag-pill">條款修訂</span>
+              <span class="tag-pill">合規檢查</span>
+            </div>
+          </div>
+          <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="scenario-left">
+              <p class="scenario-desc">經銷協議往往附帶多份附件，條款之間存在交叉引用與潛在矛盾。Lawrence 同時讀取主協議及所有附件，進行多文件關聯分析，識別隱藏風險。</p>
+              <p class="scenario-desc">對每處風險條款，Lawrence 不只標記問題，還提供具體修改建議，讓律師審閱效率提升 5–8 倍。</p>
+              <div class="scenario-quote">
+                <p>「最驚喜的是 Lawrence 能發現附件和主合同之間的矛盾——這種問題人工審閱很容易遺漏。」</p>
+                <cite>— 諾圻健康高級法務顧問</cite>
+              </div>
+            </div>
+            <div class="terminal-wrap" data-terminal="s03"
+                 data-lines='[{"cls":"cmd","t":"> lawrence review --files \"distribution-agreement.pdf,appendix-*.pdf\""},{"cls":"blank","t":""},{"cls":"info","t":"[審查中...] 多文件關聯分析"},{"cls":"blank","t":""},{"cls":"ok","t":"✗ 第 4.2 條 — 獨家經銷區域定義模糊  ","label":"[高風險]","labelCls":"label-risk"},{"cls":"info","t":"  建議: 明確「大中華區」是否包含台灣"},{"cls":"ok","t":"✗ 第 7.1 條 — 違約金條款不對等      ","label":"[中風險]","labelCls":"label-mid"},{"cls":"info","t":"  建議: 增加供應商違約對等條款"},{"cls":"ok","t":"✓ 第 9 條 — 知識產權歸屬清晰        ","label":"[合規]","labelCls":"label-ok"},{"cls":"ok","t":"✓ 第 12 條 — 爭議解決條款合理        ","label":"[合規]","labelCls":"label-ok"},{"cls":"blank","t":""},{"cls":"arrow","t":"→ 審查報告已生成 (PDF, 23 頁)"},{"cls":"arrow","t":"→ 標注風險條款 7 處，建議修改 4 處"}]'>
+              <div class="terminal-titlebar">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-titlename">lawrence — contract review</span>
+              </div>
+              <div class="terminal-body" id="terminal-s03"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENARIO 04 -->
+      <div class="accordion-item" data-index="3">
+        <button class="accordion-trigger" aria-expanded="false">
+          <span class="accordion-num">04</span>
+          <div class="accordion-title-group">
+            <span class="accordion-title">7×24 跨時區 · 自主工作</span>
+            <div class="tag-pills">
+              <span class="tag-pill">自動接收</span>
+              <span class="tag-pill">智能分析</span>
+              <span class="tag-pill">定時匯報</span>
+            </div>
+          </div>
+          <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-content">
+            <div class="scenario-left">
+              <p class="scenario-desc">新加坡合作夥伴在深夜發出的郵件，不需要等到北京時間上班後才處理。Lawrence 全天候監控郵件，自動解析意圖、提取條款、關聯案件文件，並在你醒來時推送處理摘要。</p>
+              <p class="scenario-desc">人工只需在關鍵節點做最終審批決策，其餘流程由 Lawrence 自主完成。跨時區協作的摩擦係數大幅降低。</p>
+              <div class="scenario-quote">
+                <p>「早上打開飛書，昨晚三封郵件 Lawrence 已處理兩封，只有一封需要我審批——這就是我想要的工作方式。」</p>
+                <cite>— 諾圻健康總法律顧問</cite>
+              </div>
+            </div>
+            <div class="scenario-timeline" id="timeline-s04"
+                 data-tl='[{"time":"22:00","event":"新加坡合作夥伴發送郵件","action":"Lawrence 自動接收","hasDot":true},{"time":"22:15","event":"解析郵件意圖 + 提取關鍵條款","action":"關聯已有案件文件","hasDot":true},{"time":"23:05","event":"完成初步分析，生成回復草稿","action":"標記需人工確認 2 處","hasDot":true},{"time":"09:00","event":"推送飛書通知","action":"「昨晚收到 3 封郵件，已處理 2 封，1 封待審批」","hasDot":true,"highlight":true},{"time":"","event":"","action":"一鍵審批發送","hasDot":false,"last":true}]'>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /accordion -->
+
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
+     V · AI 員工矩陣
+     ============================================================ -->
+<section id="ai-team" class="section-dark section-padding">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">V · WiseLaw AI 員工矩陣</span>
+      <div class="section-line"></div>
+    </div>
+
+    <h2 class="heading-lg" style="margin-bottom: 56px;">
+      四角色數字員工，各司其職，協同運轉
+    </h2>
+
+    <div class="ai-team-grid">
+
+      <div class="ai-card">
+        <div class="ai-avatar-wrap ai-pet-wrap">
+          <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
+            <source src="nuoqi/pet-luke-labubu-veo.mp4" type="video/mp4">
+          </video>
+          <img src="nuoqi/pet-luke-labubu-opt.jpg" alt="Luke" class="ai-avatar-small" loading="lazy">
+          <div class="wiselaw-badge-ai" title="WiseLaw Certified">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
+          </div>
+        </div>
+        <div class="ai-card-body">
+          <div class="ai-card-header">
+            <span class="ai-name">Luke</span>
+            <span class="ai-role-badge">協同</span>
+          </div>
+          <p class="ai-desc">內部運營 · 任務管理 · 團隊協調</p>
+          <div class="ai-footer">
+            <div class="ai-status">
+              <span class="status-dot"></span>
+              <span>線上運行中</span>
+            </div>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-luke-voice.mp3" aria-label="聆聽 Luke 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-card">
+        <div class="ai-avatar-wrap ai-pet-wrap">
+          <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
+            <source src="nuoqi/pet-lawra-labubu-veo.mp4" type="video/mp4">
+          </video>
+          <img src="nuoqi/pet-lawra-labubu-opt.jpg" alt="Lawra" class="ai-avatar-small" loading="lazy">
+          <div class="wiselaw-badge-ai" title="WiseLaw Certified">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
+          </div>
+        </div>
+        <div class="ai-card-body">
+          <div class="ai-card-header">
+            <span class="ai-name">Lawra</span>
+            <span class="ai-role-badge">成交</span>
+          </div>
+          <p class="ai-desc">客戶拓展 · 銷售支持 · 商務對接</p>
+          <div class="ai-footer">
+            <div class="ai-status">
+              <span class="status-dot"></span>
+              <span>線上運行中</span>
+            </div>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-lawra-voice.mp3" aria-label="聆聽 Lawra 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-card featured">
+        <div class="ai-avatar-wrap ai-pet-wrap">
+          <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
+            <source src="nuoqi/pet-lawrence-labubu-veo.mp4" type="video/mp4">
+          </video>
+          <img src="nuoqi/pet-lawrence-labubu-opt.jpg" alt="Lawrence" class="ai-avatar-small" loading="lazy">
+          <div class="wiselaw-badge-ai" title="WiseLaw Certified">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
+          </div>
+        </div>
+        <div class="ai-card-body">
+          <div class="ai-card-header">
+            <span class="ai-name">Lawrence</span>
+            <span class="ai-role-badge">交付</span>
+          </div>
+          <p class="ai-desc">法律執行 · 合同審查 · 合規報告</p>
+          <div class="ai-footer">
+            <div class="ai-status">
+              <span class="status-dot"></span>
+              <span>線上運行中</span>
+            </div>
+            <span class="featured-tag">推薦給諾圻健康</span>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-lawrence-voice.mp3" aria-label="聆聽 Lawrence 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-card">
+        <div class="ai-avatar-wrap ai-pet-wrap">
+          <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
+            <source src="nuoqi/pet-lancelot-labubu-veo.mp4" type="video/mp4">
+          </video>
+          <img src="nuoqi/pet-lancelot-labubu-opt.jpg" alt="Lancelot" class="ai-avatar-small" loading="lazy">
+          <div class="wiselaw-badge-ai" title="WiseLaw Certified">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
+          </div>
+        </div>
+        <div class="ai-card-body">
+          <div class="ai-card-header">
+            <span class="ai-name">Lancelot</span>
+            <span class="ai-role-badge">成長</span>
+          </div>
+          <p class="ai-desc">能力進化 · 知識沉淀 · 持續學習</p>
+          <div class="ai-footer">
+            <div class="ai-status">
+              <span class="status-dot"></span>
+              <span>線上運行中</span>
+            </div>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-lancelot-voice.mp3" aria-label="聆聽 Lancelot 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
+     VI · 專業團隊
+     ============================================================ -->
+<section id="team" class="section-alt section-padding">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">VI · 專業團隊</span>
+      <div class="section-line"></div>
+    </div>
+
+    <h2 class="heading-lg">跨學科精英團隊，深耕法律科技</h2>
+    <p class="team-subtitle">學術嚴謹與商業實戰深度融合，法律 AI 領域的開拓者。</p>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-photo-wrap">
+          <img src="nuoqi/team-david-a-opt.jpg" alt="Gavin Leung — 銷售總監" loading="lazy">
+        </div>
+        <div class="team-info">
+          <p class="team-name">Gavin Leung</p>
+          <span class="team-role-en">Sales Director</span>
+          <p class="team-desc">深耕法律科技銷售逾 10 年，帶領團隊開拓大中華及東南亞市場，主導客戶戰略佈局。</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo-wrap">
+          <img src="nuoqi/team-david-b-opt.jpg" alt="法律架構師" loading="lazy">
+        </div>
+        <div class="team-info">
+          <p class="team-name">法律架構師</p>
+          <span class="team-role-en">Legal Architect</span>
+          <p class="team-desc">120+ 國家法規體系建模，合同審查自動化引擎核心設計者。</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo-wrap">
+          <img src="nuoqi/team-david-c-opt.jpg" alt="AI 技術總監 CTO" loading="lazy">
+        </div>
+        <div class="team-info">
+          <p class="team-name">AI 技術總監</p>
+          <span class="team-role-en">Chief Technology Officer</span>
+          <p class="team-desc">前大廠 AI 核心工程師，主導 Lawrence 多模態推理引擎開發與迭代。</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo-wrap">
+          <img src="nuoqi/team-david-d-opt.jpg" alt="客戶成功總監 CSO" loading="lazy">
+        </div>
+        <div class="team-info">
+          <p class="team-name">客戶成功總監</p>
+          <span class="team-role-en">Chief Success Officer</span>
+          <p class="team-desc">200+ 企業客戶交付經驗，確保 Lawrence 在每個行業場景精準落地。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
+     企業口碑 · 社會證明
+     ============================================================ -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">企業口碑</span>
+      <span class="section-line"></span>
+    </div>
+    <h2 class="heading-lg reveal">企業信賴的法律 AI 夥伴</h2>
+
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card reveal">
+        <p class="testimonial-quote">導入 Lawrence 後，我們的合同審查時間從平均 3 天縮短到 2 小時。更重要的是，它在第一週就發現了一份供應商合同中被我們忽略的管轄權風險條款。</p>
+        <div class="testimonial-person">
+          <span class="testimonial-name">張瑞明</span>
+          <span class="testimonial-role">合規總監 · 新創金融科技公司</span>
+          <span class="testimonial-industry">金融科技</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <p class="testimonial-quote">作為醫療健康企業，我們對數據隱私的要求極高。Lawrence 能夠同時處理大陸《個保法》和香港 PDPO 的合規審查，這在業內幾乎找不到替代方案。</p>
+        <div class="testimonial-person">
+          <span class="testimonial-name">林彥廷</span>
+          <span class="testimonial-role">法務經理 · 區域醫療集團</span>
+          <span class="testimonial-industry">醫療健康</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <p class="testimonial-quote">跨境電商最怕的就是各國法規突然更新。Lawrence 的即時法規追蹤讓我們不再被動應對，上季度成功避開了一次東南亞市場的合規處罰。</p>
+        <div class="testimonial-person">
+          <span class="testimonial-name">王曉菲</span>
+          <span class="testimonial-role">營運長 · 跨境電商平台</span>
+          <span class="testimonial-industry">跨境電商</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
+     VII · 定價
+     ============================================================ -->
+<section id="pricing" class="section-dark section-padding">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">VII · 服務套餐與報價</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="pricing-header">
+      <h2 class="heading-lg">先體驗，再決策</h2>
+      <p class="pricing-subtitle">AI 實戰培訓費用可 <span>100% 折抵</span> 首年年費，零風險入場。</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">推薦 · 諾圻首選</div>
+        <p class="pricing-plan">基礎版</p>
+        <span class="pricing-plan-en">Standard</span>
+        <div>
+          <span class="price-amount">68,888</span>
+          <span class="price-unit">HKD /台/年</span>
+        </div>
+        <p class="price-rmb">≈ RMB 60,500</p>
+        <ul class="features">
+          <li>Lawrence 數字員工 · 專屬部署</li>
+          <li>法律文件審查 · 無限次調用</li>
+          <li>合規報告自動生成（中 / 英雙語）</li>
+          <li>120+ 國家法規知識庫接入</li>
+          <li>7×24 不間斷運行 · SLA 99.9%</li>
+          <li>標準渠道接入（微信 · 郵件 · 飛書）</li>
+          <li>季度效果報告 · 客戶成功支持</li>
+        </ul>
+        <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20Standard%20方案咨詢" class="cta-btn primary">預約演示 →</a>
+      </div>
+
+      <div class="pricing-card">
+        <p class="pricing-plan">企業版</p>
+        <span class="pricing-plan-en">Enterprise</span>
+        <div>
+          <span class="price-amount">118,888</span>
+          <span class="price-unit">HKD /台/年</span>
+        </div>
+        <p class="price-rmb">≈ RMB 105,000（10 台起）</p>
+        <ul class="features">
+          <li>Standard 版全部功能</li>
+          <li>多 AI 角色矩陣協同（Luke · Lawra · Lawrence · Lancelot）</li>
+          <li>企業私有化知識庫訓練</li>
+          <li>API 深度集成 · 定制工作流</li>
+          <li>跨部門多席位並發</li>
+          <li>優先渠道擴展（視頻 · 語音 · 小程序）</li>
+          <li>專屬客戶成功經理 · 月度戰略復盤</li>
+          <li>法律風險預警儀表盤</li>
+        </ul>
+        <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20Enterprise%20方案咨詢" class="cta-btn secondary">聯繫洽談 →</a>
+      </div>
+
+    </div>
+
+    <div class="addons-grid">
+      <div class="addon-card">
+        <span class="addon-label">Token 算力費</span>
+        <p class="addon-price-hkd">HKD 36,000 <span style="font-size:14px;color:var(--text-tertiary);">/年</span></p>
+        <p class="addon-price-rmb">≈ RMB 32,000</p>
+        <p class="addon-note">按需使用 · 用量可控</p>
+      </div>
+      <div class="addon-card">
+        <span class="addon-label">AI 實戰培訓</span>
+        <p class="addon-price-hkd">HKD 6,888</p>
+        <p class="addon-price-rmb">RMB 5,888</p>
+        <p class="addon-note">100% 折抵首年年費</p>
+      </div>
+    </div>
+
+    <div class="roi-bar">
+      <span class="roi-label">ROI 對比</span>
+      <div class="roi-comparison">
+        <div class="roi-item">
+          <span class="roi-item-label">初級法務年薪</span>
+          <span class="roi-item-value strike">¥280,000</span>
+        </div>
+        <span class="roi-arrow">→</span>
+        <div class="roi-item">
+          <span class="roi-item-label">Lawrence 年費</span>
+          <span class="roi-item-value highlight">¥<span class="count-up" data-target="60500" data-animate="true">60,500</span></span>
+        </div>
+        <span class="roi-arrow">→</span>
+        <div class="roi-item">
+          <span class="roi-item-label">每年節省</span>
+          <span class="roi-item-value saving">¥<span class="count-up" data-target="220000" data-animate="true">220,000</span>+</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
+     VIII · 14 天入職
+     ============================================================ -->
+<section id="onboarding" class="section-alt section-padding">
+  <div class="container">
+    <div class="onboarding-header">
+      <div class="section-label" style="justify-content: center;">
+        <span class="section-num">VIII · 快速入職</span>
+        <div class="section-line"></div>
+      </div>
+      <h2 class="heading-md">14 天完成交付，即刻上崗</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-step">
+        <div class="timeline-node">
+          <div class="timeline-node-inner"></div>
+        </div>
+        <div>
+          <p class="timeline-day">Day 1</p>
+          <p class="timeline-title">硬件交付</p>
+          <p class="timeline-desc">設備配置完成，Lawrence 本地環境初始化，聯網激活</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-node">
+          <div class="timeline-node-inner"></div>
+        </div>
+        <div>
+          <p class="timeline-day">Day 2 – 3</p>
+          <p class="timeline-title">渠道接入</p>
+          <p class="timeline-desc">對接微信 · 飛書 · 郵件等企業溝通渠道，完成身份驗證</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-node">
+          <div class="timeline-node-inner"></div>
+        </div>
+        <div>
+          <p class="timeline-day">Day 4 – 7</p>
+          <p class="timeline-title">首批任務</p>
+          <p class="timeline-desc">導入諾圻健康業務知識庫，完成首批合同審查與合規任務</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-node">
+          <div class="timeline-node-inner"></div>
+        </div>
+        <div>
+          <p class="timeline-day">Day 8 – 14</p>
+          <p class="timeline-title">效果評估</p>
+          <p class="timeline-desc">生成首份效果報告，與諾圻團隊復盤調優，確認正式上線</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section id="cta" class="section-dark section-padding">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="heading-lg" style="word-break: keep-all; overflow-wrap: break-word;">
+        讓 <span>Lawrence</span> 為諾圻健康工作
+      </h2>
+      <img src="nuoqi/pet-team-group-opt.jpg" alt="WiseLaw AI Team"
+           style="width: 280px; height: auto; margin: 24px auto; display: block; border-radius: 12px;
+                  box-shadow: 0 8px 32px rgba(201,168,76,0.2); opacity: 0.9;" loading="lazy">
+      <p class="cta-desc">
+        14 天完成交付 · 首年可退換 · AI 培訓費 100% 折抵年費<br>
+        現在預約，即享優先排期。
+      </p>
+      <div class="cta-buttons">
+        <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20-%20預約30分鐘演示&body=您好，我是諾圻健康的代表，希望預約 30 分鐘演示。"
+           class="btn-pulse">
+          預約 30 分鐘演示 →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="nuoqi/wiselaw-logo.png" alt="WiseLaw Logo" loading="lazy">
+      </div>
+      <p class="footer-copy">
+        &copy; 2026 WiseLaw 智法數科 · 法律科技新範式
+      </p>
+      <ul class="footer-links">
+        <li><a href="mailto:gavin.leung@wiselawai.com">聯繫我們</a></li>
+        <li><a href="#">隱私政策</a></li>
+        <li><a href="#">服務條款</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     AUDIO ELEMENT + PLAYER UI
+     ============================================================ -->
+<audio id="narration" preload="metadata">
+  <source src="nuoqi-tts-presentation.mp3" type="audio/mpeg">
+</audio>
+
+<div id="audio-player" role="region" aria-label="音頻播放器">
+  <button id="ap-play-btn" class="ap-btn ap-play" aria-label="播放" title="播放 / 暫停">
+    <svg id="ap-icon-play" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+      <polygon points="5,3 19,12 5,21"/>
+    </svg>
+    <svg id="ap-icon-pause" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true" style="display:none">
+      <rect x="5" y="3" width="4" height="18" rx="1"/>
+      <rect x="15" y="3" width="4" height="18" rx="1"/>
+    </svg>
+  </button>
+
+  <div class="ap-center">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div id="ap-section-title" class="ap-title">準備中…</div>
+      <span style="font-size:10px; color:var(--gold); border:1px solid rgba(201,168,76,0.3); border-radius:4px; padding:1px 6px; white-space:nowrap; letter-spacing:0.5px; flex-shrink:0;">AI 多角色語音演示</span>
+    </div>
+    <div class="ap-progress-area">
+      <div class="ap-markers" id="ap-markers" aria-hidden="true"></div>
+      <div class="ap-track" id="ap-track" role="slider" aria-label="進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="ap-track-bg"></div>
+        <div class="ap-track-fill" id="ap-fill"></div>
+        <div class="ap-track-thumb" id="ap-thumb"></div>
+      </div>
+    </div>
+    <div class="ap-time" id="ap-time">0:00 / 0:00</div>
+  </div>
+
+  <div class="ap-right">
+    <div class="ap-volume-wrap" id="ap-volume-wrap">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" class="ap-vol-icon">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+      </svg>
+      <input type="range" id="ap-volume" class="ap-volume" min="0" max="1" step="0.05" value="1" aria-label="音量">
+    </div>
+    <button id="ap-close-btn" class="ap-btn ap-close" aria-label="關閉播放器" title="關閉">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- V8: Scroll-to-top button -->
+<button class="scroll-to-top" id="scroll-to-top" aria-label="返回頂部" title="返回頂部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// ── Nav scroll behaviour ──────────────────────────────────────
+(function () {
+  const nav = document.getElementById('main-nav');
+  const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 40); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// ── Hamburger menu ────────────────────────────────────────────
+(function () {
+  const btn    = document.getElementById('hamburger-btn');
+  const mobile = document.getElementById('mobile-nav');
+  if (!btn || !mobile) return;
+  btn.addEventListener('click', () => {
+    const open = mobile.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  mobile.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobile.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+
+// ── Particle network canvas ───────────────────────────────────
+(function () {
+  const canvas = document.getElementById('particle-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const GOLD = 'rgba(201,168,76,';
+  const COUNT = 60;
+  const CONNECT_DIST = 140;
+  const SPEED = 0.35;
+  let W, H, nodes = [];
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function initNodes() {
+    nodes = [];
+    for (let i = 0; i < COUNT; i++) {
+      nodes.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * SPEED,
+        vy: (Math.random() - 0.5) * SPEED,
+        r: Math.random() * 1.5 + 0.8,
+        alpha: Math.random() * 0.5 + 0.3
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < COUNT; i++) {
+      for (let j = i + 1; j < COUNT; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const a = (1 - dist / CONNECT_DIST) * 0.25;
+          ctx.beginPath();
+          ctx.strokeStyle = GOLD + a + ')';
+          ctx.lineWidth = 0.7;
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = GOLD + n.alpha + ')';
+      ctx.fill();
+    });
+  }
+
+  function update() {
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+  }
+
+  function loop() { update(); draw(); requestAnimationFrame(loop); }
+
+  window.addEventListener('resize', () => { resize(); initNodes(); }, { passive: true });
+  resize(); initNodes(); loop();
+})();
+
+// ── Count-up animation (hero stats) ──────────────────────────
+(function () {
+  const stats = document.querySelectorAll('.stat-value[data-target]');
+  function countUp(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    const dur = 1800;
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const val = Math.round((t === 1 ? 1 : 1 - Math.pow(2, -10 * t)) * target);
+      el.textContent = val + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { countUp(e.target); io.unobserve(e.target); } });
+  }, { threshold: 0.6 });
+  stats.forEach(s => io.observe(s));
+})();
+
+// ── Reveal on scroll ──────────────────────────────────────────
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  const io  = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+})();
+
+// ── Parallax on Lawrence image ────────────────────────────────
+(function () {
+  const el = document.getElementById('lawrence-parallax');
+  if (!el) return;
+  window.addEventListener('scroll', () => {
+    el.style.transform = `translateY(${-window.scrollY * 0.12}px)`;
+  }, { passive: true });
+})();
+
+// ── Hero bg subtle parallax ───────────────────────────────────
+(function () {
+  const bg = document.getElementById('hero-bg');
+  if (!bg) return;
+  window.addEventListener('scroll', () => {
+    bg.style.transform = `scale(1.04) translateY(${window.scrollY * 0.09}px)`;
+  }, { passive: true });
+})();
+
+// ── Bento card intersection observer ─────────────────────────
+(function () {
+  var cards = document.querySelectorAll('.bento-card');
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach(function (c) { c.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  cards.forEach(function (c) { io.observe(c); });
+})();
+
+// ── Accordion + Terminal + Timeline ──────────────────────────
+(function () {
+  'use strict';
+
+  const items = document.querySelectorAll('.accordion-item');
+
+  function openItem(item) {
+    const body    = item.querySelector('.accordion-body');
+    const trigger = item.querySelector('.accordion-trigger');
+    item.classList.add('is-open');
+    trigger.setAttribute('aria-expanded', 'true');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    scheduleContentAnimation(item);
+  }
+
+  function closeItem(item) {
+    const body    = item.querySelector('.accordion-body');
+    const trigger = item.querySelector('.accordion-trigger');
+    item.classList.remove('is-open');
+    trigger.setAttribute('aria-expanded', 'false');
+    body.style.maxHeight = '0';
+    resetContentAnimation(item);
+  }
+
+  items.forEach(function (item) {
+    const trigger = item.querySelector('.accordion-trigger');
+    trigger.addEventListener('click', function () {
+      if (item.classList.contains('is-open')) {
+        closeItem(item);
+      } else {
+        items.forEach(function (other) {
+          if (other !== item && other.classList.contains('is-open')) closeItem(other);
+        });
+        openItem(item);
+      }
+    });
+  });
+
+  items.forEach(function (item) {
+    const body = item.querySelector('.accordion-body');
+    body.style.maxHeight = item.classList.contains('is-open') ? body.scrollHeight + 'px' : '0';
+  });
+
+  /* Terminal */
+  const terminalMap = {};
+
+  function buildTerminal(wrap) {
+    const id     = wrap.getAttribute('data-terminal');
+    const bodyEl = wrap.querySelector('.terminal-body');
+    if (!id || !bodyEl) return;
+    let lines;
+    try { lines = JSON.parse(wrap.getAttribute('data-lines')); } catch (e) { return; }
+    bodyEl.innerHTML = '';
+    lines.forEach(function (lineData, i) {
+      const span = document.createElement('span');
+      span.className = 'tline ' + (lineData.cls || '');
+      span.innerHTML = escHtml(lineData.t || '');
+      if (lineData.label) {
+        span.innerHTML += '<span class="' + lineData.labelCls + '">' + escHtml(lineData.label) + '</span>';
+      }
+      if (i === lines.length - 1) span.innerHTML += '<span class="cursor"></span>';
+      bodyEl.appendChild(span);
+    });
+    terminalMap[id] = { lines: bodyEl.querySelectorAll('.tline'), animated: false };
+  }
+
+  function animateTerminal(id) {
+    const data = terminalMap[id];
+    if (!data || data.animated) return;
+    data.animated = true;
+    let delay = 0;
+    data.lines.forEach(function (el) {
+      const isBlank = el.classList.contains('blank');
+      delay += isBlank ? 120 : (200 + Math.random() * 200);
+      setTimeout(function () { el.classList.add('visible'); }, delay);
+    });
+  }
+
+  function resetTerminal(id) {
+    const data = terminalMap[id];
+    if (!data) return;
+    data.animated = false;
+    data.lines.forEach(function (el) { el.classList.remove('visible'); });
+  }
+
+  /* Timeline */
+  const tlMap = {};
+
+  function buildTimeline(tlEl) {
+    const id = tlEl.id;
+    let tlItems;
+    try { tlItems = JSON.parse(tlEl.getAttribute('data-tl')); } catch (e) { return; }
+    tlEl.innerHTML = '';
+    tlItems.forEach(function (item) {
+      if (!item.event && !item.action && !item.hasDot) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'tl-item';
+
+      const left = document.createElement('div');
+      left.className = 'tl-left';
+      if (item.time) {
+        const timeEl = document.createElement('div');
+        timeEl.className = item.highlight ? 'tl-time' : 'tl-time faint';
+        timeEl.textContent = item.time;
+        left.appendChild(timeEl);
+      } else {
+        const spacer = document.createElement('div');
+        spacer.style.height = '20px';
+        left.appendChild(spacer);
+      }
+      if (item.hasDot) {
+        const dot = document.createElement('div');
+        dot.className = 'tl-dot pulse';
+        left.appendChild(dot);
+      }
+      if (!item.last) {
+        const line = document.createElement('div');
+        line.className = 'tl-line';
+        left.appendChild(line);
+      }
+      wrapper.appendChild(left);
+
+      const right = document.createElement('div');
+      right.className = 'tl-right';
+      if (item.event) {
+        const evEl = document.createElement('div');
+        evEl.className = 'tl-event';
+        evEl.style.color = item.highlight ? 'var(--gold)' : '';
+        evEl.textContent = item.event;
+        right.appendChild(evEl);
+      }
+      if (item.action) {
+        const actEl = document.createElement('div');
+        actEl.className = 'tl-action';
+        actEl.innerHTML = '<span class="tl-arrow">↓</span> ' + escHtml(item.action);
+        right.appendChild(actEl);
+      }
+      wrapper.appendChild(right);
+      tlEl.appendChild(wrapper);
+    });
+    tlMap[id] = { items: tlEl.querySelectorAll('.tl-item'), animated: false };
+  }
+
+  function animateTimeline(id) {
+    const data = tlMap[id];
+    if (!data || data.animated) return;
+    data.animated = true;
+    let delay = 0;
+    data.items.forEach(function (el) {
+      delay += 350;
+      setTimeout(function () { el.classList.add('visible'); }, delay);
+    });
+  }
+
+  function resetTimeline(id) {
+    const data = tlMap[id];
+    if (!data) return;
+    data.animated = false;
+    data.items.forEach(function (el) { el.classList.remove('visible'); });
+  }
+
+  function scheduleContentAnimation(item) {
+    setTimeout(function () {
+      const tw = item.querySelector('.terminal-wrap');
+      if (tw) animateTerminal(tw.getAttribute('data-terminal'));
+      const tl = item.querySelector('.scenario-timeline');
+      if (tl) animateTimeline(tl.id);
+    }, 80);
+  }
+
+  function resetContentAnimation(item) {
+    const tw = item.querySelector('.terminal-wrap');
+    if (tw) resetTerminal(tw.getAttribute('data-terminal'));
+    const tl = item.querySelector('.scenario-timeline');
+    if (tl) resetTimeline(tl.id);
+  }
+
+  document.querySelectorAll('.terminal-wrap').forEach(buildTerminal);
+  document.querySelectorAll('.scenario-timeline[data-tl]').forEach(buildTimeline);
+
+  const defaultOpen = document.querySelector('.accordion-item.is-open');
+  if (defaultOpen) {
+    setTimeout(function () { scheduleContentAnimation(defaultOpen); }, 400);
+  }
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains('is-open')) scheduleContentAnimation(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(function (item) { io.observe(item); });
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+})();
+
+// ── ROI count-up ──────────────────────────────────────────────
+(function () {
+  function countUp(el) {
+    const target   = parseInt(el.dataset.target.replace(/,/g, ''), 10);
+    const duration = 1600;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed  = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased    = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      el.textContent = Math.round(eased * target).toLocaleString('en-US');
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.count-up[data-animate="true"]').forEach(countUp);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const roiBar = document.querySelector('.roi-bar');
+  if (roiBar) observer.observe(roiBar);
+})();
+
+// ── Hero play button → startAudio ────────────────────────────
+(function () {
+  const btn = document.getElementById('hero-play-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    document.dispatchEvent(new CustomEvent('startAudio', { detail: { currentTime: 0 } }));
+  });
+})();
+
+// ── Audio Player ──────────────────────────────────────────────
+(function () {
+  'use strict';
+
+  const audioSections = [
+    { id: 'hero',         title: '開場 · 行業痛點',   start: 0,   end: 96  },
+    { id: 'about',        title: '認識 Lawrence',     start: 96,  end: 192 },
+    { id: 'capabilities', title: '六大核心能力',       start: 192, end: 312 },
+    { id: 'scenarios',    title: '場景演示',           start: 312, end: 432 },
+    { id: 'security',     title: '安全體系',           start: 432, end: 522 },
+    { id: 'ai-team',      title: 'WiseLaw 故事',      start: 522, end: 582 },
+    { id: 'pricing',      title: '定價方案',           start: 582, end: 672 },
+    { id: 'cta',          title: '總結',               start: 672, end: 770 },
+  ];
+
+  const TOTAL_DURATION = 770;
+
+  const player       = document.getElementById('audio-player');
+  const audio        = document.getElementById('narration');
+  const playBtn      = document.getElementById('ap-play-btn');
+  const iconPlay     = document.getElementById('ap-icon-play');
+  const iconPause    = document.getElementById('ap-icon-pause');
+  const titleEl      = document.getElementById('ap-section-title');
+  const fill         = document.getElementById('ap-fill');
+  const thumb        = document.getElementById('ap-thumb');
+  const track        = document.getElementById('ap-track');
+  const timeEl       = document.getElementById('ap-time');
+  const volumeSlider = document.getElementById('ap-volume');
+  const closeBtn     = document.getElementById('ap-close-btn');
+  const markersEl    = document.getElementById('ap-markers');
+
+  let userScrolling = false, userScrollTimer = null, isDragging = false, currentSectionIdx = -1;
+
+  function fmt(s) {
+    const sec = Math.floor(s);
+    return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
+  }
+
+  function getDuration() {
+    return (audio.duration && isFinite(audio.duration)) ? audio.duration : TOTAL_DURATION;
+  }
+
+  function getSectionByTime(t) {
+    for (let i = audioSections.length - 1; i >= 0; i--) {
+      if (t >= audioSections[i].start) return i;
+    }
+    return 0;
+  }
+
+  function buildMarkers() {
+    markersEl.innerHTML = '';
+    const dur = getDuration();
+    audioSections.slice(1).forEach((sec, i) => {
+      const pct = (sec.start / dur) * 100;
+      const dot = document.createElement('div');
+      dot.className = 'ap-marker-dot';
+      dot.dataset.idx = i + 1;
+      dot.style.left = pct + '%';
+      dot.title = sec.title;
+      markersEl.appendChild(dot);
+    });
+  }
+
+  function updateMarkers(activeSectionIdx) {
+    markersEl.querySelectorAll('.ap-marker-dot').forEach(dot => {
+      dot.classList.toggle('ap-marker-active', parseInt(dot.dataset.idx, 10) === activeSectionIdx);
+    });
+  }
+
+  function updateProgress(currentTime) {
+    const dur = getDuration();
+    const pct = Math.min((currentTime / dur) * 100, 100);
+    fill.style.width = pct + '%';
+    thumb.style.left = pct + '%';
+    track.setAttribute('aria-valuenow', Math.round(pct));
+    timeEl.textContent = fmt(currentTime) + ' / ' + fmt(dur);
+  }
+
+  function syncSection(currentTime) {
+    const idx = getSectionByTime(currentTime);
+    if (idx === currentSectionIdx) return;
+    currentSectionIdx = idx;
+    const sec = audioSections[idx];
+    titleEl.textContent = sec.title;
+    updateMarkers(idx);
+    if (!userScrolling) {
+      const el = document.getElementById(sec.id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function showPlayer() { player.classList.add('ap-visible'); document.body.classList.add('audio-active'); }
+  function hidePlayer() { player.classList.remove('ap-visible'); document.body.classList.remove('audio-active'); }
+
+  function setPlayingState(playing) {
+    iconPlay.style.display  = playing ? 'none' : '';
+    iconPause.style.display = playing ? '' : 'none';
+    playBtn.setAttribute('aria-label', playing ? '暫停' : '播放');
+  }
+
+  playBtn.addEventListener('click', () => {
+    if (audio.paused) audio.play().catch(() => {});
+    else audio.pause();
+  });
+
+  audio.addEventListener('play',  () => setPlayingState(true));
+  audio.addEventListener('pause', () => setPlayingState(false));
+  audio.addEventListener('ended', () => setPlayingState(false));
+
+  audio.addEventListener('timeupdate', () => {
+    if (isDragging) return;
+    updateProgress(audio.currentTime);
+    syncSection(audio.currentTime);
+  });
+
+  audio.addEventListener('loadedmetadata', () => { buildMarkers(); updateProgress(0); });
+
+  volumeSlider.addEventListener('input', () => { audio.volume = parseFloat(volumeSlider.value); });
+
+  function seekToEvent(e) {
+    const rect = track.getBoundingClientRect();
+    const x    = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const pct  = Math.max(0, Math.min(1, x / rect.width));
+    audio.currentTime = pct * getDuration();
+    updateProgress(audio.currentTime);
+  }
+
+  track.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    seekToEvent(e);
+    const onMove = (ev) => seekToEvent(ev);
+    const onUp   = () => { isDragging = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+
+  track.addEventListener('touchstart', (e) => { isDragging = true; seekToEvent(e); }, { passive: true });
+  track.addEventListener('touchmove',  (e) => { seekToEvent(e); }, { passive: true });
+  track.addEventListener('touchend',   () => { isDragging = false; });
+
+  track.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') audio.currentTime = Math.min(audio.currentTime + 5, getDuration());
+    if (e.key === 'ArrowLeft')  audio.currentTime = Math.max(audio.currentTime - 5, 0);
+  });
+
+  closeBtn.addEventListener('click', () => { audio.pause(); hidePlayer(); });
+
+  document.addEventListener('startAudio', (e) => {
+    showPlayer();
+    if (e.detail && typeof e.detail.currentTime === 'number') audio.currentTime = e.detail.currentTime;
+    audio.play().catch(() => {});
+    buildMarkers();
+  });
+
+  const observedSections = new Set();
+  function observeSections() {
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      let best = null, bestRatio = 0;
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+          bestRatio = entry.intersectionRatio;
+          best = entry.target.id;
+        }
+      });
+      if (!best) return;
+      const idx = audioSections.findIndex(s => s.id === best);
+      if (idx >= 0) updateMarkers(idx);
+    }, { threshold: [0.1, 0.5] });
+    audioSections.forEach(sec => {
+      const el = document.getElementById(sec.id);
+      if (el && !observedSections.has(sec.id)) { io.observe(el); observedSections.add(sec.id); }
+    });
+  }
+
+  observeSections();
+  document.addEventListener('DOMContentLoaded', observeSections);
+
+  window.addEventListener('scroll', () => {
+    userScrolling = true;
+    clearTimeout(userScrollTimer);
+    userScrollTimer = setTimeout(() => { userScrolling = false; }, 3000);
+  }, { passive: true });
+
+  if (audio.readyState >= 1) { buildMarkers(); updateProgress(0); }
+
+  // V7: Scroll Animation Observer
+  const animObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in-up', 'visible');
+        animObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Observe feature cards, AI cards, team cards, pricing cards
+  document.querySelectorAll('.feature-card, .ai-card, .team-card, .pricing-card').forEach(el => {
+    el.classList.add('fade-in-up');
+    animObserver.observe(el);
+  });
+})();
+
+// ── V8: Scroll progress bar ─────────────────────────────────
+(function () {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', function () {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+})();
+
+// ── V8: Scroll-to-top button ────────────────────────────────
+(function () {
+  const btn = document.getElementById('scroll-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', function () {
+    btn.classList.toggle('visible', window.scrollY > 500);
+  }, { passive: true });
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// ── V8: AI card 3D tilt effect ──────────────────────────────
+(function () {
+  var cards = document.querySelectorAll('.ai-card');
+  cards.forEach(function (card) {
+    card.addEventListener('mousemove', function (e) {
+      var rect = card.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width;
+      var y = (e.clientY - rect.top) / rect.height;
+      var rotateX = (0.5 - y) * 8;
+      var rotateY = (x - 0.5) * 8;
+      card.style.transform = 'translateY(-4px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+    });
+    card.addEventListener('mouseleave', function () {
+      card.style.transform = '';
+    });
+  });
+})();
+
+// ── V8: CTA typing effect ───────────────────────────────────
+(function () {
+  var ctaHeading = document.querySelector('#cta .heading-lg');
+  if (!ctaHeading) return;
+  // segments: each has text and optional gold flag
+  var segments = [
+    { text: '讓 ', gold: false },
+    { text: 'Lawrence', gold: true },
+    { text: ' 為諾圻健康工作', gold: false }
+  ];
+  var typed = false;
+
+  function typeText() {
+    if (typed) return;
+    typed = true;
+    ctaHeading.innerHTML = '<span class="cta-typing-cursor"></span>';
+    var cursor = ctaHeading.querySelector('.cta-typing-cursor');
+    var allChars = [];
+    segments.forEach(function (seg) {
+      for (var c = 0; c < seg.text.length; c++) {
+        allChars.push({ ch: seg.text[c], gold: seg.gold });
+      }
+    });
+    var currentSpan = null;
+    var currentGold = null;
+    var i = 0;
+    function typeChar() {
+      if (i >= allChars.length) {
+        setTimeout(function () { cursor.style.display = 'none'; }, 2000);
+        return;
+      }
+      var item = allChars[i];
+      if (item.gold !== currentGold) {
+        currentSpan = document.createElement('span');
+        if (item.gold) currentSpan.style.color = 'var(--gold)';
+        ctaHeading.insertBefore(currentSpan, cursor);
+        currentGold = item.gold;
+      }
+      currentSpan.textContent += item.ch;
+      i++;
+      setTimeout(typeChar, 80);
+    }
+    typeChar();
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { typeText(); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  io.observe(ctaHeading);
+})();
+
+// ── V8: Video play/pause on viewport ────────────────────────
+(function () {
+  var videos = document.querySelectorAll('.ai-pet-video');
+  if (!videos.length) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.play().catch(function () {});
+      } else {
+        e.target.pause();
+      }
+    });
+  }, { threshold: 0.2 });
+  videos.forEach(function (v) {
+    v.removeAttribute('autoplay');
+    v.pause();
+    io.observe(v);
+  });
+})();
+
+// ── V8: Lazy load images ────────────────────────────────────
+(function () {
+  document.querySelectorAll('img:not([loading])').forEach(function (img) {
+    var rect = img.getBoundingClientRect();
+    if (rect.top > window.innerHeight) {
+      img.setAttribute('loading', 'lazy');
+    }
+  });
+})();
+
+// ── V9: Loading overlay dismiss ────────────────────────────
+window.addEventListener('load', function () {
+  var overlay = document.getElementById('loading-overlay');
+  if (overlay) {
+    setTimeout(function () {
+      overlay.classList.add('fade-out');
+      setTimeout(function () { overlay.remove(); }, 500);
+    }, 500);
+  }
+});
+
+// ── Chat Demo: fade-in messages on scroll ──────────────────
+(function () {
+  var chatDemo = document.querySelector('.chat-demo');
+  if (!chatDemo) return;
+  var msgs = chatDemo.querySelectorAll('.chat-msg');
+  var chatIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        msgs.forEach(function (msg) {
+          var delay = parseInt(msg.getAttribute('data-chat-delay') || '0', 10);
+          setTimeout(function () {
+            msg.classList.add('visible');
+          }, delay);
+        });
+        chatIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  chatIO.observe(chatDemo);
+})();
+
+// ── Radar Chart: animate polygon on scroll ─────────────────
+(function () {
+  var polygon = document.getElementById('radar-polygon');
+  if (!polygon) return;
+  var dots = document.querySelectorAll('.radar-dot');
+  var radarIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        polygon.classList.add('animate');
+        dots.forEach(function (d) { d.classList.add('animate'); });
+        radarIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  radarIO.observe(polygon.closest('.radar-chart-wrap'));
+})();
+
+// ── Section Divider: animate expand on scroll ──────────────
+(function () {
+  var dividers = document.querySelectorAll('.section-divider');
+  if (!dividers.length) return;
+  var divIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('divider-visible');
+        divIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  dividers.forEach(function (d) { divIO.observe(d); });
+})();
+
+// Pet voice player
+(function() {
+  var currentAudio = null;
+  var currentBtn = null;
+
+  document.querySelectorAll('.pet-voice-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var src = this.getAttribute('data-audio');
+
+      if (currentBtn === this && currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        this.classList.remove('playing');
+        currentBtn = null;
+        return;
+      }
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentBtn) currentBtn.classList.remove('playing');
+      }
+
+      currentAudio = new Audio(src);
+      currentBtn = this;
+      this.classList.add('playing');
+      currentAudio.play();
+
+      currentAudio.addEventListener('ended', function() {
+        btn.classList.remove('playing');
+        currentBtn = null;
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

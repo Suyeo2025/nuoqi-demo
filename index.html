@@ -3293,6 +3293,33 @@ body.audio-active { padding-bottom: 56px !important; }
 .section-divider:not(.full-width).divider-visible {
   height: 60px;
 }
+.pet-voice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 20px;
+  color: var(--gold);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.pet-voice-btn:hover {
+  background: rgba(201,168,76,0.25);
+  border-color: var(--gold);
+  transform: scale(1.05);
+}
+.pet-voice-btn.playing {
+  background: var(--gold);
+  color: var(--bg-primary);
+  animation: voicePulse 1s infinite;
+}
+@keyframes voicePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+  50% { box-shadow: 0 0 12px 4px rgba(201,168,76,0.2); }
+}
 </style>
 </head>
 <body>
@@ -4025,9 +4052,9 @@ body.audio-active { padding-bottom: 56px !important; }
       <div class="ai-card">
         <div class="ai-avatar-wrap ai-pet-wrap">
           <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
-            <source src="nuoqi/pet-luke-veo.mp4" type="video/mp4">
+            <source src="nuoqi/pet-luke-labubu-veo.mp4" type="video/mp4">
           </video>
-          <img src="nuoqi/luke-avatar-opt.jpg" alt="Luke" class="ai-avatar-small" loading="lazy">
+          <img src="nuoqi/pet-luke-labubu-opt.jpg" alt="Luke" class="ai-avatar-small" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
@@ -4043,6 +4070,10 @@ body.audio-active { padding-bottom: 56px !important; }
               <span class="status-dot"></span>
               <span>線上運行中</span>
             </div>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-luke-voice.mp3" aria-label="聆聽 Luke 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
           </div>
         </div>
       </div>
@@ -4050,9 +4081,9 @@ body.audio-active { padding-bottom: 56px !important; }
       <div class="ai-card">
         <div class="ai-avatar-wrap ai-pet-wrap">
           <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
-            <source src="nuoqi/pet-lawra-veo.mp4" type="video/mp4">
+            <source src="nuoqi/pet-lawra-labubu-veo.mp4" type="video/mp4">
           </video>
-          <img src="nuoqi/lawra-avatar-opt.jpg" alt="Lawra" class="ai-avatar-small" loading="lazy">
+          <img src="nuoqi/pet-lawra-labubu-opt.jpg" alt="Lawra" class="ai-avatar-small" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
@@ -4068,6 +4099,10 @@ body.audio-active { padding-bottom: 56px !important; }
               <span class="status-dot"></span>
               <span>線上運行中</span>
             </div>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-lawra-voice.mp3" aria-label="聆聽 Lawra 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
           </div>
         </div>
       </div>
@@ -4075,9 +4110,9 @@ body.audio-active { padding-bottom: 56px !important; }
       <div class="ai-card featured">
         <div class="ai-avatar-wrap ai-pet-wrap">
           <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
-            <source src="nuoqi/pet-lawrence-veo.mp4" type="video/mp4">
+            <source src="nuoqi/pet-lawrence-labubu-veo.mp4" type="video/mp4">
           </video>
-          <img src="nuoqi/lawrence-avatar-opt.jpg" alt="Lawrence" class="ai-avatar-small" loading="lazy">
+          <img src="nuoqi/pet-lawrence-labubu-opt.jpg" alt="Lawrence" class="ai-avatar-small" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
@@ -4094,6 +4129,10 @@ body.audio-active { padding-bottom: 56px !important; }
               <span>線上運行中</span>
             </div>
             <span class="featured-tag">推薦給諾圻健康</span>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-lawrence-voice.mp3" aria-label="聆聽 Lawrence 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
           </div>
         </div>
       </div>
@@ -4101,9 +4140,9 @@ body.audio-active { padding-bottom: 56px !important; }
       <div class="ai-card">
         <div class="ai-avatar-wrap ai-pet-wrap">
           <video autoplay loop muted playsinline class="ai-pet-video" preload="none">
-            <source src="nuoqi/pet-lancelot-veo.mp4" type="video/mp4">
+            <source src="nuoqi/pet-lancelot-labubu-veo.mp4" type="video/mp4">
           </video>
-          <img src="nuoqi/lancelot-avatar-opt.jpg" alt="Lancelot" class="ai-avatar-small" loading="lazy">
+          <img src="nuoqi/pet-lancelot-labubu-opt.jpg" alt="Lancelot" class="ai-avatar-small" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
@@ -4119,6 +4158,10 @@ body.audio-active { padding-bottom: 56px !important; }
               <span class="status-dot"></span>
               <span>線上運行中</span>
             </div>
+            <button class="pet-voice-btn" data-audio="nuoqi/pet-lancelot-voice.mp3" aria-label="聆聽 Lancelot 介紹">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <span>聆聽</span>
+            </button>
           </div>
         </div>
       </div>
@@ -5306,6 +5349,43 @@ window.addEventListener('load', function () {
     });
   }, { threshold: 0.1 });
   dividers.forEach(function (d) { divIO.observe(d); });
+})();
+
+// Pet voice player
+(function() {
+  var currentAudio = null;
+  var currentBtn = null;
+
+  document.querySelectorAll('.pet-voice-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var src = this.getAttribute('data-audio');
+
+      if (currentBtn === this && currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        this.classList.remove('playing');
+        currentBtn = null;
+        return;
+      }
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentBtn) currentBtn.classList.remove('playing');
+      }
+
+      currentAudio = new Audio(src);
+      currentBtn = this;
+      this.classList.add('playing');
+      currentAudio.play();
+
+      currentAudio.addEventListener('ended', function() {
+        btn.classList.remove('playing');
+        currentBtn = null;
+      });
+    });
+  });
 })();
 </script>
 
