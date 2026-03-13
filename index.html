@@ -1854,7 +1854,8 @@ section {
   align-items: center;
   justify-content: center;
 }
-.ai-pet-img {
+/* 大图 - 数字员工主形象 */
+.ai-main-img {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
@@ -1862,11 +1863,27 @@ section {
   object-fit: cover;
   z-index: 1;
   border-radius: 0;
-  transition: transform 0.3s;
+  transition: transform 0.4s;
 }
-.ai-card:hover .ai-pet-img {
+.ai-card:hover .ai-main-img {
   transform: scale(1.05);
 }
+
+/* 小图 - Labubu 宠物角标 */
+.ai-pet-mini {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  z-index: 3;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5), 0 0 8px rgba(201,168,76,0.3);
+  background: var(--bg-primary);
+}
+
 /* 每个宠物不同的微动画 */
 .pet-bounce-1 { animation: petBounce 3s ease-in-out infinite; }
 .pet-bounce-2 { animation: petSway 4s ease-in-out infinite; }
@@ -1875,13 +1892,13 @@ section {
 
 @keyframes petBounce {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-6px) rotate(1deg); }
-  75% { transform: translateY(2px) rotate(-1deg); }
+  25% { transform: translateY(-4px) rotate(2deg); }
+  75% { transform: translateY(2px) rotate(-2deg); }
 }
 @keyframes petSway {
   0%, 100% { transform: translateX(0) rotate(0deg); }
-  33% { transform: translateX(4px) rotate(1.5deg); }
-  66% { transform: translateX(-4px) rotate(-1.5deg); }
+  33% { transform: translateX(3px) rotate(2deg); }
+  66% { transform: translateX(-3px) rotate(-2deg); }
 }
 }
 .wiselaw-badge-ai {
@@ -4123,7 +4140,8 @@ body.audio-active { padding-bottom: 56px !important; }
 
       <div class="ai-card">
         <div class="ai-avatar-wrap ai-pet-wrap">
-          <img src="nuoqi/pet-luke-labubu-opt.jpg" alt="Luke" class="ai-pet-img pet-bounce-1" loading="lazy">
+          <img src="nuoqi/luke-avatar-opt.jpg" alt="Luke — AI 協同員工" class="ai-main-img" loading="lazy">
+          <img src="nuoqi/pet-luke-labubu-opt.jpg" alt="Luke 宠物" class="ai-pet-mini pet-bounce-1" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
@@ -4154,7 +4172,8 @@ body.audio-active { padding-bottom: 56px !important; }
 
       <div class="ai-card">
         <div class="ai-avatar-wrap ai-pet-wrap">
-          <img src="nuoqi/pet-lawra-labubu-opt.jpg" alt="Lawra" class="ai-pet-img pet-bounce-2" loading="lazy">
+          <img src="nuoqi/lawra-avatar-opt.jpg" alt="Lawra — AI 商務員工" class="ai-main-img" loading="lazy">
+          <img src="nuoqi/pet-lawra-labubu-opt.jpg" alt="Lawra 宠物" class="ai-pet-mini pet-bounce-2" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
@@ -4185,7 +4204,8 @@ body.audio-active { padding-bottom: 56px !important; }
 
       <div class="ai-card featured">
         <div class="ai-avatar-wrap ai-pet-wrap">
-          <img src="nuoqi/pet-lawrence-labubu-opt.jpg" alt="Lawrence" class="ai-pet-img pet-bounce-3" loading="lazy">
+          <img src="nuoqi/lawrence-avatar-opt.jpg" alt="Lawrence — AI 法律員工" class="ai-main-img" loading="lazy">
+          <img src="nuoqi/pet-lawrence-labubu-opt.jpg" alt="Lawrence 宠物" class="ai-pet-mini pet-bounce-3" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
@@ -4217,7 +4237,8 @@ body.audio-active { padding-bottom: 56px !important; }
 
       <div class="ai-card">
         <div class="ai-avatar-wrap ai-pet-wrap">
-          <img src="nuoqi/pet-lancelot-labubu-opt.jpg" alt="Lancelot" class="ai-pet-img pet-bounce-4" loading="lazy">
+          <img src="nuoqi/lancelot-avatar-opt.jpg" alt="Lancelot — AI 知識員工" class="ai-main-img" loading="lazy">
+          <img src="nuoqi/pet-lancelot-labubu-opt.jpg" alt="Lancelot 宠物" class="ai-pet-mini pet-bounce-4" loading="lazy">
           <div class="wiselaw-badge-ai" title="WiseLaw Certified">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" fill="#C9A84C" opacity="0.9"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="#080808"/></svg>
           </div>
