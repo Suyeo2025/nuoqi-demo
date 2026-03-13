@@ -2885,6 +2885,140 @@ body.audio-active { padding-bottom: 56px !important; }
   .ap-time  { font-size: 9px; }
 }
 
+/* ============================================================
+   V8: SCROLL PROGRESS BAR
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  z-index: 1001;
+  transition: none;
+  pointer-events: none;
+}
+
+/* ============================================================
+   V8: AI CARD 3D TILT + PET VIDEO SCALE + GLOW
+   ============================================================ */
+.ai-card {
+  transform-style: preserve-3d;
+  perspective: 800px;
+}
+.ai-card:hover .ai-pet-video {
+  transform: scale(1.05);
+  transition: transform 0.4s ease;
+}
+.ai-pet-video {
+  transition: transform 0.4s ease;
+}
+.ai-card:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 24px rgba(201,168,76,0.15);
+}
+.ai-card.featured:hover {
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.3), 0 20px 60px rgba(201,168,76,0.12), 0 0 32px rgba(201,168,76,0.2);
+}
+
+/* ============================================================
+   V8: PRICING CARD HOVER + SHIMMER
+   ============================================================ */
+.pricing-card {
+  transition: border-color 0.35s, box-shadow 0.35s, background 0.35s, transform 0.35s ease;
+}
+.pricing-card:hover {
+  transform: translateY(-8px);
+}
+
+.pricing-card.featured {
+  overflow: hidden;
+}
+.pricing-card.featured::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(201,168,76,0.15), transparent, transparent);
+  animation: shimmerRotate 4s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+@keyframes shimmerRotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.pricing-card.featured > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   V8: CTA GRADIENT ANIMATION + TYPING
+   ============================================================ */
+#cta {
+  background: linear-gradient(135deg, var(--bg-primary), #12100a, var(--bg-primary));
+  background-size: 400% 400%;
+  animation: ctaGradient 8s ease infinite;
+}
+@keyframes ctaGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.cta-typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  background: var(--gold);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: ctaCursorBlink 0.7s step-end infinite;
+}
+@keyframes ctaCursorBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ============================================================
+   V8: SCROLL-TO-TOP BUTTON
+   ============================================================ */
+.scroll-to-top {
+  position: fixed;
+  bottom: 80px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--bg-primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.25s;
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+}
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.scroll-to-top:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(201,168,76,0.4);
+}
+.scroll-to-top svg {
+  width: 20px;
+  height: 20px;
+}
 </style>
 </head>
 <body>
@@ -2919,6 +3053,9 @@ body.audio-active { padding-bottom: 56px !important; }
     </button>
   </div>
 </nav>
+
+<!-- V8: Scroll progress indicator -->
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
 <!-- Mobile nav -->
 <div class="nav-mobile" id="mobile-nav" role="navigation" aria-label="手機導航">
@@ -3883,8 +4020,8 @@ body.audio-active { padding-bottom: 56px !important; }
 <section id="cta" class="section-dark section-padding">
   <div class="container">
     <div class="cta-inner">
-      <h2 class="heading-lg">
-        讓 <span>Lawrence</span><br>為諾圻健康工作
+      <h2 class="heading-lg" style="word-break: keep-all; overflow-wrap: break-word;">
+        讓 <span>Lawrence</span> 為諾圻健康工作
       </h2>
       <p class="cta-desc">
         14 天完成交付 · 首年可退換 · AI 培訓費 100% 折抵年費<br>
@@ -3907,7 +4044,7 @@ body.audio-active { padding-bottom: 56px !important; }
   <div class="container">
     <div class="footer-inner">
       <div class="footer-logo">
-        <img src="nuoqi/wiselaw-logo.png" alt="WiseLaw Logo">
+        <img src="nuoqi/wiselaw-logo.png" alt="WiseLaw Logo" loading="lazy">
       </div>
       <p class="footer-copy">
         &copy; 2026 WiseLaw 智法數科 · 法律科技新範式
@@ -3967,6 +4104,13 @@ body.audio-active { padding-bottom: 56px !important; }
     </button>
   </div>
 </div>
+
+<!-- V8: Scroll-to-top button -->
+<button class="scroll-to-top" id="scroll-to-top" aria-label="返回頂部" title="返回頂部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
 
 <!-- ============================================================
      JAVASCRIPT
@@ -4076,7 +4220,7 @@ body.audio-active { padding-bottom: 56px !important; }
     const start = performance.now();
     function step(now) {
       const t = Math.min((now - start) / dur, 1);
-      const val = Math.round((1 - Math.pow(1 - t, 3)) * target);
+      const val = Math.round((t === 1 ? 1 : 1 - Math.pow(2, -10 * t)) * target);
       el.textContent = val + suffix;
       if (t < 1) requestAnimationFrame(step);
     }
@@ -4348,7 +4492,7 @@ body.audio-active { padding-bottom: 56px !important; }
     function update(now) {
       const elapsed  = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased    = 1 - Math.pow(1 - progress, 3);
+      const eased    = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       el.textContent = Math.round(eased * target).toLocaleString('en-US');
       if (progress < 1) requestAnimationFrame(update);
     }
@@ -4575,6 +4719,130 @@ body.audio-active { padding-bottom: 56px !important; }
   document.querySelectorAll('.feature-card, .ai-card, .team-card, .pricing-card').forEach(el => {
     el.classList.add('fade-in-up');
     animObserver.observe(el);
+  });
+})();
+
+// ── V8: Scroll progress bar ─────────────────────────────────
+(function () {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', function () {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+})();
+
+// ── V8: Scroll-to-top button ────────────────────────────────
+(function () {
+  const btn = document.getElementById('scroll-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', function () {
+    btn.classList.toggle('visible', window.scrollY > 500);
+  }, { passive: true });
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// ── V8: AI card 3D tilt effect ──────────────────────────────
+(function () {
+  var cards = document.querySelectorAll('.ai-card');
+  cards.forEach(function (card) {
+    card.addEventListener('mousemove', function (e) {
+      var rect = card.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width;
+      var y = (e.clientY - rect.top) / rect.height;
+      var rotateX = (0.5 - y) * 8;
+      var rotateY = (x - 0.5) * 8;
+      card.style.transform = 'translateY(-4px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+    });
+    card.addEventListener('mouseleave', function () {
+      card.style.transform = '';
+    });
+  });
+})();
+
+// ── V8: CTA typing effect ───────────────────────────────────
+(function () {
+  var ctaHeading = document.querySelector('#cta .heading-lg');
+  if (!ctaHeading) return;
+  // segments: each has text and optional gold flag
+  var segments = [
+    { text: '讓 ', gold: false },
+    { text: 'Lawrence', gold: true },
+    { text: ' 為諾圻健康工作', gold: false }
+  ];
+  var typed = false;
+
+  function typeText() {
+    if (typed) return;
+    typed = true;
+    ctaHeading.innerHTML = '<span class="cta-typing-cursor"></span>';
+    var cursor = ctaHeading.querySelector('.cta-typing-cursor');
+    var allChars = [];
+    segments.forEach(function (seg) {
+      for (var c = 0; c < seg.text.length; c++) {
+        allChars.push({ ch: seg.text[c], gold: seg.gold });
+      }
+    });
+    var currentSpan = null;
+    var currentGold = null;
+    var i = 0;
+    function typeChar() {
+      if (i >= allChars.length) {
+        setTimeout(function () { cursor.style.display = 'none'; }, 2000);
+        return;
+      }
+      var item = allChars[i];
+      if (item.gold !== currentGold) {
+        currentSpan = document.createElement('span');
+        if (item.gold) currentSpan.style.color = 'var(--gold)';
+        ctaHeading.insertBefore(currentSpan, cursor);
+        currentGold = item.gold;
+      }
+      currentSpan.textContent += item.ch;
+      i++;
+      setTimeout(typeChar, 80);
+    }
+    typeChar();
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { typeText(); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  io.observe(ctaHeading);
+})();
+
+// ── V8: Video play/pause on viewport ────────────────────────
+(function () {
+  var videos = document.querySelectorAll('.ai-pet-video');
+  if (!videos.length) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.play().catch(function () {});
+      } else {
+        e.target.pause();
+      }
+    });
+  }, { threshold: 0.2 });
+  videos.forEach(function (v) {
+    v.removeAttribute('autoplay');
+    v.pause();
+    io.observe(v);
+  });
+})();
+
+// ── V8: Lazy load images ────────────────────────────────────
+(function () {
+  document.querySelectorAll('img:not([loading])').forEach(function (img) {
+    var rect = img.getBoundingClientRect();
+    if (rect.top > window.innerHeight) {
+      img.setAttribute('loading', 'lazy');
+    }
   });
 })();
 </script>
