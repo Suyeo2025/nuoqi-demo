@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="version" content="v12-20260314-0018">
 <title>WiseLaw × 諾圻健康 — Lawrence AI 法律合規數字員工</title>
 <meta name="description" content="不是聊天機器人——是懂法律、會執行、能進化的數字員工。長期駐場在諾圻健康的工作環境，擁有獨立工作區與記憶系統。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 8v8c0 7.7 5.1 14.5 12 16 6.9-1.5 12-8.3 12-16V8L16 2z' fill='%23C9A84C'/%3E%3Cpath d='M16 5L7 9.5v6.5c0 6.2 3.8 11.5 9 13 5.2-1.5 9-6.8 9-13V9.5L16 5z' fill='%23080808'/%3E%3Cpath d='M16 8l-6 3v5c0 4.5 2.7 8.5 6 9.5 3.3-1 6-5 6-9.5v-5l-6-3z' fill='%23C9A84C' opacity='0.3'/%3E%3C/svg%3E">
@@ -603,6 +606,20 @@ section {
   box-shadow: 0 0 0 0 rgba(74,222,128,0.6);
   animation: pulse-green 2s ease-in-out infinite;
   flex-shrink: 0;
+}
+
+.pets-running {
+  margin-top: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 420px;
+  border: 1px solid rgba(201,168,76,0.2);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+.pets-running-video {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
 }
 
 @keyframes pulse-green {
@@ -3440,6 +3457,13 @@ body.audio-active { padding-bottom: 56px !important; }
           <div class="hero-online reveal reveal-delay-5" aria-label="系統狀態：在線">
             <span class="online-dot" aria-hidden="true"></span>
             在線&nbsp;·&nbsp;隨時待命
+          </div>
+
+          <!-- 宠物奔跑视频 -->
+          <div class="pets-running reveal reveal-delay-5">
+            <video autoplay loop muted playsinline preload="none" class="pets-running-video">
+              <source src="nuoqi/pets-running-opt.mp4" type="video/mp4">
+            </video>
           </div>
         </div>
 
