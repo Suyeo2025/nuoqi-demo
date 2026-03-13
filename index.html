@@ -148,21 +148,6 @@ section {
 .section-dark { background: var(--bg-primary); }
 .section-alt  { background: var(--bg-secondary); }
 
-.section-divider {
-  width: 1px;
-  height: 60px;
-  background: linear-gradient(180deg, transparent, var(--border-subtle), transparent);
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.section-divider.full-width {
-  width: auto;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-subtle) 30%, var(--border-subtle) 70%, transparent);
-}
-
 /* Typography shared */
 .heading-lg {
   font-family: var(--font-serif);
@@ -3047,9 +3032,268 @@ body.audio-active { padding-bottom: 56px !important; }
   0%, 100% { opacity: 0.6; }
   50%      { opacity: 1; }
 }
-</style>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z' fill='%23C9A84C'/%3E%3C/svg%3E" />
 
+/* ============================================================
+   CHAT DEMO (About section)
+   ============================================================ */
+.chat-demo {
+  max-width: 620px;
+  margin: 60px auto 48px;
+  background: #0d0d0d;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 28px 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.chat-demo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 30% 0%, rgba(201,168,76,0.06) 0%, transparent 60%);
+}
+.chat-demo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.chat-demo-header .chat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green-online);
+  box-shadow: 0 0 6px rgba(74,222,128,0.4);
+}
+.chat-demo-header span {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+}
+.chat-msg {
+  display: flex;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.chat-msg.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chat-msg.user {
+  justify-content: flex-end;
+}
+.chat-msg.lawrence {
+  justify-content: flex-start;
+}
+.chat-bubble {
+  max-width: 80%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.75;
+  position: relative;
+}
+.chat-msg.user .chat-bubble {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-primary);
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.lawrence .chat-bubble {
+  background: rgba(201,168,76,0.10);
+  border-left: 2px solid var(--gold);
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+}
+.chat-bubble .chat-sender {
+  display: block;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.chat-bubble .chat-time {
+  display: block;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* ============================================================
+   RADAR CHART (Capabilities section)
+   ============================================================ */
+.radar-chart-wrap {
+  max-width: 500px;
+  margin: 60px auto 0;
+  text-align: center;
+}
+.radar-chart-wrap h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  color: var(--gold);
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+.radar-svg {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: block;
+}
+.radar-grid-line {
+  fill: none;
+  stroke: var(--border-subtle);
+  stroke-width: 0.8;
+}
+.radar-axis {
+  stroke: var(--border-subtle);
+  stroke-width: 0.5;
+}
+.radar-score-polygon {
+  fill: rgba(201,168,76,0.18);
+  stroke: var(--gold);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  transform: scale(0);
+  transform-origin: 200px 200px;
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.radar-score-polygon.animate {
+  transform: scale(1);
+}
+.radar-dot {
+  fill: var(--gold);
+  opacity: 0;
+  transition: opacity 0.6s ease 0.8s;
+}
+.radar-dot.animate {
+  opacity: 1;
+}
+.radar-label {
+  fill: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* ============================================================
+   TESTIMONIALS / SOCIAL PROOF
+   ============================================================ */
+.testimonials-section {
+  padding: 100px 0;
+  background: var(--bg-secondary);
+  position: relative;
+  z-index: 1;
+}
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+.testimonial-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  position: relative;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.testimonial-card:hover {
+  border-color: var(--card-hover-border);
+  transform: translateY(-4px);
+}
+.testimonial-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  font-family: var(--font-serif);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.testimonial-quote {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  margin-top: 20px;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+.testimonial-person {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+}
+.testimonial-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.testimonial-role {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+.testimonial-industry {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-top: 8px;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 900px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ============================================================
+   ANIMATED SECTION DIVIDER
+   ============================================================ */
+.section-divider {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, transparent, var(--border-subtle), transparent);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.section-divider.full-width {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle) 30%, var(--border-subtle) 70%, transparent);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-divider.full-width.divider-visible {
+  width: 100%;
+}
+.section-divider:not(.full-width) {
+  height: 0;
+  transition: height 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-divider:not(.full-width).divider-visible {
+  height: 60px;
+}
+</style>
 </head>
 <body>
 
@@ -3275,6 +3519,31 @@ body.audio-active { padding-bottom: 56px !important; }
 
     </div>
 
+    <!-- Chat Demo -->
+    <div class="chat-demo reveal">
+      <div class="chat-demo-header">
+        <span class="chat-dot"></span>
+        <span>Lawrence · 線上</span>
+      </div>
+      <div class="chat-msg user" data-chat-delay="0">
+        <div class="chat-bubble">
+          <span class="chat-sender">你</span>
+          幫我審查這份合同的保密條款
+          <span class="chat-time">14:32</span>
+        </div>
+      </div>
+      <div class="chat-msg lawrence" data-chat-delay="600">
+        <div class="chat-bubble">
+          <span class="chat-sender">Lawrence</span>
+          已完成審查。發現 3 個風險點：<br>
+          1. 保密期限未明確——建議補充具體年限或「合同終止後 N 年」條款<br>
+          2. 違約責任缺失——目前無違約賠償條款，建議增加違約金或損害賠償機制<br>
+          3. 競業禁止範圍過寬——現有條款覆蓋「所有相關行業」，可能被認定為不合理限制，建議限縮至核心業務領域
+          <span class="chat-time">14:32</span>
+        </div>
+      </div>
+    </div>
+
     <div class="timeline-section">
       <h3 class="timeline-heading reveal">AI 範式躍遷時間線</h3>
       <p class="timeline-sub reveal reveal-delay-1">你在哪個階段，決定了你能從 AI 拿到多少價值</p>
@@ -3436,6 +3705,44 @@ body.audio-active { padding-bottom: 56px !important; }
 
     </div><!-- /bento-grid -->
 
+    <!-- Radar Chart -->
+    <div class="radar-chart-wrap reveal">
+      <h3>能力雷達圖</h3>
+      <svg class="radar-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid levels (5 levels) -->
+        <polygon class="radar-grid-line" points="200,80 303.92,140 303.92,260 200,320 96.08,260 96.08,140"/>
+        <polygon class="radar-grid-line" points="200,104 282.94,152 282.94,248 200,296 117.06,248 117.06,152"/>
+        <polygon class="radar-grid-line" points="200,128 261.96,164 261.96,236 200,272 138.04,236 138.04,164"/>
+        <polygon class="radar-grid-line" points="200,152 240.98,176 240.98,224 200,248 159.02,224 159.02,176"/>
+        <polygon class="radar-grid-line" points="200,176 219.99,188 219.99,212 200,224 180.01,212 180.01,188"/>
+        <!-- Axes -->
+        <line class="radar-axis" x1="200" y1="200" x2="200" y2="80"/>
+        <line class="radar-axis" x1="200" y1="200" x2="303.92" y2="140"/>
+        <line class="radar-axis" x1="200" y1="200" x2="303.92" y2="260"/>
+        <line class="radar-axis" x1="200" y1="200" x2="200" y2="320"/>
+        <line class="radar-axis" x1="200" y1="200" x2="96.08" y2="260"/>
+        <line class="radar-axis" x1="200" y1="200" x2="96.08" y2="140"/>
+        <!-- Score polygon: 合同審查9, 合規報告8, 法規追蹤9, 多語言7, 實時響應10, 持續學習8 -->
+        <!-- Scores mapped: 9/10, 8/10, 9/10, 7/10, 10/10, 8/10 of the distance from center(200,200) to vertex -->
+        <polygon class="radar-score-polygon" id="radar-polygon"
+          points="200,92 293.53,146 293.53,254 200,308 112.85,248 112.85,152"/>
+        <!-- Dots at score points -->
+        <circle class="radar-dot" cx="200" cy="92" r="4"/>
+        <circle class="radar-dot" cx="293.53" cy="146" r="4"/>
+        <circle class="radar-dot" cx="293.53" cy="254" r="4"/>
+        <circle class="radar-dot" cx="200" cy="308" r="4"/>
+        <circle class="radar-dot" cx="112.85" cy="248" r="4"/>
+        <circle class="radar-dot" cx="112.85" cy="152" r="4"/>
+        <!-- Labels -->
+        <text class="radar-label" x="200" y="62">合同審查 (9)</text>
+        <text class="radar-label" x="324" y="135">合規報告 (8)</text>
+        <text class="radar-label" x="324" y="270">法規追蹤 (9)</text>
+        <text class="radar-label" x="200" y="342">多語言 (7)</text>
+        <text class="radar-label" x="72" y="270">實時響應 (10)</text>
+        <text class="radar-label" x="72" y="135">持續學習 (8)</text>
+      </svg>
+    </div>
+
   </div><!-- /container -->
 </section>
 
@@ -3517,6 +3824,8 @@ body.audio-active { padding-bottom: 56px !important; }
 
   </div>
 </section>
+
+<div class="section-divider full-width"></div>
 
 <!-- ============================================================
      SECTION IV: 真實場景演示
@@ -3694,6 +4003,8 @@ body.audio-active { padding-bottom: 56px !important; }
 
   </div>
 </section>
+
+<div class="section-divider full-width"></div>
 
 <!-- ============================================================
      V · AI 員工矩陣
@@ -3884,6 +4195,52 @@ body.audio-active { padding-bottom: 56px !important; }
 <div class="section-divider full-width"></div>
 
 <!-- ============================================================
+     企業口碑 · 社會證明
+     ============================================================ -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">企業口碑</span>
+      <span class="section-line"></span>
+    </div>
+    <h2 class="heading-lg reveal">企業信賴的法律 AI 夥伴</h2>
+
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card reveal">
+        <p class="testimonial-quote">導入 Lawrence 後，我們的合同審查時間從平均 3 天縮短到 2 小時。更重要的是，它在第一週就發現了一份供應商合同中被我們忽略的管轄權風險條款。</p>
+        <div class="testimonial-person">
+          <span class="testimonial-name">張瑞明</span>
+          <span class="testimonial-role">合規總監 · 新創金融科技公司</span>
+          <span class="testimonial-industry">金融科技</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <p class="testimonial-quote">作為醫療健康企業，我們對數據隱私的要求極高。Lawrence 能夠同時處理大陸《個保法》和香港 PDPO 的合規審查，這在業內幾乎找不到替代方案。</p>
+        <div class="testimonial-person">
+          <span class="testimonial-name">林彥廷</span>
+          <span class="testimonial-role">法務經理 · 區域醫療集團</span>
+          <span class="testimonial-industry">醫療健康</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <p class="testimonial-quote">跨境電商最怕的就是各國法規突然更新。Lawrence 的即時法規追蹤讓我們不再被動應對，上季度成功避開了一次東南亞市場的合規處罰。</p>
+        <div class="testimonial-person">
+          <span class="testimonial-name">王曉菲</span>
+          <span class="testimonial-role">營運長 · 跨境電商平台</span>
+          <span class="testimonial-industry">跨境電商</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
      VII · 定價
      ============================================================ -->
 <section id="pricing" class="section-dark section-padding">
@@ -4058,11 +4415,6 @@ body.audio-active { padding-bottom: 56px !important; }
       <h2 class="heading-lg" style="word-break: keep-all; overflow-wrap: break-word;">
         讓 <span>Lawrence</span> 為諾圻健康工作
       </h2>
-      <img src="nuoqi/pet-team-group-opt.jpg" alt="WiseLaw AI Team" 
-           style="width: 280px; height: auto; margin: 28px auto; display: block; 
-                   border-radius: 14px; box-shadow: 0 8px 32px rgba(201,168,76,0.2); 
-                   opacity: 0.92; transition: transform 0.3s; animation: float 3s ease-in-out infinite;" 
-           loading="lazy">
       <img src="nuoqi/pet-team-group-opt.jpg" alt="WiseLaw AI Team"
            style="width: 280px; height: auto; margin: 24px auto; display: block; border-radius: 12px;
                   box-shadow: 0 8px 32px rgba(201,168,76,0.2); opacity: 0.9;" loading="lazy">
@@ -4890,6 +5242,70 @@ body.audio-active { padding-bottom: 56px !important; }
       img.setAttribute('loading', 'lazy');
     }
   });
+})();
+
+// ── V9: Loading overlay dismiss ────────────────────────────
+window.addEventListener('load', function () {
+  var overlay = document.getElementById('loading-overlay');
+  if (overlay) {
+    setTimeout(function () {
+      overlay.classList.add('fade-out');
+      setTimeout(function () { overlay.remove(); }, 500);
+    }, 500);
+  }
+});
+
+// ── Chat Demo: fade-in messages on scroll ──────────────────
+(function () {
+  var chatDemo = document.querySelector('.chat-demo');
+  if (!chatDemo) return;
+  var msgs = chatDemo.querySelectorAll('.chat-msg');
+  var chatIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        msgs.forEach(function (msg) {
+          var delay = parseInt(msg.getAttribute('data-chat-delay') || '0', 10);
+          setTimeout(function () {
+            msg.classList.add('visible');
+          }, delay);
+        });
+        chatIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  chatIO.observe(chatDemo);
+})();
+
+// ── Radar Chart: animate polygon on scroll ─────────────────
+(function () {
+  var polygon = document.getElementById('radar-polygon');
+  if (!polygon) return;
+  var dots = document.querySelectorAll('.radar-dot');
+  var radarIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        polygon.classList.add('animate');
+        dots.forEach(function (d) { d.classList.add('animate'); });
+        radarIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  radarIO.observe(polygon.closest('.radar-chart-wrap'));
+})();
+
+// ── Section Divider: animate expand on scroll ──────────────
+(function () {
+  var dividers = document.querySelectorAll('.section-divider');
+  if (!dividers.length) return;
+  var divIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('divider-visible');
+        divIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  dividers.forEach(function (d) { divIO.observe(d); });
 })();
 </script>
 
