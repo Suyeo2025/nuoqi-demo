@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta name="version" content="v15-20260314-audio-interaction">
+<meta name="version" content="v16-20260314-interactive-features">
 <title>WiseLaw × 諾圻健康 — Lawrence AI 法律合規數字員工</title>
 <meta name="description" content="不是聊天機器人——是懂法律、會執行、能進化的數字員工。長期駐場在諾圻健康的工作環境，擁有獨立工作區與記憶系統。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 8v8c0 7.7 5.1 14.5 12 16 6.9-1.5 12-8.3 12-16V8L16 2z' fill='%23C9A84C'/%3E%3Cpath d='M16 5L7 9.5v6.5c0 6.2 3.8 11.5 9 13 5.2-1.5 9-6.8 9-13V9.5L16 5z' fill='%23080808'/%3E%3Cpath d='M16 8l-6 3v5c0 4.5 2.7 8.5 6 9.5 3.3-1 6-5 6-9.5v-5l-6-3z' fill='%23C9A84C' opacity='0.3'/%3E%3C/svg%3E">
@@ -3627,6 +3627,707 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
   50% { box-shadow: 0 0 12px 4px rgba(201,168,76,0.2); }
 }
+
+/* ============================================================
+   V16: AI CHAT SIMULATOR
+   ============================================================ */
+#chat-simulator { background: var(--bg-secondary); }
+
+.chat-sim-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.chat-sim-window {
+  background: var(--terminal-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+}
+
+.chat-sim-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(255,255,255,0.02);
+}
+
+.chat-sim-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #8B7A3C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--bg-primary);
+  flex-shrink: 0;
+}
+
+.chat-sim-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chat-sim-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.chat-sim-online {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--green-online);
+}
+
+.chat-sim-online-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green-online);
+  animation: chatDotPulse 2s infinite;
+}
+
+@keyframes chatDotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+  50% { box-shadow: 0 0 8px 3px rgba(74,222,128,0.2); }
+}
+
+.chat-sim-scenarios {
+  display: flex;
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.chat-sim-scenario-btn {
+  padding: 7px 16px;
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 20px;
+  background: rgba(201,168,76,0.08);
+  color: var(--gold);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: var(--font-sans);
+}
+
+.chat-sim-scenario-btn:hover,
+.chat-sim-scenario-btn.active {
+  background: var(--gold);
+  color: var(--bg-primary);
+  border-color: var(--gold);
+}
+
+.chat-sim-body {
+  height: 400px;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+
+.chat-sim-body::-webkit-scrollbar { width: 4px; }
+.chat-sim-body::-webkit-scrollbar-track { background: transparent; }
+.chat-sim-body::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); border-radius: 2px; }
+
+.chat-msg {
+  display: flex;
+  gap: 10px;
+  max-width: 88%;
+  animation: chatMsgIn 0.3s ease-out;
+}
+
+@keyframes chatMsgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-msg.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.chat-msg.ai .chat-msg-avatar {
+  background: linear-gradient(135deg, var(--gold), #8B7A3C);
+  color: var(--bg-primary);
+}
+
+.chat-msg.user .chat-msg-avatar {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+}
+
+.chat-msg-bubble {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.chat-msg.ai .chat-msg-bubble {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  border-top-left-radius: 4px;
+}
+
+.chat-msg.user .chat-msg-bubble {
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-top-right-radius: 4px;
+}
+
+.chat-msg-bubble .typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--gold);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: cursorBlink 0.7s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.chat-sim-input-wrap {
+  display: flex;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(255,255,255,0.02);
+}
+
+.chat-sim-input {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-sim-input:focus {
+  border-color: rgba(201,168,76,0.4);
+}
+
+.chat-sim-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.chat-sim-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(201,168,76,0.3);
+  background: rgba(201,168,76,0.1);
+  color: var(--gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.chat-sim-send:hover {
+  background: var(--gold);
+  color: var(--bg-primary);
+}
+
+@media (max-width: 768px) {
+  .chat-sim-body { height: 320px; }
+  .chat-msg { max-width: 95%; }
+}
+
+/* ============================================================
+   V16: INTERACTIVE ROI CALCULATOR
+   ============================================================ */
+.roi-calculator {
+  margin-top: 60px;
+  background: rgba(201,168,76,0.04);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  padding: 36px 40px;
+}
+
+.roi-calc-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 28px;
+  font-weight: 400;
+}
+
+.roi-calc-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.roi-control-group label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.roi-slider-wrap {
+  position: relative;
+}
+
+.roi-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+  cursor: pointer;
+}
+
+.roi-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(201,168,76,0.4);
+  transition: transform 0.15s;
+}
+
+.roi-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.roi-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 8px rgba(201,168,76,0.4);
+}
+
+.roi-slider-value {
+  text-align: right;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: var(--white);
+  margin-top: 8px;
+}
+
+.roi-select {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  color: var(--white);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C9A84C' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.roi-select option {
+  background: var(--bg-primary);
+  color: var(--white);
+}
+
+.roi-results {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.roi-result-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+.roi-result-card:hover {
+  border-color: rgba(201,168,76,0.3);
+}
+
+.roi-result-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.roi-result-value {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.roi-result-value.gold { color: var(--gold); }
+.roi-result-value.green { color: var(--green); }
+.roi-result-value.blue { color: var(--blue); }
+
+.roi-result-unit {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .roi-calculator { padding: 24px; }
+  .roi-calc-controls { grid-template-columns: 1fr; gap: 20px; }
+  .roi-results { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .roi-result-value { font-size: 22px; }
+}
+
+/* ============================================================
+   V16: GUIDED TOUR / WELCOME MODAL
+   ============================================================ */
+.welcome-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.welcome-modal-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.welcome-modal {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 16px;
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(201,168,76,0.08);
+  animation: modalIn 0.5s ease-out;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.welcome-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  color: var(--text-tertiary);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.welcome-modal-close:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+}
+
+.welcome-modal h3 {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  color: var(--white);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.welcome-modal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.welcome-roles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.welcome-role-btn {
+  padding: 16px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.welcome-role-btn:hover {
+  border-color: rgba(201,168,76,0.4);
+  background: rgba(201,168,76,0.06);
+}
+
+.welcome-role-icon {
+  font-size: 24px;
+  margin-bottom: 2px;
+}
+
+.welcome-role-label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Floating role pill */
+.role-pill {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.3);
+  background: rgba(8,8,8,0.9);
+  backdrop-filter: blur(12px);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.role-pill.visible {
+  display: flex;
+}
+
+.role-pill:hover {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--gold);
+}
+
+.role-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* Gold glow spotlight effect for guided tour */
+@keyframes goldSpotlight {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  50% { box-shadow: 0 0 30px 4px rgba(201,168,76,0.12); }
+}
+
+.section-spotlight {
+  animation: goldSpotlight 2s ease-in-out 2;
+  border: 1px solid rgba(201,168,76,0.15) !important;
+  border-radius: 8px;
+}
+
+/* ============================================================
+   V16: BENTO CARD EXPAND
+   ============================================================ */
+.bento-card {
+  cursor: pointer;
+}
+
+.bento-expand-hint {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 11px;
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 3;
+  letter-spacing: 0.04em;
+}
+
+.bento-card:hover .bento-expand-hint {
+  opacity: 0.7;
+}
+
+.bento-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.bento-detail-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.bento-detail-card {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  padding: 40px;
+  position: relative;
+  animation: modalIn 0.4s ease-out;
+}
+
+.bento-detail-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  color: var(--text-tertiary);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.bento-detail-close:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+}
+
+.bento-detail-card h3 {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  color: var(--white);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.bento-detail-card p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.bento-detail-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+
+.bento-detail-card ul li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.bento-detail-card ul li::before {
+  content: '→ ';
+  color: var(--gold);
+}
+
+/* ============================================================
+   V16: CONFETTI BURST
+   ============================================================ */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+.confetti-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  animation: confettiFall 1.2s ease-out forwards;
+}
+
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.3); }
+}
 </style>
 </head>
 <body>
@@ -4349,6 +5050,53 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
 <div class="section-divider full-width"></div>
 
 <!-- ============================================================
+     IV½ · Lawrence 即時體驗 — AI Chat Simulator
+     ============================================================ -->
+<section id="chat-simulator" class="section-alt section-padding">
+  <div class="container">
+    <div class="section-label">
+      <span class="section-num">IV½ · Lawrence 即時體驗</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="chat-sim-wrap reveal">
+      <h2 class="heading-md" style="margin-bottom: 32px;">與 Lawrence 即時對話</h2>
+      <div class="chat-sim-window">
+        <div class="chat-sim-header">
+          <div class="chat-sim-avatar">L</div>
+          <div class="chat-sim-status">
+            <span class="chat-sim-name">Lawrence</span>
+            <span class="chat-sim-online"><span class="chat-sim-online-dot"></span>線上</span>
+          </div>
+        </div>
+        <div class="chat-sim-scenarios">
+          <button class="chat-sim-scenario-btn" data-scenario="contract">合約審查</button>
+          <button class="chat-sim-scenario-btn" data-scenario="regulation">法規查詢</button>
+          <button class="chat-sim-scenario-btn" data-scenario="privacy">隱私評估</button>
+        </div>
+        <div class="chat-sim-body" id="chat-sim-body">
+          <div class="chat-msg ai">
+            <div class="chat-msg-avatar">L</div>
+            <div class="chat-msg-bubble">您好，我是 Lawrence — 諾圻健康的 AI 法律合規數字員工。請選擇上方場景，或直接輸入您的問題。</div>
+          </div>
+        </div>
+        <div class="chat-sim-input-wrap">
+          <input type="text" class="chat-sim-input" id="chat-sim-input" placeholder="輸入您的問題..." autocomplete="off">
+          <button class="chat-sim-send" id="chat-sim-send" aria-label="發送">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider full-width"></div>
+
+<!-- ============================================================
      V · AI 員工矩陣
      ============================================================ -->
 <section id="ai-team" class="section-dark section-padding">
@@ -4694,22 +5442,52 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
       </div>
     </div>
 
-    <div class="roi-bar">
-      <span class="roi-label">ROI 對比</span>
-      <div class="roi-comparison">
-        <div class="roi-item">
-          <span class="roi-item-label">初級法務年薪</span>
-          <span class="roi-item-value strike">¥280,000</span>
+    <div class="roi-calculator" id="roi-calculator">
+      <div class="roi-calc-title">ROI 智能計算器</div>
+      <div class="roi-calc-controls">
+        <div class="roi-control-group">
+          <label for="roi-team-size">團隊規模</label>
+          <div class="roi-slider-wrap">
+            <input type="range" class="roi-slider" id="roi-team-size" min="1" max="50" value="5">
+            <div class="roi-slider-value" id="roi-team-size-val">5 人</div>
+          </div>
         </div>
-        <span class="roi-arrow">→</span>
-        <div class="roi-item">
-          <span class="roi-item-label">Lawrence 年費</span>
-          <span class="roi-item-value highlight">¥<span class="count-up" data-target="60500" data-animate="true">60,500</span></span>
+        <div class="roi-control-group">
+          <label for="roi-contracts">月合約處理量</label>
+          <div class="roi-slider-wrap">
+            <input type="range" class="roi-slider" id="roi-contracts" min="10" max="500" step="10" value="50">
+            <div class="roi-slider-value" id="roi-contracts-val">50 份</div>
+          </div>
         </div>
-        <span class="roi-arrow">→</span>
-        <div class="roi-item">
-          <span class="roi-item-label">每年節省</span>
-          <span class="roi-item-value saving">¥<span class="count-up" data-target="220000" data-animate="true">220,000</span>+</span>
+        <div class="roi-control-group">
+          <label for="roi-region">法規覆蓋區域</label>
+          <select class="roi-select" id="roi-region">
+            <option value="china">大中華</option>
+            <option value="apac">亞太</option>
+            <option value="global">全球</option>
+          </select>
+        </div>
+      </div>
+      <div class="roi-results">
+        <div class="roi-result-card">
+          <div class="roi-result-label">人力成本節省</div>
+          <div class="roi-result-value gold" id="roi-cost-save">¥0</div>
+          <div class="roi-result-unit">每年</div>
+        </div>
+        <div class="roi-result-card">
+          <div class="roi-result-label">時間效率提升</div>
+          <div class="roi-result-value blue" id="roi-efficiency">0x</div>
+          <div class="roi-result-unit">效率倍數</div>
+        </div>
+        <div class="roi-result-card">
+          <div class="roi-result-label">合規風險降低</div>
+          <div class="roi-result-value green" id="roi-risk">0%</div>
+          <div class="roi-result-unit">風險減少</div>
+        </div>
+        <div class="roi-result-card">
+          <div class="roi-result-label">預估總節省</div>
+          <div class="roi-result-value gold" id="roi-total-save">¥0</div>
+          <div class="roi-result-unit">每年</div>
         </div>
       </div>
     </div>
@@ -4904,6 +5682,52 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
     <path d="M12 19V5M5 12l7-7 7 7"/>
   </svg>
 </button>
+
+<!-- V16: Welcome Modal -->
+<div class="welcome-modal-overlay" id="welcome-modal-overlay">
+  <div class="welcome-modal">
+    <button class="welcome-modal-close" id="welcome-modal-close" aria-label="關閉">&times;</button>
+    <h3>歡迎！您是？</h3>
+    <p>選擇您的角色，我們會為您突出最相關的內容</p>
+    <div class="welcome-roles">
+      <button class="welcome-role-btn" data-role="legal">
+        <span class="welcome-role-icon">&#9878;</span>
+        <span class="welcome-role-label">企業法務</span>
+      </button>
+      <button class="welcome-role-btn" data-role="executive">
+        <span class="welcome-role-icon">&#9733;</span>
+        <span class="welcome-role-label">管理層</span>
+      </button>
+      <button class="welcome-role-btn" data-role="compliance">
+        <span class="welcome-role-icon">&#9745;</span>
+        <span class="welcome-role-label">合規專員</span>
+      </button>
+      <button class="welcome-role-btn" data-role="tech">
+        <span class="welcome-role-icon">&#9881;</span>
+        <span class="welcome-role-label">技術團隊</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- V16: Floating role pill -->
+<div class="role-pill" id="role-pill">
+  <span class="role-pill-dot"></span>
+  <span id="role-pill-text"></span>
+</div>
+
+<!-- V16: Bento detail overlay -->
+<div class="bento-detail-overlay" id="bento-detail-overlay">
+  <div class="bento-detail-card" id="bento-detail-card">
+    <button class="bento-detail-close" id="bento-detail-close" aria-label="關閉">&times;</button>
+    <h3 id="bento-detail-title"></h3>
+    <p id="bento-detail-desc"></p>
+    <ul id="bento-detail-list"></ul>
+  </div>
+</div>
+
+<!-- V16: Confetti container -->
+<div class="confetti-container" id="confetti-container"></div>
 
 <!-- ============================================================
      JAVASCRIPT
@@ -5973,6 +6797,490 @@ window.addEventListener('load', function () {
         currentBtn = null;
       });
     });
+  });
+})();
+
+// ── V16: AI Chat Simulator ──────────────────────────────────
+(function () {
+  var body = document.getElementById('chat-sim-body');
+  var input = document.getElementById('chat-sim-input');
+  var sendBtn = document.getElementById('chat-sim-send');
+  if (!body || !input || !sendBtn) return;
+
+  var scenarios = {
+    contract: [
+      { role: 'user', text: '請幫我審查這份醫療器械經銷合約，重點關注責任限制和知識產權條款。' },
+      { role: 'ai', text: '收到，正在分析您的醫療器械經銷合約...\n\n🔍 已識別 3 項高風險條款：\n\n1️⃣ **第7.2條 — 責任限制不足**\n   賠償上限僅為合約金額的10%，建議提升至50%以符合行業慣例。\n\n2️⃣ **第12條 — 知識產權歸屬模糊**\n   未明確界定衍生數據的權利歸屬，建議增加數據所有權條款。\n\n3️⃣ **第15.3條 — 終止條款不平等**\n   對方可單方面終止但未設違約金，建議增加對等終止權。\n\n→ 已自動生成修改建議報告，是否需要我進一步說明？' },
+      { role: 'user', text: '第12條的知識產權問題具體要怎麼修改？' },
+      { role: 'ai', text: '針對第12條知識產權歸屬，建議如下修改：\n\n**現有條款：**「合作期間產生的所有數據歸甲方所有」\n\n**建議修改為：**\n「合作期間產生的原始數據歸甲方所有；基於原始數據的分析報告、衍生數據集歸乙方所有；雙方共同開發的算法模型，按貢獻比例共有。」\n\n**法律依據：**\n• 《民法典》第847條 — 技術合同成果歸屬\n• 深圳特區數據條例 第30條 — 數據權益\n\n需要我生成完整的條款修改文件嗎？' }
+    ],
+    regulation: [
+      { role: 'user', text: '諾圻健康的智能手環產品要進入新加坡市場，需要哪些合規要求？' },
+      { role: 'ai', text: '正在檢索新加坡醫療器械及數據保護法規...\n\n📋 **新加坡市場准入清單：**\n\n**1. 醫療器械註冊 (HSA)**\n• 分類：Class B 醫療器械（生物信號監測）\n• 申請：需通過 HSA 的 CSDT 途徑\n• 時間：約 3-6 個月\n\n**2. 數據保護 (PDPA)**\n• 健康數據屬於受保護個人資料\n• 需指定 DPO（數據保護官）\n• 跨境傳輸需符合 PDPA 第26條\n\n**3. 網絡安全法 (CSA)**\n• IoT 設備需符合安全標準\n• 建議取得 CSA 網絡安全標誌認證\n\n→ 已生成完整合規路線圖，預計準備週期 4-6 個月。' },
+      { role: 'user', text: '跟香港的要求有什麼主要區別？' },
+      { role: 'ai', text: '**新加坡 vs 香港 — 關鍵差異對比：**\n\n| 項目 | 新加坡 | 香港 |\n|------|--------|------|\n| 器械監管 | HSA 強制註冊 | MDCO 自願列表 |\n| 數據法 | PDPA（強制）| PDPO（原則性）|\n| DPO 要求 | 強制指定 | 非強制 |\n| 違規罰款 | 最高100萬SGD | 最高50萬HKD |\n| 跨境數據 | 需合約保障 | 需同等保護 |\n\n**重點提醒：** 新加坡的監管更為嚴格，特別是數據保護方面。建議先完成香港部署，再以此為基礎申請新加坡准入，可節省約30%的合規成本。' }
+    ],
+    privacy: [
+      { role: 'user', text: '我們計劃將用戶健康數據從深圳伺服器遷移到香港數據中心，需要注意什麼？' },
+      { role: 'ai', text: '⚠️ 這涉及**個人健康信息的跨境傳輸**，屬於高敏感場景。\n\n**必要合規步驟：**\n\n**Step 1 — 數據出境安全評估**\n• 健康數據超過10萬人即觸發安全評估\n• 需向國家網信辦申報\n• 預計週期：45-60個工作日\n\n**Step 2 — 標準合同備案**\n• 依據《個保法》第38條\n• 需簽署國家標準合同\n• 向省級網信辦備案\n\n**Step 3 — 個人信息保護影響評估 (PIA)**\n• 評估數據遷移的必要性\n• 分析香港數據中心的安全措施\n• 記錄用戶知情同意機制\n\n→ 我可以自動生成 PIA 報告模板和標準合同草稿，需要嗎？' },
+      { role: 'user', text: '如果數據量不到10萬人，可以簡化流程嗎？' },
+      { role: 'ai', text: '如果數據量不到10萬人，確實可以簡化：\n\n✅ **可免除的步驟：**\n• 國家網信辦的安全評估（僅限非敏感數據）\n\n⚠️ **但注意 — 健康數據屬於「敏感個人信息」：**\n根據《個保法》第28條，健康信息不論數量多少，都需要：\n\n1. **單獨同意** — 用戶需對健康數據跨境單獨授權\n2. **PIA 評估** — 仍需完成影響評估\n3. **標準合同** — 仍需簽署並備案\n\n**結論：** 健康數據的特殊性使得流程無法大幅簡化。建議走標準合同路徑，我可以在 48 小時內完成全套文件準備。\n\n需要我啟動文件生成流程嗎？' }
+    ]
+  };
+
+  var genericResponses = [
+    '感謝您的提問。作為諾圻健康的 AI 法律合規數字員工，我可以協助您處理合約審查、法規查詢和隱私評估等事務。請點擊上方的場景按鈕，查看我的具體工作方式。',
+    '這是一個很好的問題。在正式部署後，我可以基於諾圻健康的具體業務場景提供深度分析。目前您可以體驗上方三個預設場景，了解我的工作模式。',
+    '收到您的問題。我擅長處理醫療健康行業的法律合規事務，包括跨境數據傳輸、醫療器械法規、合約管理等。請選擇上方場景按鈕，查看完整的互動演示。'
+  ];
+  var genericIdx = 0;
+  var isTyping = false;
+
+  function addMessage(role, text) {
+    var msg = document.createElement('div');
+    msg.className = 'chat-msg ' + role;
+    var avatar = document.createElement('div');
+    avatar.className = 'chat-msg-avatar';
+    avatar.textContent = role === 'ai' ? 'L' : '您';
+    var bubble = document.createElement('div');
+    bubble.className = 'chat-msg-bubble';
+    if (role === 'user') {
+      bubble.textContent = text;
+    }
+    msg.appendChild(avatar);
+    msg.appendChild(bubble);
+    body.appendChild(msg);
+    body.scrollTop = body.scrollHeight;
+    return bubble;
+  }
+
+  function typeText(bubble, text, cb) {
+    isTyping = true;
+    var i = 0;
+    var cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    bubble.innerHTML = '';
+    bubble.appendChild(cursor);
+
+    function tick() {
+      if (i < text.length) {
+        var ch = text[i];
+        if (ch === '\n') {
+          bubble.insertBefore(document.createElement('br'), cursor);
+        } else if (ch === '*' && text[i+1] === '*') {
+          var endBold = text.indexOf('**', i + 2);
+          if (endBold !== -1) {
+            var b = document.createElement('strong');
+            b.textContent = text.substring(i + 2, endBold);
+            bubble.insertBefore(b, cursor);
+            i = endBold + 1;
+          } else {
+            bubble.insertBefore(document.createTextNode(ch), cursor);
+          }
+        } else {
+          bubble.insertBefore(document.createTextNode(ch), cursor);
+        }
+        i++;
+        body.scrollTop = body.scrollHeight;
+        setTimeout(tick, 25);
+      } else {
+        if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+        isTyping = false;
+        if (cb) cb();
+      }
+    }
+    tick();
+  }
+
+  function runScenario(key) {
+    if (isTyping) return;
+    var exchanges = scenarios[key];
+    if (!exchanges) return;
+
+    // Clear previous messages except the greeting
+    while (body.children.length > 1) {
+      body.removeChild(body.lastChild);
+    }
+
+    var idx = 0;
+    function next() {
+      if (idx >= exchanges.length) return;
+      var ex = exchanges[idx];
+      idx++;
+      if (ex.role === 'user') {
+        addMessage('user', ex.text);
+        setTimeout(next, 600);
+      } else {
+        var bubble = addMessage('ai', '');
+        setTimeout(function () {
+          typeText(bubble, ex.text, function () {
+            setTimeout(next, 800);
+          });
+        }, 400);
+      }
+    }
+    next();
+  }
+
+  document.querySelectorAll('.chat-sim-scenario-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (isTyping) return;
+      document.querySelectorAll('.chat-sim-scenario-btn').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      this.classList.add('active');
+      runScenario(this.dataset.scenario);
+    });
+  });
+
+  function handleUserInput() {
+    var text = input.value.trim();
+    if (!text || isTyping) return;
+    input.value = '';
+    addMessage('user', text);
+    var bubble = addMessage('ai', '');
+    var resp = genericResponses[genericIdx % genericResponses.length];
+    genericIdx++;
+    setTimeout(function () {
+      typeText(bubble, resp);
+    }, 500);
+  }
+
+  sendBtn.addEventListener('click', handleUserInput);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') handleUserInput();
+  });
+})();
+
+// ── V16: Interactive ROI Calculator ──────────────────────────
+(function () {
+  var teamSlider = document.getElementById('roi-team-size');
+  var contractSlider = document.getElementById('roi-contracts');
+  var regionSelect = document.getElementById('roi-region');
+  var teamVal = document.getElementById('roi-team-size-val');
+  var contractVal = document.getElementById('roi-contracts-val');
+  var costSaveEl = document.getElementById('roi-cost-save');
+  var efficiencyEl = document.getElementById('roi-efficiency');
+  var riskEl = document.getElementById('roi-risk');
+  var totalSaveEl = document.getElementById('roi-total-save');
+
+  if (!teamSlider || !contractSlider || !regionSelect) return;
+
+  var BASE_SALARY = 280000;
+  var LAWRENCE_COST_PER_UNIT = 60500;
+  var regionData = {
+    china:  { efficiency: 3.2, risk: 60 },
+    apac:   { efficiency: 4.0, risk: 67 },
+    global: { efficiency: 4.8, risk: 72 }
+  };
+
+  var animFrames = {};
+
+  function animateValue(el, start, end, prefix, suffix, key, duration) {
+    if (animFrames[key]) cancelAnimationFrame(animFrames[key]);
+    var startTime = performance.now();
+    duration = duration || 800;
+    function tick(now) {
+      var elapsed = now - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      var current = Math.round(start + (end - start) * eased);
+      el.textContent = prefix + current.toLocaleString('en-US') + suffix;
+      if (progress < 1) {
+        animFrames[key] = requestAnimationFrame(tick);
+      }
+    }
+    animFrames[key] = requestAnimationFrame(tick);
+  }
+
+  var prevValues = { cost: 0, eff: 0, risk: 0, total: 0 };
+
+  function calculate() {
+    var teamSize = parseInt(teamSlider.value);
+    var contracts = parseInt(contractSlider.value);
+    var region = regionSelect.value;
+    var rd = regionData[region];
+
+    teamVal.textContent = teamSize + ' 人';
+    contractVal.textContent = contracts + ' 份';
+
+    var units = Math.ceil(teamSize / 10);
+    var lawrenceCost = units * LAWRENCE_COST_PER_UNIT;
+    var costSaving = Math.round(teamSize * BASE_SALARY * 0.4 - lawrenceCost);
+    if (costSaving < 0) costSaving = 0;
+
+    var efficiency = rd.efficiency;
+    var risk = rd.risk;
+    var totalSaving = costSaving + Math.round(contracts * 12 * 500 * (efficiency - 1) / efficiency);
+
+    animateValue(costSaveEl, prevValues.cost, costSaving, '¥', '', 'cost');
+    animateValue(efficiencyEl, prevValues.eff * 10, Math.round(efficiency * 10), '', 'x', 'eff');
+    animateValue(riskEl, prevValues.risk, risk, '', '%', 'risk');
+    animateValue(totalSaveEl, prevValues.total, totalSaving, '¥', '', 'total');
+
+    prevValues = { cost: costSaving, eff: efficiency, risk: risk, total: totalSaving };
+  }
+
+  // Fix efficiency display for decimal
+  var origAnimateValue = animateValue;
+  function animateValueDec(el, startTen, endTen, prefix, suffix, key, duration) {
+    if (animFrames[key]) cancelAnimationFrame(animFrames[key]);
+    var startTime = performance.now();
+    duration = duration || 800;
+    function tick(now) {
+      var elapsed = now - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      var current = startTen + (endTen - startTen) * eased;
+      el.textContent = (current / 10).toFixed(1) + suffix;
+      if (progress < 1) {
+        animFrames[key] = requestAnimationFrame(tick);
+      }
+    }
+    animFrames[key] = requestAnimationFrame(tick);
+  }
+
+  // Override for efficiency
+  var origCalc = calculate;
+  calculate = function () {
+    var teamSize = parseInt(teamSlider.value);
+    var contracts = parseInt(contractSlider.value);
+    var region = regionSelect.value;
+    var rd = regionData[region];
+
+    teamVal.textContent = teamSize + ' 人';
+    contractVal.textContent = contracts + ' 份';
+
+    var units = Math.ceil(teamSize / 10);
+    var lawrenceCost = units * LAWRENCE_COST_PER_UNIT;
+    var costSaving = Math.round(teamSize * BASE_SALARY * 0.4 - lawrenceCost);
+    if (costSaving < 0) costSaving = 0;
+
+    var efficiency = rd.efficiency;
+    var risk = rd.risk;
+    var totalSaving = costSaving + Math.round(contracts * 12 * 500 * (efficiency - 1) / efficiency);
+
+    animateValue(costSaveEl, prevValues.cost, costSaving, '¥', '', 'cost');
+    animateValueDec(efficiencyEl, Math.round(prevValues.eff * 10), Math.round(efficiency * 10), '', 'x', 'eff');
+    animateValue(riskEl, prevValues.risk, risk, '', '%', 'risk');
+    animateValue(totalSaveEl, prevValues.total, totalSaving, '¥', '', 'total');
+
+    prevValues = { cost: costSaving, eff: efficiency, risk: risk, total: totalSaving };
+  };
+
+  teamSlider.addEventListener('input', calculate);
+  contractSlider.addEventListener('input', calculate);
+  regionSelect.addEventListener('change', calculate);
+
+  // Initial calculation when visible
+  var calcIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        calculate();
+        calcIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  var calcEl = document.getElementById('roi-calculator');
+  if (calcEl) calcIO.observe(calcEl);
+})();
+
+// ── V16: Guided Tour / Welcome Modal ────────────────────────
+(function () {
+  var STORAGE_KEY = 'wiselaw-v16-role';
+  var overlay = document.getElementById('welcome-modal-overlay');
+  var closeBtn = document.getElementById('welcome-modal-close');
+  var pill = document.getElementById('role-pill');
+  var pillText = document.getElementById('role-pill-text');
+  if (!overlay || !pill) return;
+
+  var roleMap = {
+    legal:      { label: '企業法務', sections: ['scenarios', 'capabilities', 'about'] },
+    executive:  { label: '管理層',   sections: ['pricing', 'roi-calculator', 'cta'] },
+    compliance: { label: '合規專員', sections: ['pain-points', 'scenarios', 'capabilities'] },
+    tech:       { label: '技術團隊', sections: ['about', 'ai-team', 'onboarding'] }
+  };
+
+  var roleNames = { legal: '企業法務', executive: '管理層', compliance: '合規專員', tech: '技術團隊' };
+
+  function applyRole(role) {
+    var mapping = roleMap[role];
+    if (!mapping) return;
+    localStorage.setItem(STORAGE_KEY, role);
+
+    // Remove previous spotlights
+    document.querySelectorAll('.section-spotlight').forEach(function (el) {
+      el.classList.remove('section-spotlight');
+    });
+
+    // Apply spotlight to relevant sections
+    mapping.sections.forEach(function (id) {
+      var sec = document.getElementById(id);
+      if (sec) sec.classList.add('section-spotlight');
+    });
+
+    // Show pill
+    pillText.textContent = mapping.label;
+    pill.classList.add('visible');
+
+    // Close modal
+    overlay.classList.remove('visible');
+
+    // Scroll to first relevant section
+    var firstSection = document.getElementById(mapping.sections[0]);
+    if (firstSection) {
+      setTimeout(function () {
+        firstSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 400);
+    }
+  }
+
+  // Check if first visit
+  var savedRole = localStorage.getItem(STORAGE_KEY);
+  if (savedRole && roleMap[savedRole]) {
+    // Returning visitor — restore role without modal
+    pillText.textContent = roleMap[savedRole].label;
+    pill.classList.add('visible');
+  } else {
+    // First visit — show modal after a delay
+    setTimeout(function () {
+      overlay.classList.add('visible');
+    }, 2000);
+  }
+
+  // Role button clicks
+  document.querySelectorAll('.welcome-role-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      applyRole(this.dataset.role);
+    });
+  });
+
+  // Close modal
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      overlay.classList.remove('visible');
+    });
+  }
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) overlay.classList.remove('visible');
+  });
+
+  // Pill click — reopen modal
+  pill.addEventListener('click', function () {
+    overlay.classList.add('visible');
+  });
+})();
+
+// ── V16: Bento Card Expand Detail ───────────────────────────
+(function () {
+  var bentoDetails = [
+    {
+      title: '法規智能檢索',
+      desc: '基於 120+ 國家法規數據庫，即時提供跨法域法律意見。',
+      items: ['支持中國大陸、香港、東南亞及歐盟主要司法管轄區', '秒級響應法規查詢，準確率超過 95%', '自動追蹤法規更新，即時推送變更通知', '支持自然語言提問，無需法律術語']
+    },
+    {
+      title: '合約智能審查',
+      desc: '多份關聯文件同時處理，自動標注風險條款，生成審查意見報告。',
+      items: ['支持中英雙語合約審查', '自動識別 200+ 種常見風險條款', '與行業標準條款庫比對分析', '生成結構化審查報告，含修改建議']
+    },
+    {
+      title: '數據隱私保護',
+      desc: '個保法 / PDPO / GDPR 全覆蓋，評估數據處理合規性。',
+      items: ['自動生成隱私影響評估報告 (PIA/DPIA)', '跨境數據傳輸合規路徑規劃', '數據處理活動記錄 (ROPA) 管理', '用戶同意機制合規審查']
+    },
+    {
+      title: '盡職調查分析',
+      desc: '快速完成目標公司的法律盡職調查，識別潛在風險。',
+      items: ['公司背景及股權結構分析', '訴訟記錄及行政處罰篩查', '知識產權及資產狀況評估', '自動生成盡調報告及風險矩陣']
+    },
+    {
+      title: '合規流程監控',
+      desc: '持續監控企業合規狀態，自動觸發預警。',
+      items: ['許可證到期自動提醒', '定期合規健康檢查報告', '監管動態即時追蹤', '合規培訓記錄管理']
+    },
+    {
+      title: '法律文書生成',
+      desc: '基於範本庫和業務場景，智能生成法律文書。',
+      items: ['支持 50+ 種常用法律文書範本', '自動填充企業信息和條款', '多語言版本自動生成', '版本控制和變更追蹤']
+    }
+  ];
+
+  var overlay = document.getElementById('bento-detail-overlay');
+  var titleEl = document.getElementById('bento-detail-title');
+  var descEl = document.getElementById('bento-detail-desc');
+  var listEl = document.getElementById('bento-detail-list');
+  var closeBtn = document.getElementById('bento-detail-close');
+  if (!overlay) return;
+
+  var cards = document.querySelectorAll('.bento-card');
+  cards.forEach(function (card, idx) {
+    // Add expand hint
+    var hint = document.createElement('span');
+    hint.className = 'bento-expand-hint';
+    hint.textContent = '點擊展開 →';
+    card.appendChild(hint);
+
+    card.addEventListener('click', function () {
+      var detail = bentoDetails[idx];
+      if (!detail) return;
+      titleEl.textContent = detail.title;
+      descEl.textContent = detail.desc;
+      listEl.innerHTML = '';
+      detail.items.forEach(function (item) {
+        var li = document.createElement('li');
+        li.textContent = item;
+        listEl.appendChild(li);
+      });
+      overlay.classList.add('visible');
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      overlay.classList.remove('visible');
+    });
+  }
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) overlay.classList.remove('visible');
+  });
+})();
+
+// ── V16: CTA Confetti Burst ─────────────────────────────────
+(function () {
+  var ctaBtn = document.querySelector('.btn-pulse');
+  var container = document.getElementById('confetti-container');
+  if (!ctaBtn || !container) return;
+
+  function burst(x, y) {
+    var count = 24;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement('div');
+      p.className = 'confetti-particle';
+      var angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+      var dist = 60 + Math.random() * 120;
+      var tx = Math.cos(angle) * dist;
+      var ty = Math.sin(angle) * dist - 40;
+      var rot = Math.round(Math.random() * 720) + 'deg';
+      p.style.left = x + 'px';
+      p.style.top = y + 'px';
+      p.style.setProperty('--tx', tx + 'px');
+      p.style.setProperty('--ty', ty + 'px');
+      p.style.setProperty('--rot', rot);
+      var colors = ['#C9A84C', '#E0C26A', '#FFD700', '#B8941F', '#FFFFFF'];
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      p.style.width = (4 + Math.random() * 6) + 'px';
+      p.style.height = (4 + Math.random() * 6) + 'px';
+      container.appendChild(p);
+      setTimeout(function () { if (p.parentNode) p.parentNode.removeChild(p); }, 1300);
+    }
+  }
+
+  ctaBtn.addEventListener('click', function (e) {
+    burst(e.clientX, e.clientY);
   });
 })();
 </script>
