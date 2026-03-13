@@ -609,17 +609,32 @@ section {
 }
 
 .pets-running {
-  margin-top: 20px;
-  border-radius: 16px;
+  margin-top: 24px;
+  border-radius: 20px;
   overflow: hidden;
-  max-width: 420px;
-  border: 1px solid rgba(201,168,76,0.2);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(201,168,76,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(201,168,76,0.1);
+  position: relative;
 }
 .pets-running-video {
   width: 100%;
   display: block;
-  border-radius: 16px;
+}
+.pets-running-label {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  background: rgba(0,0,0,0.6);
+  padding: 3px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
 }
 
 @keyframes pulse-green {
@@ -3459,12 +3474,6 @@ body.audio-active { padding-bottom: 56px !important; }
             在線&nbsp;·&nbsp;隨時待命
           </div>
 
-          <!-- 宠物奔跑视频 -->
-          <div class="pets-running reveal reveal-delay-5">
-            <video autoplay loop muted playsinline preload="none" class="pets-running-video">
-              <source src="nuoqi/pets-running-opt.mp4" type="video/mp4">
-            </video>
-          </div>
         </div>
 
         <div class="hero-right reveal reveal-delay-2">
@@ -3482,6 +3491,13 @@ body.audio-active { padding-bottom: 56px !important; }
                 <div class="lc-role">法律合規數字員工 · WiseLaw</div>
               </div>
             </div>
+          </div>
+          <!-- 宠物奔跑视频 -->
+          <div class="pets-running">
+            <video autoplay loop muted playsinline class="pets-running-video">
+              <source src="nuoqi/pets-running-opt.mp4" type="video/mp4">
+            </video>
+            <div class="pets-running-label">AI 數字夥伴團隊</div>
           </div>
         </div>
 
