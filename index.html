@@ -3325,28 +3325,57 @@ body.audio-active { padding-bottom: 56px !important; }
 .section-divider:not(.full-width).divider-visible {
   height: 60px;
 }
-.pet-voice-btn {
-  display: inline-flex;
+.pet-voice-group {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: rgba(201,168,76,0.15);
-  border: 1px solid rgba(201,168,76,0.35);
-  border-radius: 20px;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.pet-lang-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.3);
+  background: rgba(201,168,76,0.08);
   color: var(--gold);
-  font-size: 12px;
+  font-size: 10px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.pet-voice-btn:hover {
-  background: rgba(201,168,76,0.25);
-  border-color: var(--gold);
-  transform: scale(1.05);
-}
-.pet-voice-btn.playing {
+.pet-lang-btn:hover, .pet-lang-btn.active {
   background: var(--gold);
   color: var(--bg-primary);
+  border-color: var(--gold);
+}
+.pet-voice-play {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.4);
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  transition: all 0.3s;
+  padding: 0;
+}
+.pet-voice-play:hover {
+  background: var(--gold);
+  color: var(--bg-primary);
+  transform: scale(1.1);
+}
+.pet-voice-play.playing {
   animation: voicePulse 1s infinite;
+  background: var(--gold);
+  color: var(--bg-primary);
 }
 @keyframes voicePulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
@@ -4110,10 +4139,15 @@ body.audio-active { padding-bottom: 56px !important; }
               <span class="status-dot"></span>
               <span>線上運行中</span>
             </div>
-            <button class="pet-voice-btn" data-audio="nuoqi/pet-luke-voice.mp3" aria-label="聆聽 Luke 介紹">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <span>聆聽</span>
-            </button>
+            <div class="pet-voice-group">
+              <button class="pet-lang-btn active" data-pet="luke" data-lang="zh" title="普通話">普</button>
+              <button class="pet-lang-btn" data-pet="luke" data-lang="yue" title="粵語">粵</button>
+              <button class="pet-lang-btn" data-pet="luke" data-lang="en" title="English">EN</button>
+              <button class="pet-lang-btn" data-pet="luke" data-lang="ko" title="한국어">한</button>
+              <button class="pet-voice-play" data-pet="luke">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -4139,10 +4173,15 @@ body.audio-active { padding-bottom: 56px !important; }
               <span class="status-dot"></span>
               <span>線上運行中</span>
             </div>
-            <button class="pet-voice-btn" data-audio="nuoqi/pet-lawra-voice.mp3" aria-label="聆聽 Lawra 介紹">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <span>聆聽</span>
-            </button>
+            <div class="pet-voice-group">
+              <button class="pet-lang-btn active" data-pet="lawra" data-lang="zh" title="普通話">普</button>
+              <button class="pet-lang-btn" data-pet="lawra" data-lang="yue" title="粵語">粵</button>
+              <button class="pet-lang-btn" data-pet="lawra" data-lang="en" title="English">EN</button>
+              <button class="pet-lang-btn" data-pet="lawra" data-lang="ko" title="한국어">한</button>
+              <button class="pet-voice-play" data-pet="lawra">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -4169,10 +4208,15 @@ body.audio-active { padding-bottom: 56px !important; }
               <span>線上運行中</span>
             </div>
             <span class="featured-tag">推薦給諾圻健康</span>
-            <button class="pet-voice-btn" data-audio="nuoqi/pet-lawrence-voice.mp3" aria-label="聆聽 Lawrence 介紹">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <span>聆聽</span>
-            </button>
+            <div class="pet-voice-group">
+              <button class="pet-lang-btn active" data-pet="lawrence" data-lang="zh" title="普通話">普</button>
+              <button class="pet-lang-btn" data-pet="lawrence" data-lang="yue" title="粵語">粵</button>
+              <button class="pet-lang-btn" data-pet="lawrence" data-lang="en" title="English">EN</button>
+              <button class="pet-lang-btn" data-pet="lawrence" data-lang="ko" title="한국어">한</button>
+              <button class="pet-voice-play" data-pet="lawrence">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -4198,10 +4242,15 @@ body.audio-active { padding-bottom: 56px !important; }
               <span class="status-dot"></span>
               <span>線上運行中</span>
             </div>
-            <button class="pet-voice-btn" data-audio="nuoqi/pet-lancelot-voice.mp3" aria-label="聆聽 Lancelot 介紹">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <span>聆聽</span>
-            </button>
+            <div class="pet-voice-group">
+              <button class="pet-lang-btn active" data-pet="lancelot" data-lang="zh" title="普通話">普</button>
+              <button class="pet-lang-btn" data-pet="lancelot" data-lang="yue" title="粵語">粵</button>
+              <button class="pet-lang-btn" data-pet="lancelot" data-lang="en" title="English">EN</button>
+              <button class="pet-lang-btn" data-pet="lancelot" data-lang="ko" title="한국어">한</button>
+              <button class="pet-voice-play" data-pet="lancelot">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -5391,16 +5440,33 @@ window.addEventListener('load', function () {
   dividers.forEach(function (d) { divIO.observe(d); });
 })();
 
-// Pet voice player
+// Pet voice player - Multi-language
 (function() {
   var currentAudio = null;
   var currentBtn = null;
-
-  document.querySelectorAll('.pet-voice-btn').forEach(function(btn) {
+  var selectedLangs = { lawrence: 'zh', luke: 'zh', lawra: 'zh', lancelot: 'zh' };
+  
+  // Language selection
+  document.querySelectorAll('.pet-lang-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var pet = this.dataset.pet;
+      selectedLangs[pet] = this.dataset.lang;
+      var group = this.closest('.pet-voice-group');
+      group.querySelectorAll('.pet-lang-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
+  
+  // Voice playback
+  document.querySelectorAll('.pet-voice-play').forEach(function(btn) {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      var src = this.getAttribute('data-audio');
-
+      var pet = this.dataset.pet;
+      var lang = selectedLangs[pet] || 'zh';
+      var src = 'nuoqi/pet-voices/' + pet + '-' + lang + '.mp3';
+      
       if (currentBtn === this && currentAudio && !currentAudio.paused) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -5408,18 +5474,18 @@ window.addEventListener('load', function () {
         currentBtn = null;
         return;
       }
-
+      
       if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
         if (currentBtn) currentBtn.classList.remove('playing');
       }
-
+      
       currentAudio = new Audio(src);
       currentBtn = this;
       this.classList.add('playing');
       currentAudio.play();
-
+      
       currentAudio.addEventListener('ended', function() {
         btn.classList.remove('playing');
         currentBtn = null;
