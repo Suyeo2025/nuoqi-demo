@@ -670,15 +670,20 @@ section {
 }
 
 .pets-running {
-  margin-top: 24px;
-  border-radius: 20px;
+  margin-top: 0;
+  border-radius: 14px;
   overflow: hidden;
-  max-width: 360px;
+  max-width: 200px;
   margin-left: auto;
-  margin-right: auto;
-  border: 1px solid rgba(201,168,76,0.3);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px rgba(201,168,76,0.1);
+  margin-right: 20px;
+  border: 1px solid rgba(201,168,76,0.2);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 0 12px rgba(201,168,76,0.06);
   position: relative;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+.pets-running:hover {
+  opacity: 1;
 }
 .pets-running-video {
   width: 100%;
@@ -706,9 +711,10 @@ section {
 
 .hero-right {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   position: relative;
+  gap: 16px;
 }
 
 @media (max-width: 960px) {
@@ -722,7 +728,7 @@ section {
 .lawrence-float {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 440px;
   animation: float-y 6s ease-in-out infinite;
 }
 
@@ -867,17 +873,18 @@ section {
 
 .about-title {
   font-family: var(--font-serif);
-  font-size: clamp(32px, 3.8vw, 56px);
+  font-size: clamp(36px, 4.2vw, 64px);
   font-weight: 300;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
   color: var(--white);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .about-title em {
   font-style: italic;
   color: var(--gold);
+  text-shadow: 0 0 40px rgba(201,168,76,0.2);
 }
 
 .about-subtitle {
@@ -890,9 +897,7 @@ section {
 .features-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--border-subtle);
-  border: 1px solid var(--border-subtle);
+  gap: 20px;
   margin-bottom: 100px;
 }
 
@@ -901,12 +906,15 @@ section {
 }
 
 .feature-card {
-  background: var(--card-bg);
+  background: rgba(255,255,255,0.025);
   padding: 40px;
   position: relative;
-  transition: background 0.3s, box-shadow 0.3s;
-  border: 1px solid transparent;
+  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
   overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .feature-card::before {
@@ -914,15 +922,24 @@ section {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: var(--gold-glow);
   opacity: 0;
   transition: opacity 0.35s;
 }
 
+/* Distinct accent colors per card */
+.feature-card:nth-child(1) { border-top: 2px solid rgba(201,168,76,0.5); }
+.feature-card:nth-child(1)::before { background: radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.08) 0%, transparent 60%); }
+.feature-card:nth-child(2) { border-top: 2px solid rgba(74,122,255,0.5); }
+.feature-card:nth-child(2)::before { background: radial-gradient(ellipse at 20% 0%, rgba(74,122,255,0.08) 0%, transparent 60%); }
+.feature-card:nth-child(3) { border-top: 2px solid rgba(16,185,129,0.5); }
+.feature-card:nth-child(3)::before { background: radial-gradient(ellipse at 20% 0%, rgba(16,185,129,0.08) 0%, transparent 60%); }
+.feature-card:nth-child(4) { border-top: 2px solid rgba(91,91,214,0.5); }
+.feature-card:nth-child(4)::before { background: radial-gradient(ellipse at 20% 0%, rgba(91,91,214,0.08) 0%, transparent 60%); }
+
 .feature-card:hover {
-  background: rgba(255,255,255,0.055);
+  background: rgba(255,255,255,0.045);
   border-color: var(--card-hover-border);
-  box-shadow: 0 0 40px rgba(201,168,76,0.08), inset 0 0 40px rgba(201,168,76,0.04);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 40px rgba(201,168,76,0.06);
 }
 
 .feature-card:hover::before { opacity: 1; }
@@ -938,9 +955,10 @@ section {
 }
 
 .feature-icon-wrap {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -949,18 +967,27 @@ section {
   z-index: 1;
 }
 
+/* Distinct icon background per card */
+.feature-card:nth-child(1) .feature-icon-wrap { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.25); }
+.feature-card:nth-child(2) .feature-icon-wrap { background: rgba(74,122,255,0.08); border-color: rgba(74,122,255,0.25); }
+.feature-card:nth-child(2) .feature-icon-wrap svg { color: var(--blue); }
+.feature-card:nth-child(3) .feature-icon-wrap { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); }
+.feature-card:nth-child(3) .feature-icon-wrap svg { color: var(--green); }
+.feature-card:nth-child(4) .feature-icon-wrap { background: rgba(91,91,214,0.08); border-color: rgba(91,91,214,0.25); }
+.feature-card:nth-child(4) .feature-icon-wrap svg { color: var(--purple); }
+
 .feature-icon-wrap svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   color: var(--gold);
 }
 
 .feature-name {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
   color: var(--white);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   letter-spacing: -0.01em;
   position: relative;
   z-index: 1;
@@ -968,7 +995,7 @@ section {
 
 .feature-desc {
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.85;
   color: var(--text-secondary);
   position: relative;
   z-index: 1;
@@ -1176,7 +1203,7 @@ section {
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 .bento-card {
@@ -1188,17 +1215,23 @@ section {
   background-size: cover;
   background-position: center;
   cursor: default;
-  transition: border-color 0.35s ease, transform 0.35s ease;
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .bento-card.large {
   grid-column: span 2;
-  min-height: 340px;
+  min-height: 360px;
+  border: 1px solid rgba(201,168,76,0.12);
 }
 
 .bento-card:hover {
   border-color: var(--card-hover-border);
   transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.bento-card.large:hover {
+  box-shadow: 0 16px 56px rgba(0,0,0,0.5), 0 0 32px rgba(201,168,76,0.06);
 }
 
 .bento-overlay {
@@ -1224,7 +1257,7 @@ section {
 .bento-content {
   position: relative;
   z-index: 2;
-  padding: 36px 40px;
+  padding: 40px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -3351,19 +3384,46 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   max-width: 620px;
   margin: 60px auto 48px;
   background: #0d0d0d;
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 28px 24px 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 28px 28px 24px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
 }
 .chat-demo::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 16px;
+  border-radius: 20px;
   pointer-events: none;
   background: radial-gradient(ellipse at 30% 0%, rgba(201,168,76,0.06) 0%, transparent 60%);
+}
+/* Typing indicator */
+.chat-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 18px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.chat-typing.visible {
+  opacity: 1;
+}
+.chat-typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.4;
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+.chat-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
 }
 .chat-demo-header {
   display: flex;
@@ -3404,22 +3464,25 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
 }
 .chat-bubble {
   max-width: 80%;
-  padding: 14px 18px;
-  border-radius: 14px;
+  padding: 16px 20px;
+  border-radius: 16px;
   font-size: 14px;
-  line-height: 1.75;
+  line-height: 1.8;
   position: relative;
 }
 .chat-msg.user .chat-bubble {
   background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.06);
   color: var(--text-primary);
   border-bottom-right-radius: 4px;
 }
 .chat-msg.lawrence .chat-bubble {
-  background: rgba(201,168,76,0.10);
-  border-left: 2px solid var(--gold);
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-left: 3px solid var(--gold);
   color: var(--text-primary);
   border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 12px rgba(201,168,76,0.06);
 }
 .chat-bubble .chat-sender {
   display: block;
@@ -5095,7 +5158,7 @@ video {
           </svg>
         </div>
         <div class="feature-name">專業性</div>
-        <p class="feature-desc">120+ 國家法規資料庫，由執業律師與 AI 工程師深度共創。每一條規則背後，都是真實合規經驗的沉澱。</p>
+        <p class="feature-desc">覆蓋中國大陸、香港、新加坡、馬來西亞等 120+ 法域的完整法規資料庫。每條規則均由執業律師標注與 AI 工程師共同訓練，確保專業深度與技術準確性的雙重保障。</p>
       </div>
 
       <div class="feature-card reveal reveal-delay-1" role="listitem">
@@ -5107,7 +5170,7 @@ video {
           </svg>
         </div>
         <div class="feature-name">實用性</div>
-        <p class="feature-desc">7×24 主動工作，無縫接入飛書、WhatsApp、郵件等多渠道。任務不等人，它永遠在線。</p>
+        <p class="feature-desc">7x24 主動巡查法規更新、監控合規截止日期、處理跨時區郵件與即時通訊。深夜收到的合規問詢，Lawrence 已在你醒來前完成初步回覆草稿。</p>
       </div>
 
       <div class="feature-card reveal reveal-delay-2" role="listitem">
@@ -5119,7 +5182,7 @@ video {
           </svg>
         </div>
         <div class="feature-name">靈活性</div>
-        <p class="feature-desc">深度記憶系統讓 Lawrence 持續累積對諾圻的認知——你的業務邏輯、偏好與慣例，它都記得清楚，越用越懂你。</p>
+        <p class="feature-desc">持續累積對諾圻健康業務架構、供應商體系與歷史合規決策的認知。每一次互動都在強化它對你們業務邏輯的理解——三個月後的 Lawrence，比第一天更懂諾圻。</p>
       </div>
 
       <div class="feature-card reveal reveal-delay-3" role="listitem">
@@ -5131,7 +5194,7 @@ video {
           </svg>
         </div>
         <div class="feature-name">安全性</div>
-        <p class="feature-desc">支援本地部署，三層安全體系（傳輸加密、訪問控制、審計日誌）確保敏感合規數據不離境、不外洩。</p>
+        <p class="feature-desc">合規文件、客戶數據、合同內容均不離開諾圻自有環境。三層安全架構（傳輸加密 + 細粒度訪問控制 + 完整審計日誌），滿足 PDPO、個保法與行業監管的最嚴格要求。</p>
       </div>
 
     </div>
@@ -5149,7 +5212,12 @@ video {
           <span class="chat-time">14:32</span>
         </div>
       </div>
-      <div class="chat-msg lawrence" data-chat-delay="600">
+      <div class="chat-typing" data-chat-delay="300">
+        <span class="chat-typing-dot"></span>
+        <span class="chat-typing-dot"></span>
+        <span class="chat-typing-dot"></span>
+      </div>
+      <div class="chat-msg lawrence" data-chat-delay="900">
         <div class="chat-bubble">
           <span class="chat-sender">Lawrence</span>
           已完成審查。發現 3 個風險點：<br>
@@ -7286,9 +7354,25 @@ window.addEventListener('load', function () {
   var chatDemo = document.querySelector('.chat-demo');
   if (!chatDemo) return;
   var msgs = chatDemo.querySelectorAll('.chat-msg');
+  var typingEl = chatDemo.querySelector('.chat-typing');
   var chatIO = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) {
+        // Show typing indicator
+        if (typingEl) {
+          var typingDelay = parseInt(typingEl.getAttribute('data-chat-delay') || '0', 10);
+          setTimeout(function () {
+            typingEl.classList.add('visible');
+          }, typingDelay);
+          // Hide typing when lawrence message appears
+          var lawrenceMsg = chatDemo.querySelector('.chat-msg.lawrence');
+          if (lawrenceMsg) {
+            var lDelay = parseInt(lawrenceMsg.getAttribute('data-chat-delay') || '0', 10);
+            setTimeout(function () {
+              typingEl.classList.remove('visible');
+            }, lDelay);
+          }
+        }
         msgs.forEach(function (msg) {
           var delay = parseInt(msg.getAttribute('data-chat-delay') || '0', 10);
           setTimeout(function () {
