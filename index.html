@@ -7860,19 +7860,24 @@ window.addEventListener('load', function () {
   function startBootSequence() {
     var bootScreen = document.getElementById('boot-screen');
     if (!bootScreen) { autoPlay(); return; }
-    // Start boot: show logo
+    var logoText = bootScreen.querySelector('.boot-logo-text');
+    var logoSub = bootScreen.querySelector('.boot-logo-sub');
+    // Start boot: show logo via inline styles
     setTimeout(function () {
-      bootScreen.classList.add('active');
-    }, 300);
-    // After 3s: fade out boot screen
+      if (logoText) logoText.style.opacity = '1';
+    }, 500);
     setTimeout(function () {
-      bootScreen.classList.add('fade-out');
-      // After fade completes (0.8s), remove and start chat
+      if (logoSub) logoSub.style.opacity = '1';
+    }, 1200);
+    // After 3.5s: fade out boot screen
+    setTimeout(function () {
+      bootScreen.style.opacity = '0';
+      // After fade completes, remove and start chat
       setTimeout(function () {
         bootScreen.parentNode.removeChild(bootScreen);
         autoPlay();
       }, 800);
-    }, 3000);
+    }, 3500);
   }
 
   // Start when section scrolls into view
