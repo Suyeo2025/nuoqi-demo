@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta name="version" content="v16-20260314-interactive-features">
+<meta name="version" content="v21-20260314-visual-polish">
 <title>WiseLaw × 諾圻健康 — Lawrence AI 法律合規數字員工</title>
 <meta name="description" content="不是聊天機器人——是懂法律、會執行、能進化的數字員工。長期駐場在諾圻健康的工作環境，擁有獨立工作區與記憶系統。">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2L4 8v8c0 7.7 5.1 14.5 12 16 6.9-1.5 12-8.3 12-16V8L16 2z' fill='%23C9A84C'/%3E%3Cpath d='M16 5L7 9.5v6.5c0 6.2 3.8 11.5 9 13 5.2-1.5 9-6.8 9-13V9.5L16 5z' fill='%23080808'/%3E%3Cpath d='M16 8l-6 3v5c0 4.5 2.7 8.5 6 9.5 3.3-1 6-5 6-9.5v-5l-6-3z' fill='%23C9A84C' opacity='0.3'/%3E%3C/svg%3E">
@@ -4328,6 +4328,427 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
   100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.3); }
 }
+/* ============================================================
+   V21: VISUAL POLISH — Mobile, CTA, Contrast, Spacing, Typography
+   ============================================================ */
+
+/* --- V21: Contrast fix — bump text-tertiary to meet WCAG AA --- */
+:root {
+  --text-secondary: rgba(255,255,255,0.85);
+  --text-tertiary:  rgba(255,255,255,0.7);
+}
+
+/* --- V21: Typography hierarchy --- */
+.heading-lg {
+  font-size: clamp(32px, 4vw, 48px);
+}
+.heading-md {
+  font-size: clamp(28px, 3vw, 36px);
+}
+.hero-title {
+  font-size: clamp(32px, 7vw, 48px);
+}
+.about-title {
+  font-size: clamp(28px, 3.8vw, 36px);
+}
+.scenarios-title {
+  font-size: clamp(28px, 4.5vw, 36px);
+}
+.bento-title {
+  font-size: 24px;
+}
+.bento-card.large .bento-title {
+  font-size: 28px;
+}
+.pain-title {
+  font-size: 24px;
+}
+.bento-desc,
+.pain-desc,
+.feature-desc,
+.scenario-desc,
+.about-subtitle,
+.team-desc,
+.cta-desc,
+.pricing-subtitle,
+.team-subtitle {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+.bento-card.large .bento-desc {
+  font-size: 16px;
+}
+body {
+  font-size: 18px;
+  line-height: 1.8;
+}
+.hero-desc {
+  font-size: clamp(16px, 1.5vw, 18px);
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+.features li {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+.pain-items li {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.timeline-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* --- V21: Unified section spacing --- */
+.section-padding {
+  padding: 80px 0;
+}
+.about {
+  padding: 80px 0;
+}
+#scenarios {
+  padding: 80px 0;
+}
+
+/* Section title margins */
+.section-label {
+  margin-bottom: 48px;
+}
+.bento-header,
+.pain-header,
+.pricing-header,
+.about-header {
+  margin-bottom: 48px;
+}
+.onboarding-header {
+  margin-bottom: 48px;
+}
+
+/* Paragraph spacing */
+.scenario-desc,
+.about-subtitle,
+.pricing-subtitle,
+.team-subtitle {
+  margin-bottom: 24px;
+}
+
+/* --- V21: Center-align all section titles --- */
+.section-label {
+  justify-content: center;
+  text-align: center;
+}
+.bento-header,
+.pain-header,
+.pricing-header,
+.about-header,
+.scenarios-header {
+  text-align: center;
+}
+.about-header {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.about-subtitle {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pricing-subtitle {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.team-subtitle {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.scenarios-header .about-subtitle,
+.scenarios-header .scenarios-intro {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- V21: Hero CTA enhancement --- */
+.btn-primary {
+  padding: 18px 40px;
+  font-size: 15px;
+  min-height: 52px;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+}
+.btn-primary:hover {
+  box-shadow: 0 8px 40px rgba(201,168,76,0.45);
+}
+.btn-secondary {
+  padding: 18px 40px;
+  font-size: 15px;
+  min-height: 52px;
+}
+
+/* All CTA buttons: minimum 44px touch target */
+.btn-primary,
+.btn-secondary,
+.btn-pulse,
+.cta-btn,
+.nav-cta {
+  min-height: 44px;
+}
+
+/* --- V21: Bottom CTA contact info --- */
+.cta-contact {
+  margin-top: 24px;
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+.cta-contact a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.cta-contact a:hover {
+  color: var(--gold-light);
+}
+
+/* --- V21: Mid-page CTA band after scenarios --- */
+.mid-cta-band {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
+  border-top: 1px solid rgba(201,168,76,0.2);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 48px 0;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.mid-cta-band .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.mid-cta-band .mid-cta-text {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--white);
+  font-weight: 400;
+}
+
+/* --- V21: Bento grid 3-column on desktop for 6 cards --- */
+.bento-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.bento-card {
+  min-height: 300px;
+}
+.bento-card.large {
+  grid-column: span 3;
+  min-height: 300px;
+}
+.bento-content {
+  padding: 32px 28px;
+}
+
+/* --- V21: Mobile responsive overrides --- */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .heading-lg {
+    font-size: 32px !important;
+  }
+  .heading-md {
+    font-size: 28px !important;
+  }
+  .hero-title {
+    font-size: 32px !important;
+  }
+  .about-title {
+    font-size: 28px !important;
+  }
+  .scenarios-title {
+    font-size: 28px !important;
+  }
+  .bento-title,
+  .bento-card.large .bento-title {
+    font-size: 20px !important;
+  }
+  .pain-title {
+    font-size: 20px !important;
+  }
+
+  .bento-desc,
+  .pain-desc,
+  .feature-desc,
+  .scenario-desc,
+  .about-subtitle,
+  .team-desc,
+  .cta-desc,
+  .hero-desc,
+  .pricing-subtitle,
+  .team-subtitle,
+  .bento-card.large .bento-desc {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+
+  .stat-label,
+  .timeline-desc,
+  .pain-items li,
+  .features li {
+    font-size: 14px !important;
+  }
+
+  /* Single-column layouts */
+  .bento-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .bento-card.large {
+    grid-column: span 1 !important;
+  }
+  .pain-grid {
+    flex-direction: column !important;
+  }
+  .ai-team-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .team-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .pricing-grid {
+    flex-direction: column !important;
+  }
+  .features-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .roi-calc-controls {
+    grid-template-columns: 1fr !important;
+  }
+  .roi-results {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .addons-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Section padding mobile */
+  .section-padding,
+  .about,
+  #scenarios {
+    padding: 48px 0 !important;
+  }
+
+  /* Ensure no horizontal overflow at 375px */
+  .container {
+    padding: 0 16px !important;
+    overflow-x: hidden;
+  }
+  .hero-grid {
+    padding: 40px 0 !important;
+  }
+  .pain-card {
+    padding: 28px 20px !important;
+  }
+  .pricing-card {
+    padding: 28px 20px !important;
+  }
+  .bento-content {
+    padding: 24px 20px !important;
+  }
+  .accordion-content {
+    padding: 0 0 32px 0 !important;
+  }
+  .roi-calculator {
+    padding: 20px 16px !important;
+  }
+  .roi-bar {
+    padding: 20px 16px !important;
+  }
+
+  /* CTA buttons mobile */
+  .btn-primary,
+  .btn-secondary {
+    padding: 16px 28px !important;
+    font-size: 14px !important;
+    min-height: 48px !important;
+    justify-content: center;
+    width: 100%;
+  }
+  .hero-buttons {
+    flex-direction: column;
+  }
+  .btn-pulse {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+    font-size: 15px;
+  }
+  .cta-btn {
+    min-height: 48px !important;
+    font-size: 15px !important;
+  }
+  .mid-cta-band {
+    padding: 36px 0;
+  }
+  .mid-cta-band .mid-cta-text {
+    font-size: 20px;
+  }
+
+  /* Onboarding timeline */
+  #onboarding .timeline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 28px !important;
+  }
+  .heading-lg {
+    font-size: 28px !important;
+  }
+  .heading-md {
+    font-size: 24px !important;
+  }
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* --- V21: Hero background fallback (gray block fix) --- */
+.hero-bg {
+  background-color: #1a1a1a;
+}
+.hero::after {
+  content: none;
+}
+
+/* --- V21: Video/image fallback backgrounds --- */
+.lawrence-float img,
+.team-photo-wrap img,
+.ai-avatar-wrap img {
+  background-color: var(--bg-tertiary);
+}
+video {
+  background-color: var(--bg-tertiary);
+}
+
 </style>
 </head>
 <body>
@@ -5047,6 +5468,17 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   </div>
 </section>
 
+<!-- V21: Mid-page CTA band -->
+<div class="mid-cta-band">
+  <div class="container">
+    <p class="mid-cta-text">準備好體驗 AI 法律數字員工了嗎？</p>
+    <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20-%20預約專屬演示&body=您好，我是諾圻健康的代表，希望預約專屬演示。"
+       class="btn-pulse">
+      立即預約專屬演示 →
+    </a>
+  </div>
+</div>
+
 <div class="section-divider full-width"></div>
 
 <!-- ============================================================
@@ -5584,6 +6016,9 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
           預約 30 分鐘演示 →
         </a>
       </div>
+      <p class="cta-contact">
+        聯繫我們：<a href="mailto:contact@wiselaw.ai">contact@wiselaw.ai</a>
+      </p>
     </div>
   </div>
 </section>
