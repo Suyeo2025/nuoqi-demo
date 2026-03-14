@@ -2322,7 +2322,7 @@ section {
 }
 
 .price-amount {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: clamp(36px, 4vw, 56px);
   font-weight: 300;
   color: var(--gold);
@@ -5728,7 +5728,7 @@ section {
               </div>
             </div>
             <div class="terminal-wrap" data-terminal="s02"
-                 data-lines='[{"cls":"cmd","t":"> lawrence assess --data-type \"health-biometric\" --flow \"SZ→HK→SG\""},{"cls":"blank","t":""},{"cls":"info","t":"[分析中...] 評估敏感個人信息跨境傳輸路徑"},{"cls":"blank","t":""},{"cls":"warn","t":"⚠ 路徑 1: 深圳 → 香港"},{"cls":"ok","t":"  個保法 Art.38 — 需簽署標準合同  ","label":"[必要]","labelCls":"label-req"},{"cls":"ok","t":"  數據出境安全評估 — 健康數據超閾值  ","label":"[高風險]","labelCls":"label-risk"},{"cls":"blank","t":""},{"cls":"warn","t":"⚠ 路徑 2: 香港 → 新加坡"},{"cls":"ok","t":"  PDPO S33 — 需確保同等保護水平  ","label":"[必要]","labelCls":"label-req"},{"cls":"blank","t":""},{"cls":"arrow","t":"→ 自動生成: 數據出境影響評估報告 (DPIA)"},{"cls":"arrow","t":"→ 附錄: 標準合同範本 + 安全評估清單"}]'>
+                 data-lines='[{"cls":"cmd","t":"> lawrence assess --data-type \"health-biometric\" --flow \"SZ→HK→SG\""},{"cls":"blank","t":""},{"cls":"info","t":"[分析中...] 評估敏感個人信息跨境傳輸路徑"},{"cls":"blank","t":""},{"cls":"warn","t":"[注意] 路徑 1: 深圳 → 香港"},{"cls":"ok","t":"  個保法 Art.38 — 需簽署標準合同  ","label":"[必要]","labelCls":"label-req"},{"cls":"ok","t":"  數據出境安全評估 — 健康數據超閾值  ","label":"[高風險]","labelCls":"label-risk"},{"cls":"blank","t":""},{"cls":"warn","t":"[注意] 路徑 2: 香港 → 新加坡"},{"cls":"ok","t":"  PDPO S33 — 需確保同等保護水平  ","label":"[必要]","labelCls":"label-req"},{"cls":"blank","t":""},{"cls":"arrow","t":"→ 自動生成: 數據出境影響評估報告 (DPIA)"},{"cls":"arrow","t":"→ 附錄: 標準合同範本 + 安全評估清單"}]'>
               <div class="terminal-titlebar">
                 <span class="terminal-dot red"></span>
                 <span class="terminal-dot yellow"></span>
@@ -5833,12 +5833,12 @@ section {
 <div class="section-divider full-width"></div>
 
 <!-- ============================================================
-     IV½ · Lawrence 即時體驗 — AI Chat Simulator
+     IV · Lawrence 即時體驗 — AI Chat Simulator
      ============================================================ -->
 <section id="chat-simulator" class="section-alt section-padding">
   <div class="container">
     <div class="section-label">
-      <span class="section-num">IV½ · Lawrence 即時體驗</span>
+      <span class="section-num">IV · Lawrence 即時體驗</span>
       <div class="section-line"></div>
     </div>
 
@@ -7624,9 +7624,9 @@ window.addEventListener('load', function () {
     ],
     privacy: [
       { role: 'user', text: '我們計劃將用戶健康數據從深圳伺服器遷移到香港數據中心，需要注意什麼？' },
-      { role: 'ai', text: '⚠️ 這涉及**個人健康信息的跨境傳輸**，屬於高敏感場景。\n\n**必要合規步驟：**\n\n**Step 1 — 數據出境安全評估**\n• 健康數據超過10萬人即觸發安全評估\n• 需向國家網信辦申報\n• 預計週期：45-60個工作日\n\n**Step 2 — 標準合同備案**\n• 依據《個保法》第38條\n• 需簽署國家標準合同\n• 向省級網信辦備案\n\n**Step 3 — 個人信息保護影響評估 (PIA)**\n• 評估數據遷移的必要性\n• 分析香港數據中心的安全措施\n• 記錄用戶知情同意機制\n\n→ 我可以自動生成 PIA 報告模板和標準合同草稿，需要嗎？' },
+      { role: 'ai', text: '注意：這涉及**個人健康信息的跨境傳輸**，屬於高敏感場景。\n\n**必要合規步驟：**\n\n**Step 1 — 數據出境安全評估**\n• 健康數據超過10萬人即觸發安全評估\n• 需向國家網信辦申報\n• 預計週期：45-60個工作日\n\n**Step 2 — 標準合同備案**\n• 依據《個保法》第38條\n• 需簽署國家標準合同\n• 向省級網信辦備案\n\n**Step 3 — 個人信息保護影響評估 (PIA)**\n• 評估數據遷移的必要性\n• 分析香港數據中心的安全措施\n• 記錄用戶知情同意機制\n\n→ 我可以自動生成 PIA 報告模板和標準合同草稿，需要嗎？' },
       { role: 'user', text: '如果數據量不到10萬人，可以簡化流程嗎？' },
-      { role: 'ai', text: '如果數據量不到10萬人，確實可以簡化：\n\n✅ **可免除的步驟：**\n• 國家網信辦的安全評估（僅限非敏感數據）\n\n⚠️ **但注意 — 健康數據屬於「敏感個人信息」：**\n根據《個保法》第28條，健康信息不論數量多少，都需要：\n\n1. **單獨同意** — 用戶需對健康數據跨境單獨授權\n2. **PIA 評估** — 仍需完成影響評估\n3. **標準合同** — 仍需簽署並備案\n\n**結論：** 健康數據的特殊性使得流程無法大幅簡化。建議走標準合同路徑，我可以在 48 小時內完成全套文件準備。\n\n需要我啟動文件生成流程嗎？' }
+      { role: 'ai', text: '如果數據量不到10萬人，確實可以簡化：\n\n可免除的步驟：\n• 國家網信辦的安全評估（僅限非敏感數據）\n\n** 但注意 — 健康數據屬於「敏感個人信息」：**\n根據《個保法》第28條，健康信息不論數量多少，都需要：\n\n1. **單獨同意** — 用戶需對健康數據跨境單獨授權\n2. **PIA 評估** — 仍需完成影響評估\n3. **標準合同** — 仍需簽署並備案\n\n**結論：** 健康數據的特殊性使得流程無法大幅簡化。建議走標準合同路徑，我可以在 48 小時內完成全套文件準備。\n\n需要我啟動文件生成流程嗎？' }
     ]
   };
 
