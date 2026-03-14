@@ -3724,13 +3724,412 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
 }
 
 /* ============================================================
-   V21: AUTO-PLAY CONVERSATION SHOWCASE
+   V21: MULTI-SCENE WORK SHOWCASE
    ============================================================ */
 #chat-simulator { background: #0d0d0d; }
 
 .chat-showcase-wrap {
   max-width: 860px;
   margin: 0 auto;
+}
+
+/* Scene container fills macbook screen below chrome */
+.scene-container {
+  width: 100%;
+  height: calc(100% - 33px);
+  display: flex;
+  flex-direction: column;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+.scene-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(20,20,20,0.95);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+.scene-tab {
+  padding: 7px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.scene-tab:hover { color: rgba(255,255,255,0.7); }
+.scene-tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+  background: rgba(201,168,76,0.05);
+}
+.scene-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+  overflow-y: auto;
+  padding: 10px 14px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+.scene::-webkit-scrollbar { width: 3px; }
+.scene::-webkit-scrollbar-track { background: transparent; }
+.scene::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.15); border-radius: 2px; }
+.scene.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.scene.leaving {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.scene-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: rgba(15,15,15,0.95);
+  flex-shrink: 0;
+}
+.scene-auto-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  font-family: var(--font-sans);
+}
+.scene-dots {
+  display: flex;
+  gap: 5px;
+}
+.scene-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s;
+}
+.scene-dot.active {
+  background: var(--gold);
+}
+
+/* ── Shared scene UI elements ── */
+.sc-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.sc-topbar-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.sc-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.sc-badge-green { background: rgba(16,185,129,0.15); color: #10B981; }
+.sc-badge-yellow { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.sc-badge-red { background: rgba(239,68,68,0.15); color: #EF4444; }
+.sc-badge-blue { background: rgba(91,91,214,0.15); color: #5B5BD6; }
+.sc-badge-gold { background: rgba(201,168,76,0.12); color: var(--gold); }
+
+.sc-split {
+  display: flex;
+  gap: 10px;
+  height: calc(100% - 40px);
+}
+.sc-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 8px;
+  overflow-y: auto;
+}
+.sc-panel::-webkit-scrollbar { width: 2px; }
+.sc-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+
+/* Stats bar */
+.sc-stats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.sc-stat-card {
+  flex: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 6px 8px;
+  text-align: center;
+}
+.sc-stat-num {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  line-height: 1.2;
+}
+.sc-stat-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+/* Table */
+.sc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+.sc-table th {
+  text-align: left;
+  padding: 5px 6px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.sc-table td {
+  padding: 5px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+}
+.sc-table tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Progress bar */
+.sc-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.sc-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+/* Mini chart bars */
+.sc-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 50px;
+  padding: 4px 0;
+}
+.sc-chart-bar {
+  flex: 1;
+  background: var(--gold);
+  border-radius: 2px 2px 0 0;
+  opacity: 0.7;
+  transition: height 0.5s ease;
+}
+
+/* Flow diagram */
+.sc-flow {
+  position: relative;
+  width: 100%;
+  min-height: 140px;
+}
+.sc-flow-node {
+  position: absolute;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 70px;
+}
+.sc-flow-node.risk-low { border-color: rgba(16,185,129,0.4); }
+.sc-flow-node.risk-mid { border-color: rgba(245,158,11,0.4); }
+.sc-flow-node.risk-high { border-color: rgba(239,68,68,0.4); }
+.sc-flow-arrow {
+  position: absolute;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+}
+.sc-flow-arrow::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -3px;
+  border: 3px solid transparent;
+  border-left-color: rgba(255,255,255,0.15);
+}
+
+/* Risk meter */
+.sc-risk-meter {
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, #10B981, #F59E0B, #EF4444);
+  border-radius: 4px;
+  position: relative;
+  margin: 6px 0;
+}
+.sc-risk-needle {
+  position: absolute;
+  top: -3px;
+  width: 3px;
+  height: 14px;
+  background: white;
+  border-radius: 1px;
+  transition: left 0.8s ease;
+}
+
+/* Activity feed */
+.sc-feed-item {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 10px;
+  align-items: flex-start;
+}
+.sc-feed-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.sc-feed-text {
+  color: var(--text-secondary);
+  flex: 1;
+}
+.sc-feed-time {
+  color: var(--text-tertiary);
+  font-size: 9px;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+/* Document highlight lines */
+.sc-doc-line {
+  padding: 2px 6px;
+  margin: 1px 0;
+  border-radius: 2px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.sc-doc-line.hl-red { background: rgba(239,68,68,0.1); border-left: 2px solid #EF4444; }
+.sc-doc-line.hl-yellow { background: rgba(245,158,11,0.08); border-left: 2px solid #F59E0B; }
+.sc-doc-line.hl-green { background: rgba(16,185,129,0.08); border-left: 2px solid #10B981; }
+
+/* Assessment form items */
+.sc-assess-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+.sc-assess-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+.sc-risk-toggle {
+  display: flex;
+  gap: 3px;
+}
+.sc-risk-btn {
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 8px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-tertiary);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.sc-risk-btn.sel-high { background: rgba(239,68,68,0.15); color: #EF4444; border-color: rgba(239,68,68,0.3); }
+.sc-risk-btn.sel-mid { background: rgba(245,158,11,0.15); color: #F59E0B; border-color: rgba(245,158,11,0.3); }
+.sc-risk-btn.sel-low { background: rgba(16,185,129,0.15); color: #10B981; border-color: rgba(16,185,129,0.3); }
+
+/* Metric cards row */
+.sc-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.sc-metric {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 8px;
+  text-align: center;
+}
+.sc-metric-val {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  line-height: 1.2;
+}
+.sc-metric-label {
+  font-size: 8px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Finding list in contract scene */
+.sc-finding {
+  padding: 5px 8px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 3px;
+  border-left: 2px solid var(--gold);
+}
+.sc-finding-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.sc-finding-desc {
+  font-size: 9px;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 768px) {
+  .scene { padding: 6px 8px; font-size: 10px; }
+  .sc-split { flex-direction: column; }
+  .sc-metrics { grid-template-columns: repeat(2, 1fr); }
+  .sc-table { font-size: 9px; }
 }
 
 /* MacBook Pro SVG-based frame */
@@ -3880,197 +4279,7 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
 .wc-dot.yellow { background: #febc2e; }
 .wc-dot.green { background: #28c840; }
 
-.chat-showcase-window {
-  width: 100%;
-  height: calc(100% - 33px);
-  background: rgba(10,10,10,0.95);
-  overflow: hidden;
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-showcase-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  background: linear-gradient(135deg, rgba(91,91,240,0.08), rgba(201,168,76,0.05));
-}
-
-.chat-showcase-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), #8B7A3C);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--bg-primary);
-  flex-shrink: 0;
-}
-
-.chat-showcase-status {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.chat-showcase-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--white);
-}
-
-.chat-showcase-online {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--green-online);
-}
-
-.chat-showcase-online-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green-online);
-  animation: showcaseDotPulse 2s infinite;
-}
-
-@keyframes showcaseDotPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
-  50% { box-shadow: 0 0 8px 3px rgba(74,222,128,0.2); }
-}
-
-.chat-showcase-tabs {
-  display: flex;
-  gap: 8px;
-  padding: 14px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  flex-wrap: wrap;
-}
-
-.chat-showcase-tab {
-  padding: 7px 16px;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 20px;
-  background: transparent;
-  color: rgba(255,255,255,0.5);
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.25s;
-  font-family: var(--font-sans);
-}
-
-.chat-showcase-tab.active {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: rgba(201,168,76,0.08);
-  box-shadow: 0 0 12px rgba(201,168,76,0.1);
-}
-
-.chat-showcase-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  scroll-behavior: smooth;
-}
-
-.chat-showcase-body::-webkit-scrollbar { width: 4px; }
-.chat-showcase-body::-webkit-scrollbar-track { background: transparent; }
-.chat-showcase-body::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); border-radius: 2px; }
-
-.showcase-msg {
-  display: flex;
-  gap: 10px;
-  max-width: 88%;
-  opacity: 0;
-  transform: translateY(12px);
-  animation: showcaseMsgIn 0.4s ease-out forwards;
-}
-
-@keyframes showcaseMsgIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.showcase-msg.user {
-  align-self: flex-end;
-  flex-direction: row-reverse;
-}
-
-.showcase-msg-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.showcase-msg.ai .showcase-msg-avatar {
-  background: linear-gradient(135deg, var(--gold), #8B7A3C);
-  color: var(--bg-primary);
-}
-
-.showcase-msg.user .showcase-msg-avatar {
-  background: rgba(255,255,255,0.1);
-  color: var(--text-secondary);
-}
-
-.showcase-msg-bubble {
-  padding: 12px 16px;
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--text-primary);
-}
-
-.showcase-msg.ai .showcase-msg-bubble {
-  background: rgba(255,255,255,0.04);
-  border-left: 3px solid var(--gold);
-  border-radius: 4px 16px 16px 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-  padding: 14px 18px;
-  font-size: 15px;
-}
-
-.showcase-msg.user .showcase-msg-bubble {
-  background: rgba(201,168,76,0.12);
-  border-radius: 16px 16px 4px 16px;
-}
-
-.showcase-typing {
-  display: flex;
-  gap: 5px;
-  padding: 6px 0;
-}
-
-.showcase-typing-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
-  animation: showcaseTypingBounce 1.2s ease-in-out infinite;
-}
-
-.showcase-typing-dot:nth-child(2) { animation-delay: 0.15s; }
-.showcase-typing-dot:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes showcaseTypingBounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-6px); opacity: 1; }
-}
+/* old chat-showcase styles removed — replaced by scene system above */
 
 .live-badge {
   display: inline-flex;
@@ -4099,19 +4308,6 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
 @keyframes livePulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
   50% { box-shadow: 0 0 8px 3px rgba(74,222,128,0.2); }
-}
-
-.chat-showcase-footer {
-  padding: 12px 20px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  text-align: center;
-  font-size: 12px;
-  color: rgba(255,255,255,0.3);
-}
-
-@media (max-width: 768px) {
-  .chat-showcase-body { flex: 1; }
-  .showcase-msg { max-width: 95%; }
 }
 
 /* ============================================================
@@ -6039,21 +6235,345 @@ section {
             <span class="wc-dot yellow"></span>
             <span class="wc-dot green"></span>
           </div>
-          <div class="chat-showcase-window">
-            <div class="chat-showcase-header">
-              <div class="chat-showcase-avatar">L</div>
-              <div class="chat-showcase-status">
-                <span class="chat-showcase-name">Lawrence</span>
-                <span class="chat-showcase-online"><span class="chat-showcase-online-dot"></span>線上</span>
+          <div class="scene-container" id="scene-container">
+            <div class="scene-nav">
+              <button class="scene-tab active" data-scene="0">合約審查</button>
+              <button class="scene-tab" data-scene="1">DSR 管理</button>
+              <button class="scene-tab" data-scene="2">數據地圖</button>
+              <button class="scene-tab" data-scene="3">隱私評估</button>
+              <button class="scene-tab" data-scene="4">合規儀表盤</button>
+            </div>
+            <div class="scene-viewport">
+
+              <!-- Scene 0: Contract Review -->
+              <div class="scene active" id="scene-0">
+                <div class="sc-topbar">
+                  <span class="sc-topbar-title">醫療器械經銷合約_v3.2.pdf</span>
+                  <span class="sc-badge sc-badge-yellow">審查中</span>
+                </div>
+                <div class="sc-split">
+                  <div class="sc-panel" style="flex:1.2">
+                    <div style="font-size:9px;color:var(--text-tertiary);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">合約文本</div>
+                    <div class="sc-doc-line">第1條 合作範圍與期限</div>
+                    <div class="sc-doc-line">甲方授權乙方在指定區域內銷售其醫療器械產品...</div>
+                    <div class="sc-doc-line">合作期限自2026年1月1日起至2028年12月31日止。</div>
+                    <div class="sc-doc-line" style="margin-top:6px">第7條 責任限制與賠償</div>
+                    <div class="sc-doc-line hl-red">7.2 任何一方的賠償責任上限為合約金額的10%。</div>
+                    <div class="sc-doc-line hl-red">7.3 甲方不對間接損失、利潤損失承擔責任。</div>
+                    <div class="sc-doc-line" style="margin-top:6px">第12條 知識產權</div>
+                    <div class="sc-doc-line hl-yellow">12.1 合作期間產生的所有數據歸甲方所有。</div>
+                    <div class="sc-doc-line hl-yellow">12.2 衍生數據及分析報告的權利歸屬未約定。</div>
+                    <div class="sc-doc-line" style="margin-top:6px">第15條 終止與解除</div>
+                    <div class="sc-doc-line hl-red">15.3 甲方可提前30日書面通知單方終止合約。</div>
+                    <div class="sc-doc-line hl-green">15.4 乙方終止需提前90日通知並支付違約金。</div>
+                    <div class="sc-doc-line" style="margin-top:6px">第18條 爭議解決</div>
+                    <div class="sc-doc-line hl-green">18.1 雙方同意提交深圳國際仲裁院仲裁。</div>
+                  </div>
+                  <div class="sc-panel" style="flex:0.8">
+                    <div style="font-size:9px;color:var(--text-tertiary);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Lawrence 分析</div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+                      <span style="font-size:9px;color:var(--text-tertiary)">風險評分</span>
+                      <span style="font-size:16px;font-weight:700;font-family:var(--font-mono);color:#EF4444">72</span>
+                      <span style="font-size:8px;color:var(--text-tertiary)">/100</span>
+                    </div>
+                    <div class="sc-progress-track" style="margin-bottom:10px">
+                      <div class="sc-progress-fill" style="width:72%;background:linear-gradient(90deg,#F59E0B,#EF4444)"></div>
+                    </div>
+                    <div class="sc-finding">
+                      <div class="sc-finding-title" style="color:#EF4444">高風險 : 第7.2條 賠償上限過低</div>
+                      <div class="sc-finding-desc">賠償上限僅10%，行業慣例為50%。建議提升賠償上限至合約金額的50%。</div>
+                    </div>
+                    <div class="sc-finding">
+                      <div class="sc-finding-title" style="color:#EF4444">高風險 : 第15.3條 終止權不對等</div>
+                      <div class="sc-finding-desc">甲方可單方終止但無違約金，建議增設對等終止權及補償條款。</div>
+                    </div>
+                    <div class="sc-finding">
+                      <div class="sc-finding-title" style="color:#F59E0B">中風險 : 第12條 IP歸屬模糊</div>
+                      <div class="sc-finding-desc">衍生數據權利未明確約定，建議區分原始數據與衍生數據所有權。</div>
+                    </div>
+                    <div class="sc-finding">
+                      <div class="sc-finding-title" style="color:#10B981">低風險 : 第18條 仲裁條款合理</div>
+                      <div class="sc-finding-desc">深圳國際仲裁院為適當管轄機構，條款完整。</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scene 1: DSR Management -->
+              <div class="scene" id="scene-1">
+                <div class="sc-topbar">
+                  <span class="sc-topbar-title">數據主體請求管理</span>
+                  <span class="sc-badge sc-badge-blue">2026-Q1</span>
+                </div>
+                <div class="sc-stats">
+                  <div class="sc-stat-card">
+                    <div class="sc-stat-num" style="color:#F59E0B">12</div>
+                    <div class="sc-stat-label">待處理</div>
+                  </div>
+                  <div class="sc-stat-card">
+                    <div class="sc-stat-num" style="color:#5B5BD6">3</div>
+                    <div class="sc-stat-label">處理中</div>
+                  </div>
+                  <div class="sc-stat-card">
+                    <div class="sc-stat-num" style="color:#10B981">47</div>
+                    <div class="sc-stat-label">已完成</div>
+                  </div>
+                  <div class="sc-stat-card">
+                    <div class="sc-stat-num" style="color:#EF4444">1</div>
+                    <div class="sc-stat-label">逾期</div>
+                  </div>
+                </div>
+                <div class="sc-panel" style="flex:1">
+                  <table class="sc-table">
+                    <thead>
+                      <tr><th>請求人</th><th>類型</th><th>截止日</th><th>負責人</th><th>狀態</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>張偉明</td><td>刪除</td><td style="font-family:var(--font-mono)">03-18</td><td>Lawrence</td><td><span class="sc-badge sc-badge-red">逾期</span></td></tr>
+                      <tr><td>李美玲</td><td>查閱</td><td style="font-family:var(--font-mono)">03-20</td><td>Lawrence</td><td><span class="sc-badge sc-badge-blue">處理中</span></td></tr>
+                      <tr><td>王建國</td><td>更正</td><td style="font-family:var(--font-mono)">03-21</td><td>Lawrence</td><td><span class="sc-badge sc-badge-blue">處理中</span></td></tr>
+                      <tr><td>陳雅芳</td><td>刪除</td><td style="font-family:var(--font-mono)">03-22</td><td>劉律師</td><td><span class="sc-badge sc-badge-blue">處理中</span></td></tr>
+                      <tr><td>黃志豪</td><td>查閱</td><td style="font-family:var(--font-mono)">03-25</td><td>Lawrence</td><td><span class="sc-badge sc-badge-yellow">待處理</span></td></tr>
+                      <tr><td>林淑芬</td><td>刪除</td><td style="font-family:var(--font-mono)">03-25</td><td>Lawrence</td><td><span class="sc-badge sc-badge-yellow">待處理</span></td></tr>
+                      <tr><td>吳承恩</td><td>更正</td><td style="font-family:var(--font-mono)">03-26</td><td>劉律師</td><td><span class="sc-badge sc-badge-yellow">待處理</span></td></tr>
+                      <tr><td>鄭家慧</td><td>查閱</td><td style="font-family:var(--font-mono)">03-28</td><td>Lawrence</td><td><span class="sc-badge sc-badge-yellow">待處理</span></td></tr>
+                      <tr><td>周文龍</td><td>刪除</td><td style="font-family:var(--font-mono)">03-10</td><td>Lawrence</td><td><span class="sc-badge sc-badge-green">已完成</span></td></tr>
+                      <tr><td>許靜怡</td><td>查閱</td><td style="font-family:var(--font-mono)">03-08</td><td>Lawrence</td><td><span class="sc-badge sc-badge-green">已完成</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Scene 2: Data Mapping / ROPA -->
+              <div class="scene" id="scene-2">
+                <div class="sc-topbar">
+                  <span class="sc-topbar-title">數據處理活動記錄 (ROPA)</span>
+                  <span class="sc-badge sc-badge-gold">8 項處理活動</span>
+                </div>
+                <div class="sc-split">
+                  <div class="sc-panel" style="flex:1.4;position:relative;min-height:0">
+                    <div style="font-size:9px;color:var(--text-tertiary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">數據流向圖</div>
+                    <svg width="100%" height="140" viewBox="0 0 400 140" style="display:block">
+                      <!-- Nodes -->
+                      <rect x="5" y="10" width="70" height="30" rx="4" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
+                      <text x="40" y="29" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Inter,sans-serif">CRM 系統</text>
+
+                      <rect x="165" y="10" width="70" height="30" rx="4" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.4)" stroke-width="1"/>
+                      <text x="200" y="29" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Inter,sans-serif">ERP 系統</text>
+
+                      <rect x="325" y="10" width="70" height="30" rx="4" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
+                      <text x="360" y="29" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Inter,sans-serif">Analytics</text>
+
+                      <rect x="85" y="65" width="80" height="30" rx="4" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.4)" stroke-width="1"/>
+                      <text x="125" y="84" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Inter,sans-serif">Cloud Storage</text>
+
+                      <rect x="245" y="65" width="80" height="30" rx="4" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.4)" stroke-width="1"/>
+                      <text x="285" y="84" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Inter,sans-serif">健康數據湖</text>
+
+                      <rect x="145" y="110" width="110" height="26" rx="4" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.5)" stroke-width="1" stroke-dasharray="3,2"/>
+                      <text x="200" y="127" text-anchor="middle" fill="rgba(239,68,68,0.8)" font-size="8" font-family="Inter,sans-serif">香港數據中心 (跨境)</text>
+
+                      <!-- Arrows -->
+                      <line x1="75" y1="25" x2="165" y2="25" stroke="rgba(255,255,255,0.15)" stroke-width="1" marker-end="url(#arrowhead)"/>
+                      <line x1="235" y1="25" x2="325" y2="25" stroke="rgba(255,255,255,0.15)" stroke-width="1" marker-end="url(#arrowhead)"/>
+                      <line x1="40" y1="40" x2="95" y2="65" stroke="rgba(255,255,255,0.15)" stroke-width="1" marker-end="url(#arrowhead)"/>
+                      <line x1="200" y1="40" x2="155" y2="65" stroke="rgba(255,255,255,0.15)" stroke-width="1" marker-end="url(#arrowhead)"/>
+                      <line x1="200" y1="40" x2="265" y2="65" stroke="rgba(255,255,255,0.15)" stroke-width="1" marker-end="url(#arrowhead)"/>
+                      <line x1="285" y1="95" x2="240" y2="110" stroke="rgba(239,68,68,0.4)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrowRed)"/>
+                      <line x1="125" y1="95" x2="170" y2="110" stroke="rgba(239,68,68,0.4)" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrowRed)"/>
+
+                      <defs>
+                        <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+                          <polygon points="0 0, 6 2, 0 4" fill="rgba(255,255,255,0.2)"/>
+                        </marker>
+                        <marker id="arrowRed" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+                          <polygon points="0 0, 6 2, 0 4" fill="rgba(239,68,68,0.5)"/>
+                        </marker>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div class="sc-panel" style="flex:0.6">
+                    <div style="font-size:9px;color:var(--text-tertiary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">摘要</div>
+                    <div style="margin-bottom:6px">
+                      <div style="font-size:10px;color:var(--text-primary);font-weight:600">處理活動</div>
+                      <div style="font-size:16px;font-weight:700;font-family:var(--font-mono);color:var(--gold)">8</div>
+                    </div>
+                    <div style="margin-bottom:6px">
+                      <div style="font-size:10px;color:var(--text-primary);font-weight:600">跨境傳輸</div>
+                      <div style="font-size:16px;font-weight:700;font-family:var(--font-mono);color:#EF4444">3</div>
+                      <div style="font-size:8px;color:var(--text-tertiary)">需安全評估</div>
+                    </div>
+                    <div style="margin-bottom:6px">
+                      <div style="font-size:10px;color:var(--text-primary);font-weight:600">數據類別</div>
+                      <div style="font-size:9px;color:var(--text-secondary);margin-top:2px">
+                        <span class="sc-badge sc-badge-red" style="margin-bottom:2px;display:inline-block">健康數據</span>
+                        <span class="sc-badge sc-badge-yellow" style="margin-bottom:2px;display:inline-block">身份數據</span>
+                        <span class="sc-badge sc-badge-green" style="display:inline-block">設備數據</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="font-size:10px;color:var(--text-primary);font-weight:600">法律依據</div>
+                      <div style="font-size:9px;color:var(--text-tertiary);margin-top:2px;line-height:1.5">
+                        《個保法》第38條<br>
+                        《數據安全法》第31條<br>
+                        深圳特區數據條例
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scene 3: PIA Assessment -->
+              <div class="scene" id="scene-3">
+                <div class="sc-topbar">
+                  <span class="sc-topbar-title">隱私影響評估 -- 健康手環數據收集</span>
+                  <span class="sc-badge sc-badge-blue">步驟 3 / 5</span>
+                </div>
+                <div class="sc-progress-track" style="margin-bottom:10px">
+                  <div class="sc-progress-fill" style="width:60%;background:linear-gradient(90deg,#5B5BD6,var(--gold))"></div>
+                </div>
+                <div style="display:flex;gap:10px;margin-bottom:8px">
+                  <div style="flex:1">
+                    <div style="font-size:9px;color:var(--text-tertiary);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">風險項目評估</div>
+                    <div class="sc-assess-item">
+                      <span class="sc-assess-label">生物特徵數據收集</span>
+                      <div class="sc-risk-toggle"><span class="sc-risk-btn sel-high">高</span><span class="sc-risk-btn">中</span><span class="sc-risk-btn">低</span></div>
+                    </div>
+                    <div class="sc-assess-item">
+                      <span class="sc-assess-label">健康數據跨境傳輸</span>
+                      <div class="sc-risk-toggle"><span class="sc-risk-btn sel-high">高</span><span class="sc-risk-btn">中</span><span class="sc-risk-btn">低</span></div>
+                    </div>
+                    <div class="sc-assess-item">
+                      <span class="sc-assess-label">第三方SDK數據共享</span>
+                      <div class="sc-risk-toggle"><span class="sc-risk-btn">高</span><span class="sc-risk-btn sel-mid">中</span><span class="sc-risk-btn">低</span></div>
+                    </div>
+                    <div class="sc-assess-item">
+                      <span class="sc-assess-label">用戶知情同意機制</span>
+                      <div class="sc-risk-toggle"><span class="sc-risk-btn">高</span><span class="sc-risk-btn">中</span><span class="sc-risk-btn sel-low">低</span></div>
+                    </div>
+                    <div class="sc-assess-item">
+                      <span class="sc-assess-label">數據保留期限政策</span>
+                      <div class="sc-risk-toggle"><span class="sc-risk-btn">高</span><span class="sc-risk-btn sel-mid">中</span><span class="sc-risk-btn">低</span></div>
+                    </div>
+                    <div class="sc-assess-item">
+                      <span class="sc-assess-label">匿名化處理措施</span>
+                      <div class="sc-risk-toggle"><span class="sc-risk-btn">高</span><span class="sc-risk-btn">中</span><span class="sc-risk-btn sel-low">低</span></div>
+                    </div>
+                    <div class="sc-assess-item">
+                      <span class="sc-assess-label">數據泄露應急預案</span>
+                      <div class="sc-risk-toggle"><span class="sc-risk-btn">高</span><span class="sc-risk-btn sel-mid">中</span><span class="sc-risk-btn">低</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:8px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                    <span style="font-size:9px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.05em">自動生成風險評分</span>
+                    <span style="font-size:14px;font-weight:700;font-family:var(--font-mono);color:#F59E0B">68 / 100</span>
+                  </div>
+                  <div class="sc-risk-meter">
+                    <div class="sc-risk-needle" style="left:66%"></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:8px;color:var(--text-tertiary)">
+                    <span>低風險</span><span>中風險</span><span>高風險</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scene 4: Compliance Dashboard -->
+              <div class="scene" id="scene-4">
+                <div class="sc-topbar">
+                  <span class="sc-topbar-title">合規儀表盤</span>
+                  <span class="sc-badge sc-badge-green">即時更新</span>
+                </div>
+                <div class="sc-metrics">
+                  <div class="sc-metric">
+                    <div class="sc-metric-val" style="color:#10B981">94%</div>
+                    <div class="sc-metric-label">合規分數</div>
+                  </div>
+                  <div class="sc-metric">
+                    <div class="sc-metric-val" style="color:#F59E0B">7</div>
+                    <div class="sc-metric-label">待處理問題</div>
+                  </div>
+                  <div class="sc-metric">
+                    <div class="sc-metric-val" style="color:#5B5BD6">3</div>
+                    <div class="sc-metric-label">即將到期</div>
+                  </div>
+                  <div class="sc-metric">
+                    <div class="sc-metric-val" style="color:#EF4444">2</div>
+                    <div class="sc-metric-label">風險警報</div>
+                  </div>
+                </div>
+                <div class="sc-split" style="height:auto;gap:8px">
+                  <div class="sc-panel" style="flex:1">
+                    <div style="font-size:9px;color:var(--text-tertiary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">月度合規趨勢</div>
+                    <div style="display:flex;align-items:flex-end;gap:2px;font-size:7px;color:var(--text-tertiary);margin-bottom:2px">
+                      <span>100%</span>
+                    </div>
+                    <div class="sc-chart-bars">
+                      <div class="sc-chart-bar" style="height:78%"></div>
+                      <div class="sc-chart-bar" style="height:82%"></div>
+                      <div class="sc-chart-bar" style="height:80%"></div>
+                      <div class="sc-chart-bar" style="height:85%"></div>
+                      <div class="sc-chart-bar" style="height:88%"></div>
+                      <div class="sc-chart-bar" style="height:87%"></div>
+                      <div class="sc-chart-bar" style="height:90%"></div>
+                      <div class="sc-chart-bar" style="height:89%"></div>
+                      <div class="sc-chart-bar" style="height:92%"></div>
+                      <div class="sc-chart-bar" style="height:91%"></div>
+                      <div class="sc-chart-bar" style="height:93%"></div>
+                      <div class="sc-chart-bar" style="height:94%"></div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:7px;color:var(--text-tertiary);margin-top:2px">
+                      <span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span><span>11月</span><span>12月</span><span>1月</span><span>2月</span><span>3月</span>
+                    </div>
+                  </div>
+                  <div class="sc-panel" style="flex:1">
+                    <div style="font-size:9px;color:var(--text-tertiary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">近期活動</div>
+                    <div class="sc-feed-item">
+                      <span class="sc-feed-dot" style="background:#10B981"></span>
+                      <span class="sc-feed-text">完成 DSR-2026-047 數據刪除請求</span>
+                      <span class="sc-feed-time">2分鐘前</span>
+                    </div>
+                    <div class="sc-feed-item">
+                      <span class="sc-feed-dot" style="background:#F59E0B"></span>
+                      <span class="sc-feed-text">醫療器械經銷合約審查發現3項高風險</span>
+                      <span class="sc-feed-time">15分鐘前</span>
+                    </div>
+                    <div class="sc-feed-item">
+                      <span class="sc-feed-dot" style="background:#5B5BD6"></span>
+                      <span class="sc-feed-text">啟動健康手環PIA評估 (步驟3/5)</span>
+                      <span class="sc-feed-time">32分鐘前</span>
+                    </div>
+                    <div class="sc-feed-item">
+                      <span class="sc-feed-dot" style="background:#EF4444"></span>
+                      <span class="sc-feed-text">跨境數據傳輸安全評估即將到期</span>
+                      <span class="sc-feed-time">1小時前</span>
+                    </div>
+                    <div class="sc-feed-item">
+                      <span class="sc-feed-dot" style="background:#10B981"></span>
+                      <span class="sc-feed-text">更新 ROPA 記錄 -- 新增2項處理活動</span>
+                      <span class="sc-feed-time">2小時前</span>
+                    </div>
+                    <div class="sc-feed-item">
+                      <span class="sc-feed-dot" style="background:#10B981"></span>
+                      <span class="sc-feed-text">新加坡 PDPA 合規路線圖已生成</span>
+                      <span class="sc-feed-time">3小時前</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="scene-footer">
+              <span class="scene-auto-label">Lawrence 自主工作中</span>
+              <div class="scene-dots">
+                <span class="scene-dot active"></span>
+                <span class="scene-dot"></span>
+                <span class="scene-dot"></span>
+                <span class="scene-dot"></span>
+                <span class="scene-dot"></span>
               </div>
             </div>
-            <div class="chat-showcase-tabs">
-              <button class="chat-showcase-tab active" data-thread="0">合約審查</button>
-              <button class="chat-showcase-tab" data-thread="1">法規查詢</button>
-              <button class="chat-showcase-tab" data-thread="2">隱私評估</button>
-            </div>
-            <div class="chat-showcase-body" id="chat-showcase-body"></div>
-            <div class="chat-showcase-footer">自動播放中 -- 觀看 Lawrence 處理真實工作場景</div>
           </div>
         </div>
       </div><!-- /macbook-device -->
@@ -7780,182 +8300,81 @@ window.addEventListener('load', function () {
   });
 })();
 
-// ── V21: Auto-play Conversation Showcase ──────────────────────
+// ── V21: Multi-scene Work Showcase ──────────────────────────
 (function () {
-  var body = document.getElementById('chat-showcase-body');
-  if (!body) return;
+  var container = document.getElementById('scene-container');
+  if (!container) return;
 
-  var threads = [
-    [
-      { role: 'user', text: '請幫我審查這份醫療器械經銷合約，重點關注責任限制和知識產權條款。' },
-      { role: 'ai', html: '收到，正在分析醫療器械經銷合約...<br><br>已識別 <strong>3 項高風險條款</strong>：<br><br><strong>1. 第7.2條 — 責任限制不足</strong><br>賠償上限僅為合約金額的10%，建議提升至50%以符合行業慣例。<br><br><strong>2. 第12條 — 知識產權歸屬模糊</strong><br>未明確界定衍生數據的權利歸屬，建議增加數據所有權條款。<br><br><strong>3. 第15.3條 — 終止條款不平等</strong><br>對方可單方面終止但未設違約金，建議增加對等終止權。' },
-      { role: 'user', text: '第12條的知識產權問題具體要怎麼修改？' },
-      { role: 'ai', html: '針對第12條知識產權歸屬，建議如下修改：<br><br><strong>現有條款：</strong>「合作期間產生的所有數據歸甲方所有」<br><br><strong>建議修改為：</strong><br>「合作期間產生的原始數據歸甲方所有；基於原始數據的分析報告、衍生數據集歸乙方所有；雙方共同開發的算法模型，按貢獻比例共有。」<br><br><strong>法律依據：</strong><br>《民法典》第847條 — 技術合同成果歸屬<br>深圳特區數據條例 第30條 — 數據權益' }
-    ],
-    [
-      { role: 'user', text: '諾圻健康的智能手環產品要進入新加坡市場，需要哪些合規要求？' },
-      { role: 'ai', html: '正在檢索新加坡醫療器械及數據保護法規...<br><br><strong>1. 醫療器械註冊 (HSA)</strong><br>分類：Class B 醫療器械（生物信號監測）<br>申請：需通過 HSA 的 CSDT 途徑<br>時間：約 3-6 個月<br><br><strong>2. 數據保護 (PDPA)</strong><br>健康數據屬於受保護個人資料<br>需指定 DPO（數據保護官）<br>跨境傳輸需符合 PDPA 第26條<br><br><strong>3. 網絡安全法 (CSA)</strong><br>IoT 設備需符合安全標準<br>建議取得 CSA 網絡安全標誌認證<br><br>已生成完整合規路線圖，預計準備週期 4-6 個月。' }
-    ],
-    [
-      { role: 'user', text: '我們計劃將用戶健康數據從深圳伺服器遷移到香港數據中心，需要注意什麼？' },
-      { role: 'ai', html: '這涉及<strong>個人健康信息的跨境傳輸</strong>，屬於高敏感場景。<br><br><strong>Step 1 — 數據出境安全評估</strong><br>健康數據超過10萬人即觸發安全評估<br>需向國家網信辦申報<br>預計週期：45-60個工作日<br><br><strong>Step 2 — 標準合同備案</strong><br>依據《個保法》第38條<br>需簽署國家標準合同<br>向省級網信辦備案<br><br><strong>Step 3 — 個人信息保護影響評估 (PIA)</strong><br>評估數據遷移的必要性<br>分析香港數據中心的安全措施<br>記錄用戶知情同意機制' }
-    ]
-  ];
+  var scenes = container.querySelectorAll('.scene');
+  var tabs = container.querySelectorAll('.scene-tab');
+  var dots = container.querySelectorAll('.scene-dot');
+  var current = 0;
+  var timer = null;
+  var INTERVAL = 6000;
 
-  var currentThread = 0;
-  var playing = false;
-  var stopRequested = false;
-  var tabs = document.querySelectorAll('.chat-showcase-tab');
+  function switchTo(idx) {
+    if (idx === current && scenes[idx].classList.contains('active')) return;
+    scenes[current].classList.remove('active');
+    scenes[current].classList.add('leaving');
+    tabs[current].classList.remove('active');
+    dots[current].classList.remove('active');
 
-  function setActiveTab(idx) {
-    tabs.forEach(function (t, i) {
-      t.classList.toggle('active', i === idx);
-    });
+    var prev = current;
+    current = idx;
+
+    setTimeout(function () {
+      scenes[prev].classList.remove('leaving');
+    }, 600);
+
+    scenes[current].classList.add('active');
+    tabs[current].classList.add('active');
+    dots[current].classList.add('active');
   }
 
-  function createMsg(role, content) {
-    var msg = document.createElement('div');
-    msg.className = 'showcase-msg ' + role;
-    var avatar = document.createElement('div');
-    avatar.className = 'showcase-msg-avatar';
-    avatar.textContent = role === 'ai' ? 'L' : '您';
-    var bubble = document.createElement('div');
-    bubble.className = 'showcase-msg-bubble';
-    msg.appendChild(avatar);
-    msg.appendChild(bubble);
-    return { el: msg, bubble: bubble, content: content };
+  function startCycle() {
+    stopCycle();
+    timer = setInterval(function () {
+      var next = (current + 1) % scenes.length;
+      switchTo(next);
+    }, INTERVAL);
   }
 
-  function createTypingIndicator() {
-    var msg = document.createElement('div');
-    msg.className = 'showcase-msg ai';
-    var avatar = document.createElement('div');
-    avatar.className = 'showcase-msg-avatar';
-    avatar.textContent = 'L';
-    var bubble = document.createElement('div');
-    bubble.className = 'showcase-msg-bubble';
-    bubble.innerHTML = '<div class="showcase-typing"><span class="showcase-typing-dot"></span><span class="showcase-typing-dot"></span><span class="showcase-typing-dot"></span></div>';
-    msg.appendChild(avatar);
-    msg.appendChild(bubble);
-    return msg;
+  function stopCycle() {
+    if (timer) { clearInterval(timer); timer = null; }
   }
 
-  function delay(ms) {
-    return new Promise(function (resolve) { setTimeout(resolve, ms); });
-  }
-
-  function playThread(idx) {
-    if (stopRequested) return Promise.resolve();
-    currentThread = idx;
-    setActiveTab(idx);
-    body.innerHTML = '';
-    var messages = threads[idx];
-    var chain = Promise.resolve();
-
-    messages.forEach(function (m) {
-      chain = chain.then(function () {
-        if (stopRequested) return;
-        if (m.role === 'user') {
-          var um = createMsg('user', m.text);
-          um.bubble.textContent = m.text;
-          body.appendChild(um.el);
-          body.scrollTop = body.scrollHeight;
-          return delay(800);
-        } else {
-          // Show typing indicator
-          var typing = createTypingIndicator();
-          body.appendChild(typing);
-          body.scrollTop = body.scrollHeight;
-          return delay(600).then(function () {
-            if (stopRequested) return;
-            body.removeChild(typing);
-            var am = createMsg('ai', m.html);
-            am.bubble.innerHTML = m.html;
-            body.appendChild(am.el);
-            body.scrollTop = body.scrollHeight;
-            return delay(800);
-          });
-        }
-      });
-    });
-
-    return chain;
-  }
-
-  function autoPlay() {
-    if (playing) return;
-    playing = true;
-    stopRequested = false;
-
-    function loop(idx) {
-      if (stopRequested) { playing = false; return; }
-      playThread(idx).then(function () {
-        if (stopRequested) { playing = false; return; }
-        return delay(3000);
-      }).then(function () {
-        if (stopRequested) { playing = false; return; }
-        var next = (idx + 1) % threads.length;
-        loop(next);
-      });
-    }
-    loop(0);
-  }
-
-  // Tab click: switch to that thread, then continue auto-play from there
   tabs.forEach(function (tab, i) {
     tab.addEventListener('click', function () {
-      stopRequested = true;
-      setTimeout(function () {
-        playing = false;
-        stopRequested = false;
-        playing = true;
-        function loop(idx) {
-          if (stopRequested) { playing = false; return; }
-          playThread(idx).then(function () {
-            if (stopRequested) { playing = false; return; }
-            return delay(3000);
-          }).then(function () {
-            if (stopRequested) { playing = false; return; }
-            var next = (idx + 1) % threads.length;
-            loop(next);
-          });
-        }
-        loop(i);
-      }, 100);
+      switchTo(i);
+      startCycle();
     });
   });
 
-  // Boot sequence then auto-play
+  // Boot sequence then start cycling
   function startBootSequence() {
     var bootScreen = document.getElementById('boot-screen');
-    if (!bootScreen) { autoPlay(); return; }
+    if (!bootScreen) { startCycle(); return; }
     var logoImg = bootScreen.querySelector('.boot-logo-img');
     var brand = bootScreen.querySelector('.boot-brand');
     var tagline = bootScreen.querySelector('.boot-tagline');
     var loader = bootScreen.querySelector('.boot-loader');
     var loaderBar = bootScreen.querySelector('.boot-loader-bar');
-    // Phase 1: Logo appears (0.5s)
     setTimeout(function() { if(logoImg) logoImg.classList.add('visible'); }, 500);
-    // Phase 2: Brand name (1.2s)
     setTimeout(function() { if(brand) brand.classList.add('visible'); }, 1200);
-    // Phase 3: Tagline (1.8s)
     setTimeout(function() { if(tagline) tagline.classList.add('visible'); }, 1800);
-    // Phase 4: Loader bar starts (2.2s)
     setTimeout(function() {
       if(loader) loader.classList.add('visible');
       setTimeout(function() { if(loaderBar) loaderBar.classList.add('loading'); }, 100);
     }, 2200);
-    // Phase 5: Fade out (4.5s)
     setTimeout(function() {
       bootScreen.style.opacity = '0';
       setTimeout(function() {
         bootScreen.parentNode.removeChild(bootScreen);
-        autoPlay();
+        startCycle();
       }, 1000);
     }, 4500);
   }
 
-  // Start when section scrolls into view
   var section = document.getElementById('chat-simulator');
   if (section && 'IntersectionObserver' in window) {
     var started = false;
