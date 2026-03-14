@@ -4749,6 +4749,65 @@ video {
   background-color: var(--bg-tertiary);
 }
 
+/* ============================================================
+   V21-MOBILE: Font-size fix & single-column layout (375px readable)
+   ============================================================ */
+@media (max-width: 768px) {
+  html { font-size: 16px !important; }
+  body { font-size: 16px !important; line-height: 1.6 !important; }
+  h1, .hero-title { font-size: 28px !important; }
+  h2, .heading-lg { font-size: 28px !important; }
+  h3, .heading-md { font-size: 24px !important; }
+  h4 { font-size: 20px !important; }
+  p, li, td, th, span, a, label, input, textarea, select, button {
+    font-size: 16px !important;
+  }
+  p { margin-bottom: 16px; }
+  .container { padding: 0 20px !important; }
+
+  /* All grid/flex multi-column → single column */
+  .grid, .grid-cols-3, .grid-cols-2, .bento-grid,
+  .features-grid, .pricing-grid, .scenario-cards,
+  .comparison-grid, .team-grid, .benefits-grid,
+  .process-steps, .stats-grid, .hero-stats,
+  .collab-matrix, .roi-grid, .footer-grid {
+    grid-template-columns: 1fr !important;
+    flex-direction: column !important;
+  }
+
+  /* Card widths */
+  .card, [class*='card'], [class*='item'],
+  .bento-item, .scenario-card, .pricing-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Section labels */
+  .section-label { margin-bottom: 32px !important; }
+
+  /* Prevent horizontal overflow */
+  pre, code, table { overflow-x: auto !important; max-width: 100% !important; }
+  img, video, iframe { max-width: 100% !important; height: auto !important; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 16px !important; line-height: 1.6 !important; }
+  h1, .hero-title { font-size: 26px !important; }
+  h2, .heading-lg { font-size: 24px !important; }
+  h3, .heading-md { font-size: 20px !important; }
+  p, li, td, th, span, a, label, input, textarea, select, button {
+    font-size: 16px !important;
+  }
+  .container { padding: 0 16px !important; }
+
+  /* Prevent inline-block overflow */
+  [style*="display: inline-block"], .inline-block {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
 </style>
 </head>
 <body>
