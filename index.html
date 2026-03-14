@@ -3744,8 +3744,6 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   height: auto;
   display: block;
   pointer-events: none;
-  position: relative;
-  z-index: 2;
 }
 .macbook-screen {
   position: absolute;
@@ -3753,9 +3751,10 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   top: 1.84%;
   width: 77.67%;
   height: 80.53%;
-  z-index: 1;
+  z-index: 3;
   overflow: hidden;
   border-radius: 4px;
+  background: #0a0a0a;
 }
 .window-chrome {
   display: flex;
