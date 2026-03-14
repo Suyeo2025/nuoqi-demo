@@ -3784,7 +3784,7 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   color: var(--gold);
   letter-spacing: 0.08em;
   opacity: 0;
-  animation: bootFadeIn 1.5s ease 0.5s forwards;
+  transition: opacity 1.5s ease;
   text-shadow: 0 0 40px rgba(201,168,76,0.3);
 }
 .boot-logo-sub {
@@ -3795,10 +3795,14 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   text-align: center;
   margin-top: 12px;
   opacity: 0;
-  animation: bootFadeIn 1s ease 1s forwards;
+  transition: opacity 1s ease;
 }
-@keyframes bootFadeIn {
-  to { opacity: 1; }
+.boot-screen.active .boot-logo-text {
+  opacity: 1;
+}
+.boot-screen.active .boot-logo-sub {
+  opacity: 1;
+  transition-delay: 0.5s;
 }
 .window-chrome {
   display: flex;
@@ -7856,7 +7860,11 @@ window.addEventListener('load', function () {
   function startBootSequence() {
     var bootScreen = document.getElementById('boot-screen');
     if (!bootScreen) { autoPlay(); return; }
-    // After 2.5s: fade out boot screen
+    // Start boot: show logo
+    setTimeout(function () {
+      bootScreen.classList.add('active');
+    }, 300);
+    // After 3s: fade out boot screen
     setTimeout(function () {
       bootScreen.classList.add('fade-out');
       // After fade completes (0.8s), remove and start chat
@@ -7864,7 +7872,7 @@ window.addEventListener('load', function () {
         bootScreen.parentNode.removeChild(bootScreen);
         autoPlay();
       }, 800);
-    }, 2500);
+    }, 3000);
   }
 
   // Start when section scrolls into view
