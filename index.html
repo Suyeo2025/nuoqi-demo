@@ -3738,23 +3738,67 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   position: relative;
   max-width: 860px;
   margin: 0 auto;
+  aspect-ratio: 1200 / 760;
 }
 .macbook-svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
   pointer-events: none;
+  z-index: 2;
 }
 .macbook-screen {
   position: absolute;
-  left: 10.83%;
-  top: 3.68%;
-  width: 78.33%;
-  height: 79.47%;
-  z-index: 3;
+  /* SVG coords: x=130, y=28, w=940, h=604 in 1200x760 viewport */
+  left: calc(130 / 1200 * 100%);
+  top: calc(28 / 760 * 100%);
+  width: calc(940 / 1200 * 100%);
+  height: calc(604 / 760 * 100%);
+  z-index: 1;
   overflow: hidden;
   border-radius: 2px;
   background: #0a0a0a;
+}
+
+/* Boot screen */
+.boot-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+.boot-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+.boot-logo { text-align: center; }
+.boot-logo-text {
+  font-family: var(--font-serif);
+  font-size: 42px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  opacity: 0;
+  animation: bootFadeIn 1.5s ease 0.5s forwards;
+  text-shadow: 0 0 40px rgba(201,168,76,0.3);
+}
+.boot-logo-sub {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin-top: 12px;
+  opacity: 0;
+  animation: bootFadeIn 1s ease 1s forwards;
+}
+@keyframes bootFadeIn {
+  to { opacity: 1; }
 }
 .window-chrome {
   display: flex;
@@ -5911,6 +5955,12 @@ section {
           </defs>
         </svg>
         <div class="macbook-screen">
+          <div class="boot-screen" id="boot-screen">
+            <div class="boot-logo">
+              <div class="boot-logo-text">WiseLaw</div>
+              <div class="boot-logo-sub">AI Legal Intelligence</div>
+            </div>
+          </div>
           <div class="window-chrome">
             <span class="wc-dot red"></span>
             <span class="wc-dot yellow"></span>
@@ -7802,6 +7852,21 @@ window.addEventListener('load', function () {
     });
   });
 
+  // Boot sequence then auto-play
+  function startBootSequence() {
+    var bootScreen = document.getElementById('boot-screen');
+    if (!bootScreen) { autoPlay(); return; }
+    // After 2.5s: fade out boot screen
+    setTimeout(function () {
+      bootScreen.classList.add('fade-out');
+      // After fade completes (0.8s), remove and start chat
+      setTimeout(function () {
+        bootScreen.parentNode.removeChild(bootScreen);
+        autoPlay();
+      }, 800);
+    }, 2500);
+  }
+
   // Start when section scrolls into view
   var section = document.getElementById('chat-simulator');
   if (section && 'IntersectionObserver' in window) {
@@ -7809,12 +7874,12 @@ window.addEventListener('load', function () {
     var observer = new IntersectionObserver(function (entries) {
       if (entries[0].isIntersecting && !started) {
         started = true;
-        autoPlay();
+        startBootSequence();
       }
     }, { threshold: 0.3 });
     observer.observe(section);
   } else {
-    autoPlay();
+    startBootSequence();
   }
 })();
 
