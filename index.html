@@ -4808,6 +4808,70 @@ video {
   }
 }
 
+
+/* ========== MOBILE CRITICAL RULES (added v21) ========== */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+  
+  h1 {
+    font-size: 28px !important;
+    line-height: 1.3 !important;
+  }
+  
+  h2 {
+    font-size: 24px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 24px !important;
+  }
+  
+  h3 {
+    font-size: 20px !important;
+    line-height: 1.4 !important;
+  }
+  
+  p, li {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 16px !important;
+  }
+  
+  /* Grid/Flex single column */
+  .grid, .grid-2, .grid-3, .grid-4, .grid-cols-2, .grid-cols-3, .grid-cols-4,
+  .bento-grid,
+  .features-grid,
+  .pricing-grid,
+  .scenario-cards,
+  .ai-team-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+  
+  /* Card/Box reset */
+  .card, .scenario-card, .pricing-card, .team-card,
+  [class*='card'], [class*='item'], [class*='box'] {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+  
+  /* Button sizing */
+  button, .btn, [class*='button'] {
+    min-height: 44px !important;
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 15px !important; }
+  h1 { font-size: 26px !important; }
+  h2 { font-size: 22px !important; }
+  .container { padding: 0 16px !important; }
+}
+
 </style>
 </head>
 <body>
