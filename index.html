@@ -144,6 +144,39 @@ section {
   padding: 140px 0;
 }
 
+/* ===== AGGRESSIVE MOBILE FIX ===== */
+@media screen and (max-width: 768px) {
+  * {
+    font-size: inherit !important;
+  }
+  
+  html, body {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+  
+  h1, .h1, [class*="title"], [class*="heading"] {
+    font-size: 28px !important;
+  }
+  
+  h2, .h2 {
+    font-size: 24px !important;
+  }
+  
+  h3, .h3, .section-subtitle {
+    font-size: 20px !important;
+  }
+  
+  p, li, span, a, button {
+    font-size: 16px !important;
+  }
+  
+  .container {
+    padding: 0 20px !important;
+    max-width: 100% !important;
+  }
+}
+
 @media (max-width: 768px) {
   .section-padding { padding: 80px 0; }
 }
@@ -4379,10 +4412,7 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
 .bento-card.large .bento-desc {
   font-size: 16px;
 }
-body {
-  font-size: 18px;
-  line-height: 1.8;
-}
+
 .hero-desc {
   font-size: clamp(16px, 1.5vw, 18px);
   line-height: 1.8;
