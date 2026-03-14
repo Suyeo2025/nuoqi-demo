@@ -3733,65 +3733,87 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   margin: 0 auto;
 }
 
-/* MacBook mockup frame */
+/* MacBook Pro mockup frame — photorealistic */
 .macbook-frame {
-  background: linear-gradient(180deg, #2a2a2e 0%, #1a1a1e 100%);
-  border-radius: 16px 16px 0 0;
-  padding: 0;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08);
+  position: relative;
+  background: linear-gradient(180deg, #4a4a4f 0%, #2d2d32 50%, #1d1d22 100%);
+  border-radius: 12px 12px 0 0;
+  padding: 5px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.10),
+    0 0 0 2px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.08);
   overflow: hidden;
 }
 
-.macbook-topbar {
+/* Screen glass reflection overlay */
+.macbook-frame::after {
+  content: '';
+  position: absolute;
+  top: 5px; left: 5px; right: 5px; bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.05) 0%,
+    rgba(255,255,255,0.02) 30%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 10;
+  border-radius: 2px;
+}
+
+/* Inner bezel-to-screen depth */
+.macbook-screen-inner {
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.6), inset 0 0 1px rgba(0,0,0,0.8);
+}
+
+/* Window control dots — inside chat header */
+.window-dots {
+  display: flex;
+  gap: 6px;
+  margin-right: 6px;
+}
+
+.window-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.window-dot.red { background: #ff5f57; box-shadow: inset 0 -1px 1px rgba(0,0,0,0.15); }
+.window-dot.yellow { background: #febc2e; box-shadow: inset 0 -1px 1px rgba(0,0,0,0.15); }
+.window-dot.green { background: #28c840; box-shadow: inset 0 -1px 1px rgba(0,0,0,0.15); }
+
+/* Hinge / base */
+.macbook-base {
+  height: 10px;
+  background: linear-gradient(180deg, #18181c 0%, #232327 30%, #2a2a2f 60%, #252529 100%);
+  border-radius: 0 0 10px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
-  background: linear-gradient(180deg, #3a3a3e, #2a2a2e);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    inset 0 2px 3px rgba(0,0,0,0.5),
+    0 4px 16px rgba(0,0,0,0.35),
+    0 12px 40px rgba(0,0,0,0.2);
   position: relative;
 }
 
-.macbook-dots {
-  position: absolute;
-  left: 16px;
-  display: flex;
-  gap: 7px;
-}
-
-.macbook-dot {
-  width: 12px;
-  height: 12px;
+/* Faint Apple logo hint */
+.macbook-base::before {
+  content: '';
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
-.macbook-dot.red { background: #ff5f57; }
-.macbook-dot.yellow { background: #febc2e; }
-.macbook-dot.green { background: #28c840; }
-
-.macbook-camera {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #1a1a1e;
-  border: 1px solid #3a3a3e;
-}
-
-.macbook-base {
-  height: 18px;
-  background: linear-gradient(180deg, #1a1a1e 0%, #222226 40%, #2a2a2e 100%);
-  border-radius: 0 0 16px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.macbook-notch {
-  width: 80px;
-  height: 4px;
-  background: #3a3a3e;
-  border-radius: 0 0 4px 4px;
+/* Ambient shadow beneath whole laptop */
+.macbook-wrap {
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.45));
 }
 
 .chat-showcase-window {
@@ -5893,17 +5915,16 @@ section {
     <div class="chat-showcase-wrap reveal">
       <h2 class="heading-md" style="margin-bottom: 8px;">Lawrence 工作實錄<span class="live-badge">LIVE</span></h2>
       <p class="text-secondary" style="margin-bottom: 32px; text-align: center;">真實場景，即時響應</p>
+      <div class="macbook-wrap">
       <div class="macbook-frame">
-        <div class="macbook-topbar">
-          <div class="macbook-dots">
-            <span class="macbook-dot red"></span>
-            <span class="macbook-dot yellow"></span>
-            <span class="macbook-dot green"></span>
-          </div>
-          <div class="macbook-camera"></div>
-        </div>
+        <div class="macbook-screen-inner">
       <div class="chat-showcase-window">
         <div class="chat-showcase-header">
+          <div class="window-dots">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
+          </div>
           <div class="chat-showcase-avatar">L</div>
           <div class="chat-showcase-status">
             <span class="chat-showcase-name">Lawrence</span>
@@ -5918,8 +5939,10 @@ section {
         <div class="chat-showcase-body" id="chat-showcase-body"></div>
         <div class="chat-showcase-footer">自動播放中 — 觀看 Lawrence 處理真實工作場景</div>
       </div>
+      </div><!-- /macbook-screen-inner -->
       </div><!-- /macbook-frame -->
-      <div class="macbook-base"><div class="macbook-notch"></div></div>
+      <div class="macbook-base"></div>
+      </div><!-- /macbook-wrap -->
     </div>
   </div>
 </section>
