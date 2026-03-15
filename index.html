@@ -3821,30 +3821,11 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   box-shadow: 0 0 8px rgba(201,168,76,0.3);
   transform: scale(1.08);
 }
-.pet-voice-play {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid rgba(201,168,76,0.4);
-  background: rgba(201,168,76,0.15);
-  color: var(--gold);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 4px;
-  transition: all 0.3s;
-  padding: 0;
-}
-.pet-voice-play:hover {
-  background: var(--gold);
-  color: var(--bg-primary);
-  transform: scale(1.1);
-}
-.pet-voice-play.playing {
+.pet-lang-btn.playing {
   animation: voicePulse 1s infinite;
   background: var(--gold);
   color: var(--bg-primary);
+  border-color: var(--gold);
 }
 @keyframes voicePulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
@@ -6757,9 +6738,6 @@ section {
                 <button class="pet-lang-btn" data-pet="luke" data-lang="en" title="English">EN</button>
                 <button class="pet-lang-btn" data-pet="luke" data-lang="ja" title="日本語">日</button>
                 <button class="pet-lang-btn" data-pet="luke" data-lang="ko" title="한국어">韓</button>
-                <button class="pet-voice-play" data-pet="luke">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-                </button>
               </div>
             </div>
           </div>
@@ -6794,9 +6772,6 @@ section {
                 <button class="pet-lang-btn" data-pet="lawra" data-lang="en" title="English">EN</button>
                 <button class="pet-lang-btn" data-pet="lawra" data-lang="ja" title="日本語">日</button>
                 <button class="pet-lang-btn" data-pet="lawra" data-lang="ko" title="한국어">韓</button>
-                <button class="pet-voice-play" data-pet="lawra">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-                </button>
               </div>
             </div>
           </div>
@@ -6832,9 +6807,6 @@ section {
                 <button class="pet-lang-btn" data-pet="lawrence" data-lang="en" title="English">EN</button>
                 <button class="pet-lang-btn" data-pet="lawrence" data-lang="ja" title="日本語">日</button>
                 <button class="pet-lang-btn" data-pet="lawrence" data-lang="ko" title="한국어">韓</button>
-                <button class="pet-voice-play" data-pet="lawrence">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-                </button>
               </div>
             </div>
           </div>
@@ -6869,9 +6841,6 @@ section {
                 <button class="pet-lang-btn" data-pet="lancelot" data-lang="en" title="English">EN</button>
                 <button class="pet-lang-btn" data-pet="lancelot" data-lang="ja" title="日本語">日</button>
                 <button class="pet-lang-btn" data-pet="lancelot" data-lang="ko" title="한국어">韓</button>
-                <button class="pet-voice-play" data-pet="lancelot">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-                </button>
               </div>
             </div>
           </div>
@@ -8400,27 +8369,20 @@ window.addEventListener('load', function () {
   var currentBtn = null;
   var selectedLangs = { lawrence: 'zh', luke: 'zh', lawra: 'zh', lancelot: 'zh' };
   
-  // Language selection
+  // Language selection + voice playback
   document.querySelectorAll('.pet-lang-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var pet = this.dataset.pet;
-      selectedLangs[pet] = this.dataset.lang;
+      var lang = this.dataset.lang;
+      selectedLangs[pet] = lang;
       var group = this.closest('.pet-voice-group');
       group.querySelectorAll('.pet-lang-btn').forEach(function(b) {
         b.classList.remove('active');
       });
       this.classList.add('active');
-    });
-  });
-  
-  // Voice playback
-  document.querySelectorAll('.pet-voice-play').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var pet = this.dataset.pet;
-      var lang = selectedLangs[pet] || 'zh';
+
       var src = 'nuoqi/pet-voices/' + pet + '-' + lang + '.mp3';
-      
+
       if (currentBtn === this && currentAudio && !currentAudio.paused) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -8428,18 +8390,18 @@ window.addEventListener('load', function () {
         currentBtn = null;
         return;
       }
-      
+
       if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
         if (currentBtn) currentBtn.classList.remove('playing');
       }
-      
+
       currentAudio = new Audio(src);
       currentBtn = this;
       this.classList.add('playing');
       currentAudio.play();
-      
+
       currentAudio.addEventListener('ended', function() {
         btn.classList.remove('playing');
         currentBtn = null;
