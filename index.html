@@ -904,44 +904,125 @@ section {
   .features-grid { grid-template-columns: 1fr; }
 }
 
-.feature-card {
-  background: rgba(255,255,255,0.025);
-  padding: 40px;
-  position: relative;
-  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  overflow: hidden;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Animated glow keyframes for feature card borders */
+@keyframes borderGlowGold {
+  0%, 100% { border-top-color: rgba(201,168,76,0.4); box-shadow: 0 -1px 12px rgba(201,168,76,0); }
+  50% { border-top-color: rgba(201,168,76,0.8); box-shadow: 0 -1px 18px rgba(201,168,76,0.15); }
+}
+@keyframes borderGlowBlue {
+  0%, 100% { border-top-color: rgba(74,122,255,0.4); box-shadow: 0 -1px 12px rgba(74,122,255,0); }
+  50% { border-top-color: rgba(74,122,255,0.8); box-shadow: 0 -1px 18px rgba(74,122,255,0.15); }
+}
+@keyframes borderGlowGreen {
+  0%, 100% { border-top-color: rgba(16,185,129,0.4); box-shadow: 0 -1px 12px rgba(16,185,129,0); }
+  50% { border-top-color: rgba(16,185,129,0.8); box-shadow: 0 -1px 18px rgba(16,185,129,0.15); }
+}
+@keyframes borderGlowPurple {
+  0%, 100% { border-top-color: rgba(91,91,214,0.4); box-shadow: 0 -1px 12px rgba(91,91,214,0); }
+  50% { border-top-color: rgba(91,91,214,0.8); box-shadow: 0 -1px 18px rgba(91,91,214,0.15); }
 }
 
+/* Shimmer sweep for hover */
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+.feature-card {
+  background: rgba(255,255,255,0.035);
+  padding: 40px;
+  position: relative;
+  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-top-width: 2px;
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+/* Noise/grain texture overlay for premium feel */
+.feature-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
+}
+
+/* Radial glow layer */
 .feature-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   opacity: 0;
-  transition: opacity 0.35s;
+  transition: opacity 0.4s ease;
+  z-index: 0;
 }
 
-/* Distinct accent colors per card */
-.feature-card:nth-child(1) { border-top: 2px solid rgba(201,168,76,0.5); }
-.feature-card:nth-child(1)::before { background: radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.08) 0%, transparent 60%); }
-.feature-card:nth-child(2) { border-top: 2px solid rgba(74,122,255,0.5); }
-.feature-card:nth-child(2)::before { background: radial-gradient(ellipse at 20% 0%, rgba(74,122,255,0.08) 0%, transparent 60%); }
-.feature-card:nth-child(3) { border-top: 2px solid rgba(16,185,129,0.5); }
-.feature-card:nth-child(3)::before { background: radial-gradient(ellipse at 20% 0%, rgba(16,185,129,0.08) 0%, transparent 60%); }
-.feature-card:nth-child(4) { border-top: 2px solid rgba(91,91,214,0.5); }
-.feature-card:nth-child(4)::before { background: radial-gradient(ellipse at 20% 0%, rgba(91,91,214,0.08) 0%, transparent 60%); }
+/* Shimmer layer (via a pseudo on inner content — we use a wrapper trick with the icon) */
+/* We'll add shimmer via the .feature-card hover using a gradient overlay on ::before */
+
+/* Distinct accent colors per card with animated glow */
+.feature-card:nth-child(1) {
+  border-top: 2px solid rgba(201,168,76,0.5);
+  animation: borderGlowGold 4s ease-in-out infinite;
+}
+.feature-card:nth-child(1)::before {
+  background: radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.1) 0%, transparent 55%);
+}
+.feature-card:nth-child(2) {
+  border-top: 2px solid rgba(74,122,255,0.5);
+  animation: borderGlowBlue 4s ease-in-out infinite 1s;
+}
+.feature-card:nth-child(2)::before {
+  background: radial-gradient(ellipse at 20% 0%, rgba(74,122,255,0.1) 0%, transparent 55%);
+}
+.feature-card:nth-child(3) {
+  border-top: 2px solid rgba(16,185,129,0.5);
+  animation: borderGlowGreen 4s ease-in-out infinite 2s;
+}
+.feature-card:nth-child(3)::before {
+  background: radial-gradient(ellipse at 20% 0%, rgba(16,185,129,0.1) 0%, transparent 55%);
+}
+.feature-card:nth-child(4) {
+  border-top: 2px solid rgba(91,91,214,0.5);
+  animation: borderGlowPurple 4s ease-in-out infinite 3s;
+}
+.feature-card:nth-child(4)::before {
+  background: radial-gradient(ellipse at 20% 0%, rgba(91,91,214,0.1) 0%, transparent 55%);
+}
 
 .feature-card:hover {
-  background: rgba(255,255,255,0.045);
-  border-color: var(--card-hover-border);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 40px rgba(201,168,76,0.06);
+  background: rgba(255,255,255,0.055);
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.35), 0 0 48px rgba(201,168,76,0.08);
+  transform: translateY(-2px);
 }
 
 .feature-card:hover::before { opacity: 1; }
+
+/* Inner shimmer sweep on hover — inject via a gradient on a dedicated element */
+.feature-card .feature-name::after {
+  content: '';
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 60px; height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.feature-card:hover .feature-name::after {
+  opacity: 1;
+  animation: shimmerSweep 1.2s ease-in-out 0.1s;
+}
 
 .feature-num {
   font-family: var(--font-serif);
@@ -951,34 +1032,74 @@ section {
   margin-bottom: 20px;
   display: block;
   font-weight: 500;
-}
-
-.feature-icon-wrap {
-  width: 48px;
-  height: 48px;
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
   position: relative;
   z-index: 1;
 }
 
-/* Distinct icon background per card */
-.feature-card:nth-child(1) .feature-icon-wrap { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.25); }
-.feature-card:nth-child(2) .feature-icon-wrap { background: rgba(74,122,255,0.08); border-color: rgba(74,122,255,0.25); }
+.feature-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+}
+
+/* Distinct icon background per card with subtle glow */
+.feature-card:nth-child(1) .feature-icon-wrap {
+  background: rgba(201,168,76,0.1);
+  border-color: rgba(201,168,76,0.3);
+  box-shadow: 0 0 16px rgba(201,168,76,0.08);
+}
+.feature-card:nth-child(1):hover .feature-icon-wrap {
+  box-shadow: 0 0 24px rgba(201,168,76,0.18);
+  background: rgba(201,168,76,0.14);
+}
+.feature-card:nth-child(2) .feature-icon-wrap {
+  background: rgba(74,122,255,0.1);
+  border-color: rgba(74,122,255,0.3);
+  box-shadow: 0 0 16px rgba(74,122,255,0.08);
+}
+.feature-card:nth-child(2):hover .feature-icon-wrap {
+  box-shadow: 0 0 24px rgba(74,122,255,0.18);
+  background: rgba(74,122,255,0.14);
+}
 .feature-card:nth-child(2) .feature-icon-wrap svg { color: var(--blue); }
-.feature-card:nth-child(3) .feature-icon-wrap { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); }
+.feature-card:nth-child(3) .feature-icon-wrap {
+  background: rgba(16,185,129,0.1);
+  border-color: rgba(16,185,129,0.3);
+  box-shadow: 0 0 16px rgba(16,185,129,0.08);
+}
+.feature-card:nth-child(3):hover .feature-icon-wrap {
+  box-shadow: 0 0 24px rgba(16,185,129,0.18);
+  background: rgba(16,185,129,0.14);
+}
 .feature-card:nth-child(3) .feature-icon-wrap svg { color: var(--green); }
-.feature-card:nth-child(4) .feature-icon-wrap { background: rgba(91,91,214,0.08); border-color: rgba(91,91,214,0.25); }
+.feature-card:nth-child(4) .feature-icon-wrap {
+  background: rgba(91,91,214,0.1);
+  border-color: rgba(91,91,214,0.3);
+  box-shadow: 0 0 16px rgba(91,91,214,0.08);
+}
+.feature-card:nth-child(4):hover .feature-icon-wrap {
+  box-shadow: 0 0 24px rgba(91,91,214,0.18);
+  background: rgba(91,91,214,0.14);
+}
 .feature-card:nth-child(4) .feature-icon-wrap svg { color: var(--purple); }
 
 .feature-icon-wrap svg {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   color: var(--gold);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon-wrap svg {
+  transform: scale(1.1);
 }
 
 .feature-name {
@@ -990,6 +1111,7 @@ section {
   letter-spacing: -0.01em;
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
 .feature-desc {
@@ -6018,7 +6140,7 @@ section {
               <p class="scenario-desc">傳統做法需要 4 名律師耗費 2–3 個工作日完成的多法域研究，Lawrence 在分鐘內完成初稿，讓律師將精力集中在策略判斷上。</p>
               <div class="scenario-quote">
                 <p>「以前跨境合規研究要逐一打電話給各地所，現在 Lawrence 幫我先把框架梳理清楚，我直接審核結論就好。」</p>
-                <cite>— 諾圻健康法務總監</cite>
+                <cite>— 某醫療健康科技企業法務總監</cite>
               </div>
             </div>
             <div class="terminal-wrap" data-terminal="s01"
@@ -6058,7 +6180,7 @@ section {
               <p class="scenario-desc">系統自動生成數據出境影響評估報告（DPIA），附標準合同範本與安全評估清單，大幅縮短合規準備週期。</p>
               <div class="scenario-quote">
                 <p>「健康數據出境合規一直是我們最頭疼的問題。Lawrence 把每條路徑的風險點都列得清清楚楚，給我們省了大量溝通成本。」</p>
-                <cite>— 諾圻健康數據合規負責人</cite>
+                <cite>— 某醫療健康科技企業數據合規負責人</cite>
               </div>
             </div>
             <div class="terminal-wrap" data-terminal="s02"
@@ -6098,7 +6220,7 @@ section {
               <p class="scenario-desc">對每處風險條款，Lawrence 不只標記問題，還提供具體修改建議，讓律師審閱效率提升 5–8 倍。</p>
               <div class="scenario-quote">
                 <p>「最驚喜的是 Lawrence 能發現附件和主合同之間的矛盾——這種問題人工審閱很容易遺漏。」</p>
-                <cite>— 諾圻健康高級法務顧問</cite>
+                <cite>— 某醫療健康科技企業高級法務顧問</cite>
               </div>
             </div>
             <div class="terminal-wrap" data-terminal="s03"
@@ -6138,7 +6260,7 @@ section {
               <p class="scenario-desc">人工只需在關鍵節點做最終審批決策，其餘流程由 Lawrence 自主完成。跨時區協作的摩擦係數大幅降低。</p>
               <div class="scenario-quote">
                 <p>「早上打開飛書，昨晚三封郵件 Lawrence 已處理兩封，只有一封需要我審批——這就是我想要的工作方式。」</p>
-                <cite>— 諾圻健康總法律顧問</cite>
+                <cite>— 某醫療健康科技企業總法律顧問</cite>
               </div>
             </div>
             <div class="scenario-timeline" id="timeline-s04"
