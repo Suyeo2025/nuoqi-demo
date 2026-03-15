@@ -214,8 +214,8 @@ section {
 }
 
 @keyframes statusPulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.35; }
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--green); }
+  50%       { opacity: 0.35; box-shadow: 0 0 12px var(--green), 0 0 20px var(--green); }
 }
 
 /* ============================================================
@@ -2005,18 +2005,20 @@ section {
 .ai-card {
   background: var(--card-bg);
   border: 1px solid var(--border-card);
-  border-radius: 4px;
+  border-radius: 12px;
   overflow: hidden;
   transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
   position: relative;
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .ai-card:hover {
   border-color: var(--card-hover-border);
   transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 20px rgba(201,168,76,0.15), 0 0 40px rgba(201,168,76,0.08);
 }
 
 .ai-card.featured {
@@ -3795,29 +3797,32 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   flex-wrap: wrap;
 }
 .pet-lang-btn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(201,168,76,0.3);
-  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.35);
+  background: rgba(201,168,76,0.1);
   color: var(--gold);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  letter-spacing: 0.02em;
 }
 .pet-lang-btn:hover, .pet-lang-btn.active {
   background: var(--gold);
   color: var(--bg-primary);
   border-color: var(--gold);
+  box-shadow: 0 0 8px rgba(201,168,76,0.3);
+  transform: scale(1.08);
 }
 .pet-voice-play {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1px solid rgba(201,168,76,0.4);
   background: rgba(201,168,76,0.15);
@@ -6021,14 +6026,14 @@ section {
 <div class="section-divider"></div>
 
 <!-- ============================================================
-     SECTION III: 諾圻健康面臨的合規挑戰
+     SECTION III: 醫療健康企業面臨的合規挑戰
      ============================================================ -->
 <section id="pain-points" class="section-padding">
   <div class="container">
 
     <div class="pain-header">
       <div class="section-label">
-        <span class="section-num">III · 諾圻健康面臨的合規挑戰</span>
+        <span class="section-num">III · 醫療健康企業面臨的合規挑戰</span>
         <span class="section-line"></span>
       </div>
       <h2 class="heading-lg">三重合規壓力並發</h2>
@@ -6105,7 +6110,7 @@ section {
   <div class="container">
 
     <div class="section-label">
-      <span class="section-num">IV · 為諾圻健康量身定制</span>
+      <span class="section-num">IV · 為醫療健康企業量身定制</span>
       <span class="section-line"></span>
     </div>
 
@@ -6279,7 +6284,7 @@ section {
 <div class="mid-cta-band">
   <div class="container">
     <p class="mid-cta-text">準備好體驗 AI 法律數字員工了嗎？</p>
-    <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20-%20預約專屬演示&body=您好，我是諾圻健康的代表，希望預約專屬演示。"
+    <a href="mailto:gavin.leung@wiselawai.com?subject=貴企業%20-%20預約專屬演示&body=您好，我是貴企業的代表，希望預約專屬演示。"
        class="btn-pulse">
       立即預約專屬演示 →
     </a>
@@ -6747,6 +6752,7 @@ section {
               <button class="pet-lang-btn" data-pet="luke" data-lang="yue" title="粵語">粵</button>
               <button class="pet-lang-btn" data-pet="luke" data-lang="en" title="English">EN</button>
               <button class="pet-lang-btn" data-pet="luke" data-lang="ja" title="日本語">日</button>
+              <button class="pet-lang-btn" data-pet="luke" data-lang="ko" title="한국어">韓</button>
               <button class="pet-voice-play" data-pet="luke">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
               </button>
@@ -6779,6 +6785,7 @@ section {
               <button class="pet-lang-btn" data-pet="lawra" data-lang="yue" title="粵語">粵</button>
               <button class="pet-lang-btn" data-pet="lawra" data-lang="en" title="English">EN</button>
               <button class="pet-lang-btn" data-pet="lawra" data-lang="ja" title="日本語">日</button>
+              <button class="pet-lang-btn" data-pet="lawra" data-lang="ko" title="한국어">韓</button>
               <button class="pet-voice-play" data-pet="lawra">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
               </button>
@@ -6806,12 +6813,13 @@ section {
               <span class="status-dot"></span>
               <span>線上運行中</span>
             </div>
-            <span class="featured-tag">推薦給諾圻健康</span>
+            <span class="featured-tag">推薦方案</span>
             <div class="pet-voice-group">
               <button class="pet-lang-btn active" data-pet="lawrence" data-lang="zh" title="普通話">普</button>
               <button class="pet-lang-btn" data-pet="lawrence" data-lang="yue" title="粵語">粵</button>
               <button class="pet-lang-btn" data-pet="lawrence" data-lang="en" title="English">EN</button>
               <button class="pet-lang-btn" data-pet="lawrence" data-lang="ja" title="日本語">日</button>
+              <button class="pet-lang-btn" data-pet="lawrence" data-lang="ko" title="한국어">韓</button>
               <button class="pet-voice-play" data-pet="lawrence">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
               </button>
@@ -6844,6 +6852,7 @@ section {
               <button class="pet-lang-btn" data-pet="lancelot" data-lang="yue" title="粵語">粵</button>
               <button class="pet-lang-btn" data-pet="lancelot" data-lang="en" title="English">EN</button>
               <button class="pet-lang-btn" data-pet="lancelot" data-lang="ja" title="日本語">日</button>
+              <button class="pet-lang-btn" data-pet="lancelot" data-lang="ko" title="한국어">韓</button>
               <button class="pet-voice-play" data-pet="lancelot">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
               </button>
@@ -6987,7 +6996,7 @@ section {
     <div class="pricing-grid">
 
       <div class="pricing-card featured">
-        <div class="pricing-badge">推薦 · 諾圻首選</div>
+        <div class="pricing-badge">推薦 · 企業首選</div>
         <p class="pricing-plan">基礎版</p>
         <span class="pricing-plan-en">Standard</span>
         <div>
@@ -7004,7 +7013,7 @@ section {
           <li>標準渠道接入（微信 · 郵件 · 飛書）</li>
           <li>季度效果報告 · 客戶成功支持</li>
         </ul>
-        <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20Standard%20方案咨詢" class="cta-btn primary">預約演示 →</a>
+        <a href="mailto:gavin.leung@wiselawai.com?subject=貴企業%20Standard%20方案咨詢" class="cta-btn primary">預約演示 →</a>
       </div>
 
       <div class="pricing-card">
@@ -7025,7 +7034,7 @@ section {
           <li>專屬客戶成功經理 · 月度戰略復盤</li>
           <li>法律風險預警儀表盤</li>
         </ul>
-        <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20Enterprise%20方案咨詢" class="cta-btn secondary">聯繫洽談 →</a>
+        <a href="mailto:gavin.leung@wiselawai.com?subject=貴企業%20Enterprise%20方案咨詢" class="cta-btn secondary">聯繫洽談 →</a>
       </div>
 
     </div>
@@ -7144,7 +7153,7 @@ section {
         <div>
           <p class="timeline-day">Day 4 – 7</p>
           <p class="timeline-title">首批任務</p>
-          <p class="timeline-desc">導入諾圻健康業務知識庫，完成首批合同審查與合規任務</p>
+          <p class="timeline-desc">導入企業業務知識庫，完成首批合同審查與合規任務</p>
         </div>
       </div>
 
@@ -7155,7 +7164,7 @@ section {
         <div>
           <p class="timeline-day">Day 8 – 14</p>
           <p class="timeline-title">效果評估</p>
-          <p class="timeline-desc">生成首份效果報告，與諾圻團隊復盤調優，確認正式上線</p>
+          <p class="timeline-desc">生成首份效果報告，與企業團隊復盤調優，確認正式上線</p>
         </div>
       </div>
 
@@ -7172,7 +7181,7 @@ section {
   <div class="container">
     <div class="cta-inner">
       <h2 class="heading-lg" style="word-break: keep-all; overflow-wrap: break-word;">
-        讓 <span>Lawrence</span> 為諾圻健康工作
+        讓 <span>Lawrence</span> 為您的企業工作
       </h2>
       <img src="nuoqi/pet-team-group-opt.jpg" alt="WiseLaw AI Team"
            style="width: 280px; height: auto; margin: 24px auto; display: block; border-radius: 12px;
@@ -7182,7 +7191,7 @@ section {
         現在預約，即享優先排期。
       </p>
       <div class="cta-buttons">
-        <a href="mailto:gavin.leung@wiselawai.com?subject=諾圻健康%20-%20預約30分鐘演示&body=您好，我是諾圻健康的代表，希望預約 30 分鐘演示。"
+        <a href="mailto:gavin.leung@wiselawai.com?subject=貴企業%20-%20預約30分鐘演示&body=您好，我是貴企業的代表，希望預約 30 分鐘演示。"
            class="btn-pulse">
           預約 30 分鐘演示 →
         </a>
@@ -8231,7 +8240,7 @@ section {
   var segments = [
     { text: '讓 ', gold: false },
     { text: 'Lawrence', gold: true },
-    { text: ' 為諾圻健康工作', gold: false }
+    { text: ' 為您的企業工作', gold: false }
   ];
   var typed = false;
 
