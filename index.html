@@ -2220,8 +2220,8 @@ section {
 
 .ai-footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
   margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid var(--border-subtle);
@@ -3793,17 +3793,18 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
 .pet-voice-group {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   flex-wrap: wrap;
 }
 .pet-lang-btn {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: 1px solid rgba(201,168,76,0.35);
   background: rgba(201,168,76,0.1);
   color: var(--gold);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -3821,8 +3822,8 @@ body.audio-active.subtitle-active { padding-bottom: 96px !important; }
   transform: scale(1.08);
 }
 .pet-voice-play {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 1px solid rgba(201,168,76,0.4);
   background: rgba(201,168,76,0.15);
@@ -6743,19 +6744,23 @@ section {
           </div>
           <p class="ai-desc">內部運營 · 任務管理 · 團隊協調</p>
           <div class="ai-footer">
-            <div class="ai-status">
-              <span class="status-dot"></span>
-              <span>線上運行中</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="ai-status">
+                <span class="status-dot"></span>
+                <span>線上運行中</span>
+              </div>
             </div>
-            <div class="pet-voice-group">
-              <button class="pet-lang-btn active" data-pet="luke" data-lang="zh" title="普通話">普</button>
-              <button class="pet-lang-btn" data-pet="luke" data-lang="yue" title="粵語">粵</button>
-              <button class="pet-lang-btn" data-pet="luke" data-lang="en" title="English">EN</button>
-              <button class="pet-lang-btn" data-pet="luke" data-lang="ja" title="日本語">日</button>
-              <button class="pet-lang-btn" data-pet="luke" data-lang="ko" title="한국어">韓</button>
-              <button class="pet-voice-play" data-pet="luke">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              </button>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="pet-voice-group">
+                <button class="pet-lang-btn active" data-pet="luke" data-lang="zh" title="普通話">普</button>
+                <button class="pet-lang-btn" data-pet="luke" data-lang="yue" title="粵語">粵</button>
+                <button class="pet-lang-btn" data-pet="luke" data-lang="en" title="English">EN</button>
+                <button class="pet-lang-btn" data-pet="luke" data-lang="ja" title="日本語">日</button>
+                <button class="pet-lang-btn" data-pet="luke" data-lang="ko" title="한국어">韓</button>
+                <button class="pet-voice-play" data-pet="luke">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -6776,19 +6781,23 @@ section {
           </div>
           <p class="ai-desc">客戶拓展 · 銷售支持 · 商務對接</p>
           <div class="ai-footer">
-            <div class="ai-status">
-              <span class="status-dot"></span>
-              <span>線上運行中</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="ai-status">
+                <span class="status-dot"></span>
+                <span>線上運行中</span>
+              </div>
             </div>
-            <div class="pet-voice-group">
-              <button class="pet-lang-btn active" data-pet="lawra" data-lang="zh" title="普通話">普</button>
-              <button class="pet-lang-btn" data-pet="lawra" data-lang="yue" title="粵語">粵</button>
-              <button class="pet-lang-btn" data-pet="lawra" data-lang="en" title="English">EN</button>
-              <button class="pet-lang-btn" data-pet="lawra" data-lang="ja" title="日本語">日</button>
-              <button class="pet-lang-btn" data-pet="lawra" data-lang="ko" title="한국어">韓</button>
-              <button class="pet-voice-play" data-pet="lawra">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              </button>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="pet-voice-group">
+                <button class="pet-lang-btn active" data-pet="lawra" data-lang="zh" title="普通話">普</button>
+                <button class="pet-lang-btn" data-pet="lawra" data-lang="yue" title="粵語">粵</button>
+                <button class="pet-lang-btn" data-pet="lawra" data-lang="en" title="English">EN</button>
+                <button class="pet-lang-btn" data-pet="lawra" data-lang="ja" title="日本語">日</button>
+                <button class="pet-lang-btn" data-pet="lawra" data-lang="ko" title="한국어">韓</button>
+                <button class="pet-voice-play" data-pet="lawra">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -6809,20 +6818,24 @@ section {
           </div>
           <p class="ai-desc">法律執行 · 合同審查 · 合規報告</p>
           <div class="ai-footer">
-            <div class="ai-status">
-              <span class="status-dot"></span>
-              <span>線上運行中</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="ai-status">
+                <span class="status-dot"></span>
+                <span>線上運行中</span>
+              </div>
+              <span class="featured-tag">推薦方案</span>
             </div>
-            <span class="featured-tag">推薦方案</span>
-            <div class="pet-voice-group">
-              <button class="pet-lang-btn active" data-pet="lawrence" data-lang="zh" title="普通話">普</button>
-              <button class="pet-lang-btn" data-pet="lawrence" data-lang="yue" title="粵語">粵</button>
-              <button class="pet-lang-btn" data-pet="lawrence" data-lang="en" title="English">EN</button>
-              <button class="pet-lang-btn" data-pet="lawrence" data-lang="ja" title="日本語">日</button>
-              <button class="pet-lang-btn" data-pet="lawrence" data-lang="ko" title="한국어">韓</button>
-              <button class="pet-voice-play" data-pet="lawrence">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              </button>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="pet-voice-group">
+                <button class="pet-lang-btn active" data-pet="lawrence" data-lang="zh" title="普通話">普</button>
+                <button class="pet-lang-btn" data-pet="lawrence" data-lang="yue" title="粵語">粵</button>
+                <button class="pet-lang-btn" data-pet="lawrence" data-lang="en" title="English">EN</button>
+                <button class="pet-lang-btn" data-pet="lawrence" data-lang="ja" title="日本語">日</button>
+                <button class="pet-lang-btn" data-pet="lawrence" data-lang="ko" title="한국어">韓</button>
+                <button class="pet-voice-play" data-pet="lawrence">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -6843,19 +6856,23 @@ section {
           </div>
           <p class="ai-desc">能力進化 · 知識沉淀 · 持續學習</p>
           <div class="ai-footer">
-            <div class="ai-status">
-              <span class="status-dot"></span>
-              <span>線上運行中</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="ai-status">
+                <span class="status-dot"></span>
+                <span>線上運行中</span>
+              </div>
             </div>
-            <div class="pet-voice-group">
-              <button class="pet-lang-btn active" data-pet="lancelot" data-lang="zh" title="普通話">普</button>
-              <button class="pet-lang-btn" data-pet="lancelot" data-lang="yue" title="粵語">粵</button>
-              <button class="pet-lang-btn" data-pet="lancelot" data-lang="en" title="English">EN</button>
-              <button class="pet-lang-btn" data-pet="lancelot" data-lang="ja" title="日本語">日</button>
-              <button class="pet-lang-btn" data-pet="lancelot" data-lang="ko" title="한국어">韓</button>
-              <button class="pet-voice-play" data-pet="lancelot">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              </button>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+              <div class="pet-voice-group">
+                <button class="pet-lang-btn active" data-pet="lancelot" data-lang="zh" title="普通話">普</button>
+                <button class="pet-lang-btn" data-pet="lancelot" data-lang="yue" title="粵語">粵</button>
+                <button class="pet-lang-btn" data-pet="lancelot" data-lang="en" title="English">EN</button>
+                <button class="pet-lang-btn" data-pet="lancelot" data-lang="ja" title="日本語">日</button>
+                <button class="pet-lang-btn" data-pet="lancelot" data-lang="ko" title="한국어">韓</button>
+                <button class="pet-voice-play" data-pet="lancelot">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
