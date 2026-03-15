@@ -6037,7 +6037,7 @@ section {
 }
 .arch-svg-wrap svg {
   width: 100%;
-  max-width: 900px;
+  max-width: 960px;
   height: auto;
 }
 .arch-layer-label {
@@ -6055,10 +6055,13 @@ section {
   rx: 8;
   transition: all 0.3s;
 }
+.arch-component {
+  cursor: pointer;
+}
 .arch-component:hover .arch-card-bg {
   fill: rgba(201,168,76,0.08);
   stroke: var(--gold);
-  filter: drop-shadow(0 0 16px rgba(201,168,76,0.3));
+  filter: drop-shadow(0 0 18px rgba(201,168,76,0.35));
 }
 .arch-card-title {
   fill: var(--white);
@@ -6075,17 +6078,22 @@ section {
   fill: var(--gold);
   opacity: 0.85;
 }
+.arch-bus-line {
+  stroke: rgba(201,168,76,0.15);
+  stroke-width: 1.2;
+  fill: none;
+}
 .arch-connector {
   stroke: rgba(201,168,76,0.2);
   stroke-width: 1.5;
   stroke-dasharray: 6 4;
   fill: none;
 }
-@keyframes arch-flow {
-  to { stroke-dashoffset: -20; }
-}
 .arch-connector-animated {
   animation: arch-flow 2s linear infinite;
+}
+@keyframes arch-flow {
+  to { stroke-dashoffset: -20; }
 }
 .arch-brain-pulse {
   fill: rgba(201,168,76,0.06);
@@ -6094,9 +6102,6 @@ section {
 @keyframes arch-pulse {
   0%, 100% { opacity: 0.3; r: 38; }
   50%      { opacity: 0.7; r: 44; }
-}
-.arch-component {
-  cursor: pointer;
 }
 .arch-tooltip {
   opacity: 0;
@@ -7361,209 +7366,271 @@ section {
 
     <div class="arch-diagram reveal">
       <div class="arch-svg-wrap">
-        <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
 
-          <!-- LAYER LABELS -->
-          <text class="arch-layer-label" x="20" y="52">通訊渠道</text>
-          <text class="arch-layer-label" x="20" y="210">核心服務</text>
-          <text class="arch-layer-label" x="20" y="398">基礎設施</text>
+          <!-- ===== LAYER LABELS (left side) ===== -->
+          <text class="arch-layer-label" x="18" y="58">通訊渠道</text>
+          <text class="arch-layer-label" x="18" y="218">核心服務</text>
+          <text class="arch-layer-label" x="18" y="408">基礎設施</text>
 
           <!-- Layer divider lines -->
-          <line x1="20" y1="62" x2="880" y2="62" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
-          <line x1="20" y1="152" x2="880" y2="152" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
-          <line x1="20" y1="340" x2="880" y2="340" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
+          <line x1="18" y1="66" x2="882" y2="66" stroke="rgba(201,168,76,0.08)" stroke-width="1"/>
+          <line x1="18" y1="200" x2="882" y2="200" stroke="rgba(201,168,76,0.08)" stroke-width="1"/>
+          <line x1="18" y1="395" x2="882" y2="395" stroke="rgba(201,168,76,0.08)" stroke-width="1"/>
 
-          <!-- ===== TOP LAYER: 6 Channel Icons ===== -->
+          <!-- ===== TOP LAYER: 6 Channel Boxes ===== -->
+          <!-- x centers: 100, 240, 380, 520, 660, 800 | y center: 100 | box: 92x54 -->
+
           <!-- Feishu -->
-          <g class="arch-component" transform="translate(100,80)">
-            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
-            <rect x="-16" y="0" width="32" height="20" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-8 4h16M-8 12h10" stroke="var(--gold)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
-            <text class="arch-card-title" x="0" y="36" text-anchor="middle">飛書</text>
+          <g class="arch-component" transform="translate(100,100)">
+            <rect class="arch-card-bg" x="-46" y="-27" width="92" height="54"/>
+            <rect x="-16" y="-18" width="32" height="20" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-8-14h16M-8-6h10" stroke="var(--gold)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">飛書</text>
             <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">飛書機器人 · 事件訂閱</text>
-            </g>
-          </g>
-          <!-- WhatsApp -->
-          <g class="arch-component" transform="translate(233,80)">
-            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
-            <rect x="-10" y="-2" width="20" height="28" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <circle cx="0" cy="20" r="2" fill="var(--gold)" opacity="0.5"/>
-            <text class="arch-card-title" x="0" y="36" text-anchor="middle">WhatsApp</text>
-            <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">Baileys · QR 配對連線</text>
-            </g>
-          </g>
-          <!-- Telegram -->
-          <g class="arch-component" transform="translate(366,80)">
-            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
-            <path d="M-10 8 l20-8 -8 18 -5-5 -7 5z" fill="none" stroke="var(--gold)" stroke-width="1.2" stroke-linejoin="round"/>
-            <text class="arch-card-title" x="0" y="36" text-anchor="middle">Telegram</text>
-            <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">Bot API · Webhook 回調</text>
-            </g>
-          </g>
-          <!-- Email -->
-          <g class="arch-component" transform="translate(500,80)">
-            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
-            <rect x="-14" y="0" width="28" height="18" rx="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-14 2 l14 9 14-9" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <text class="arch-card-title" x="0" y="36" text-anchor="middle">郵件</text>
-            <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">IMAP/SMTP · MIME 解析</text>
-            </g>
-          </g>
-          <!-- Slack -->
-          <g class="arch-component" transform="translate(633,80)">
-            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
-            <path d="M-8 0 v14 M0 0 v14 M-12 6 h18 M-12 10 h18" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/>
-            <text class="arch-card-title" x="0" y="36" text-anchor="middle">Slack</text>
-            <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">Socket Mode · 即時通訊</text>
-            </g>
-          </g>
-          <!-- Web -->
-          <g class="arch-component" transform="translate(766,80)">
-            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
-            <circle cx="0" cy="8" r="10" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-10 8 h20 M0 -2 v20" stroke="var(--gold)" stroke-width="0.7" opacity="0.5"/>
-            <ellipse cx="0" cy="8" rx="5" ry="10" fill="none" stroke="var(--gold)" stroke-width="0.7" opacity="0.5"/>
-            <text class="arch-card-title" x="0" y="36" text-anchor="middle">Web</text>
-            <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">WebSocket · 嵌入式聊天</text>
+              <rect class="arch-tooltip-bg" x="-60" y="-62" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-44" text-anchor="middle">飛書機器人 · 事件訂閱</text>
             </g>
           </g>
 
-          <!-- ===== Connectors: Top → Middle ===== -->
-          <path class="arch-connector arch-connector-animated" d="M100,136 L250,168"/>
-          <path class="arch-connector arch-connector-animated" d="M233,136 L250,168"/>
-          <path class="arch-connector arch-connector-animated" d="M366,136 L350,168"/>
-          <path class="arch-connector arch-connector-animated" d="M500,136 L350,168"/>
-          <path class="arch-connector arch-connector-animated" d="M633,136 L350,168"/>
-          <path class="arch-connector arch-connector-animated" d="M766,136 L350,168"/>
+          <!-- WhatsApp -->
+          <g class="arch-component" transform="translate(240,100)">
+            <rect class="arch-card-bg" x="-46" y="-27" width="92" height="54"/>
+            <rect x="-10" y="-20" width="20" height="28" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <circle cx="0" cy="2" r="2" fill="var(--gold)" opacity="0.5"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">WhatsApp</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-62" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-44" text-anchor="middle">Baileys · QR 配對連線</text>
+            </g>
+          </g>
+
+          <!-- Telegram -->
+          <g class="arch-component" transform="translate(380,100)">
+            <rect class="arch-card-bg" x="-46" y="-27" width="92" height="54"/>
+            <path d="M-10-10 l20-8 -8 18 -5-5 -7 5z" fill="none" stroke="var(--gold)" stroke-width="1.2" stroke-linejoin="round"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">Telegram</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-62" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-44" text-anchor="middle">Bot API · Webhook 回調</text>
+            </g>
+          </g>
+
+          <!-- Email -->
+          <g class="arch-component" transform="translate(520,100)">
+            <rect class="arch-card-bg" x="-46" y="-27" width="92" height="54"/>
+            <rect x="-14" y="-18" width="28" height="18" rx="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-14-16 l14 9 14-9" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">郵件</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-62" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-44" text-anchor="middle">IMAP/SMTP · MIME 解析</text>
+            </g>
+          </g>
+
+          <!-- Slack -->
+          <g class="arch-component" transform="translate(660,100)">
+            <rect class="arch-card-bg" x="-46" y="-27" width="92" height="54"/>
+            <path d="M-8-18 v14 M0-18 v14 M-12-12 h18 M-12-8 h18" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">Slack</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-62" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-44" text-anchor="middle">Socket Mode · 即時通訊</text>
+            </g>
+          </g>
+
+          <!-- Web -->
+          <g class="arch-component" transform="translate(800,100)">
+            <rect class="arch-card-bg" x="-46" y="-27" width="92" height="54"/>
+            <circle cx="0" cy="-10" r="10" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-10-10 h20 M0-20 v20" stroke="var(--gold)" stroke-width="0.7" opacity="0.5"/>
+            <ellipse cx="0" cy="-10" rx="5" ry="10" fill="none" stroke="var(--gold)" stroke-width="0.7" opacity="0.5"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">Web</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-62" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-44" text-anchor="middle">WebSocket · 嵌入式聊天</text>
+            </g>
+          </g>
+
+          <!-- ===== BUS 1: Channels → Gateway (bus topology) ===== -->
+          <!-- 6 vertical drops from each channel box bottom (y=127) to bus (y=162) -->
+          <line class="arch-bus-line" x1="100" y1="127" x2="100" y2="162"/>
+          <line class="arch-bus-line" x1="240" y1="127" x2="240" y2="162"/>
+          <line class="arch-bus-line" x1="380" y1="127" x2="380" y2="162"/>
+          <line class="arch-bus-line" x1="520" y1="127" x2="520" y2="162"/>
+          <line class="arch-bus-line" x1="660" y1="127" x2="660" y2="162"/>
+          <line class="arch-bus-line" x1="800" y1="127" x2="800" y2="162"/>
+          <!-- Horizontal bus line -->
+          <line class="arch-bus-line" x1="100" y1="162" x2="800" y2="162"/>
+          <!-- Junction dots on bus -->
+          <circle cx="100" cy="162" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="240" cy="162" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="380" cy="162" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="520" cy="162" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="660" cy="162" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="800" cy="162" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <!-- Single vertical drop from bus to Gateway -->
+          <line class="arch-bus-line" x1="200" y1="162" x2="200" y2="210"/>
+          <circle cx="200" cy="162" r="2.5" fill="rgba(201,168,76,0.35)"/>
+
+          <!-- Animated dots traveling on top bus -->
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M100,127 L100,162 L200,162 L200,210" dur="2.5s" begin="0s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M520,127 L520,162 L200,162 L200,210" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M800,127 L800,162 L200,162 L200,210" dur="3.5s" begin="1.6s" repeatCount="indefinite"/>
+          </circle>
 
           <!-- ===== MIDDLE LAYER: 3 Core Services ===== -->
-          <!-- Gateway -->
-          <g class="arch-component" transform="translate(200,220)">
-            <rect class="arch-card-bg" x="-80" y="-40" width="160" height="100"/>
+          <!-- Gateway: center (200, 270), box 160×96 -->
+          <g class="arch-component" transform="translate(200,270)">
+            <rect class="arch-card-bg" x="-80" y="-48" width="160" height="96"/>
             <!-- Router icon -->
-            <circle cx="0" cy="-12" r="12" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M0 -24 v-4 M-14 -6 l-4-4 M14 -6 l4-4" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/>
-            <circle cx="0" cy="-12" r="3" fill="var(--gold)" opacity="0.4"/>
-            <text class="arch-card-title" x="0" y="18" text-anchor="middle">Gateway</text>
-            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">通訊網關</text>
-            <text class="arch-card-sub" x="0" y="48" text-anchor="middle">消息路由 · Session 管理</text>
+            <circle cx="0" cy="-22" r="12" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M0-34 v-4 M-14-16 l-4-4 M14-16 l4-4" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="0" cy="-22" r="3" fill="var(--gold)" opacity="0.4"/>
+            <text class="arch-card-title" x="0" y="6" text-anchor="middle">Gateway</text>
+            <text class="arch-card-sub" x="0" y="20" text-anchor="middle">通訊網關</text>
+            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">消息路由 · Session 管理</text>
             <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-90" y="-78" width="180" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-60" text-anchor="middle">統一接收六大渠道消息，智能分發至 Agent</text>
+              <rect class="arch-tooltip-bg" x="-90" y="-88" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-70" text-anchor="middle">統一接收六大渠道消息，智能分發至 Agent</text>
             </g>
           </g>
 
-          <!-- Lawrence AI Agent (center, largest) -->
-          <g class="arch-component" transform="translate(450,230)">
+          <!-- Lawrence AI Agent: center (450, 275), box 200×120, gold border -->
+          <g class="arch-component" transform="translate(450,275)">
             <rect class="arch-card-bg" x="-100" y="-60" width="200" height="120" style="stroke:var(--gold);stroke-width:1.5;"/>
             <!-- Animated pulse behind brain -->
-            <circle class="arch-brain-pulse" cx="0" cy="-18" r="38"/>
+            <circle class="arch-brain-pulse" cx="0" cy="-22" r="38"/>
             <!-- Brain icon -->
-            <path d="M-12 -14 c-8-12 8-20 12-8 c4-12 20-4 12 8" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M0 -22 v28" stroke="var(--gold)" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
-            <circle cx="0" cy="-18" r="4" fill="var(--gold)" opacity="0.3"/>
-            <text class="arch-card-title" x="0" y="18" text-anchor="middle" style="font-size:14px;">Lawrence AI Agent</text>
-            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">意圖理解 · 任務分解</text>
-            <text class="arch-card-sub" x="0" y="48" text-anchor="middle">自主決策 · 人工審批</text>
+            <path d="M-12-18 c-8-12 8-20 12-8 c4-12 20-4 12 8" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M0-26 v28" stroke="var(--gold)" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <circle cx="0" cy="-22" r="4" fill="var(--gold)" opacity="0.3"/>
+            <text class="arch-card-title" x="0" y="16" text-anchor="middle" style="font-size:14px;">Lawrence AI Agent</text>
+            <text class="arch-card-sub" x="0" y="32" text-anchor="middle">意圖理解 · 任務分解</text>
+            <text class="arch-card-sub" x="0" y="46" text-anchor="middle">自主決策 · 人工審批</text>
             <g class="arch-tooltip">
               <rect class="arch-tooltip-bg" x="-100" y="-100" width="200" height="28"/>
               <text class="arch-tooltip-text" x="0" y="-82" text-anchor="middle">核心 AI 引擎：理解需求、規劃執行、協調所有組件</text>
             </g>
           </g>
 
-          <!-- Memory System -->
-          <g class="arch-component" transform="translate(720,220)">
-            <rect class="arch-card-bg" x="-80" y="-40" width="160" height="100"/>
+          <!-- Memory System: center (700, 270), box 160×96 -->
+          <g class="arch-component" transform="translate(700,270)">
+            <rect class="arch-card-bg" x="-80" y="-48" width="160" height="96"/>
             <!-- Memory/database icon -->
-            <ellipse cx="0" cy="-16" rx="16" ry="6" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-16 -16 v14 c0 3.3 7.2 6 16 6 s16-2.7 16-6 v-14" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <ellipse cx="0" cy="-8" rx="16" ry="6" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
-            <text class="arch-card-title" x="0" y="18" text-anchor="middle">Memory</text>
-            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">記憶系統</text>
-            <text class="arch-card-sub" x="0" y="48" text-anchor="middle">長期記憶 · 語義檢索</text>
+            <ellipse cx="0" cy="-26" rx="16" ry="6" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-16-26 v14 c0 3.3 7.2 6 16 6 s16-2.7 16-6 v-14" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <ellipse cx="0" cy="-18" rx="16" ry="6" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
+            <text class="arch-card-title" x="0" y="6" text-anchor="middle">Memory</text>
+            <text class="arch-card-sub" x="0" y="20" text-anchor="middle">記憶系統</text>
+            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">長期記憶 · 語義檢索</text>
             <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-90" y="-78" width="180" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-60" text-anchor="middle">知識庫向量檢索，跨 Session 記憶持久化</text>
+              <rect class="arch-tooltip-bg" x="-90" y="-88" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-70" text-anchor="middle">知識庫向量檢索，跨 Session 記憶持久化</text>
             </g>
           </g>
 
-          <!-- Connectors: Gateway → Agent → Memory -->
-          <path class="arch-connector arch-connector-animated" d="M280,220 L350,220"/>
-          <path class="arch-connector arch-connector-animated" d="M550,230 L640,220"/>
+          <!-- Horizontal connectors: Gateway → Lawrence → Memory -->
+          <line class="arch-connector arch-connector-animated" x1="280" y1="270" x2="350" y2="270"/>
+          <line class="arch-connector arch-connector-animated" x1="550" y1="270" x2="620" y2="270"/>
+          <!-- Animated dots on horizontal connectors -->
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M280,270 L350,270" dur="1.2s" begin="0s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M550,270 L620,270" dur="1.2s" begin="0.6s" repeatCount="indefinite"/>
+          </circle>
 
-          <!-- ===== Connectors: Middle → Bottom ===== -->
-          <path class="arch-connector arch-connector-animated" d="M200,280 L200,360"/>
-          <path class="arch-connector arch-connector-animated" d="M400,290 L380,360"/>
-          <path class="arch-connector arch-connector-animated" d="M480,290 L550,360"/>
-          <path class="arch-connector arch-connector-animated" d="M720,280 L720,360"/>
+          <!-- ===== BUS 2: Lawrence → Infrastructure (bus topology) ===== -->
+          <!-- Vertical drop from Lawrence bottom (y=335) to bus (y=368) -->
+          <line class="arch-bus-line" x1="450" y1="335" x2="450" y2="368"/>
+          <circle cx="450" cy="368" r="2.5" fill="rgba(201,168,76,0.35)"/>
+          <!-- Horizontal bus line -->
+          <line class="arch-bus-line" x1="150" y1="368" x2="750" y2="368"/>
+          <!-- 4 vertical drops from bus to infra boxes -->
+          <line class="arch-bus-line" x1="150" y1="368" x2="150" y2="405"/>
+          <line class="arch-bus-line" x1="350" y1="368" x2="350" y2="405"/>
+          <line class="arch-bus-line" x1="550" y1="368" x2="550" y2="405"/>
+          <line class="arch-bus-line" x1="750" y1="368" x2="750" y2="405"/>
+          <!-- Junction dots -->
+          <circle cx="150" cy="368" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="350" cy="368" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="550" cy="368" r="2.5" fill="rgba(201,168,76,0.25)"/>
+          <circle cx="750" cy="368" r="2.5" fill="rgba(201,168,76,0.25)"/>
 
-          <!-- ===== BOTTOM LAYER: 4 Infrastructure Components ===== -->
+          <!-- Animated dots traveling on bottom bus -->
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M450,335 L450,368 L150,368 L150,405" dur="2.5s" begin="0.3s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M450,335 L450,368 L550,368 L550,405" dur="2.2s" begin="1.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="var(--gold)" opacity="0.85">
+            <animateMotion path="M450,335 L450,368 L750,368 L750,405" dur="2.8s" begin="2s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- ===== BOTTOM LAYER: 4 Infrastructure Boxes ===== -->
+          <!-- x centers: 150, 350, 550, 750 | y center: 448 | box: 150×78 -->
+
           <!-- PostgreSQL -->
-          <g class="arch-component" transform="translate(150,410)">
-            <rect class="arch-card-bg" x="-80" y="-35" width="160" height="80"/>
+          <g class="arch-component" transform="translate(150,448)">
+            <rect class="arch-card-bg" x="-75" y="-38" width="150" height="76"/>
             <!-- Cylinder icon -->
-            <ellipse cx="0" cy="-10" rx="14" ry="5" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-14 -10 v18 c0 2.8 6.3 5 14 5 s14-2.2 14-5 v-18" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <text class="arch-card-title" x="0" y="22" text-anchor="middle">PostgreSQL</text>
-            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">向量數據庫 (pgvector)</text>
+            <ellipse cx="0" cy="-16" rx="14" ry="5" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-14-16 v16 c0 2.8 6.3 5 14 5 s14-2.2 14-5 v-16" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <text class="arch-card-title" x="0" y="14" text-anchor="middle">PostgreSQL</text>
+            <text class="arch-card-sub" x="0" y="28" text-anchor="middle">向量數據庫 (pgvector)</text>
             <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-90" y="-72" width="180" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">語義搜索 + 結構化存儲，數據永不離開本地</text>
+              <rect class="arch-tooltip-bg" x="-90" y="-75" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-57" text-anchor="middle">語義搜索 + 結構化存儲，數據永不離開本地</text>
             </g>
           </g>
 
           <!-- Forgejo -->
-          <g class="arch-component" transform="translate(380,410)">
-            <rect class="arch-card-bg" x="-80" y="-35" width="160" height="80"/>
+          <g class="arch-component" transform="translate(350,448)">
+            <rect class="arch-card-bg" x="-75" y="-38" width="150" height="76"/>
             <!-- Git branch icon -->
-            <circle cx="-6" cy="-10" r="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <circle cx="6" cy="-2" r="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-6 -7 v10 M-6 0 c0-4 12-8 12-5" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <text class="arch-card-title" x="0" y="22" text-anchor="middle">Forgejo</text>
-            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">代碼與 CI/CD</text>
+            <circle cx="-6" cy="-16" r="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <circle cx="6" cy="-8" r="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-6-13 v10 M-6-6 c0-4 12-8 12-5" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <text class="arch-card-title" x="0" y="14" text-anchor="middle">Forgejo</text>
+            <text class="arch-card-sub" x="0" y="28" text-anchor="middle">代碼與 CI/CD</text>
             <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-90" y="-72" width="180" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">自託管 Git + Actions，Agent 工作流引擎</text>
+              <rect class="arch-tooltip-bg" x="-90" y="-75" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-57" text-anchor="middle">自託管 Git + Actions，Agent 工作流引擎</text>
             </g>
           </g>
 
           <!-- Sandbox -->
-          <g class="arch-component" transform="translate(600,410)">
-            <rect class="arch-card-bg" x="-80" y="-35" width="160" height="80"/>
+          <g class="arch-component" transform="translate(550,448)">
+            <rect class="arch-card-bg" x="-75" y="-38" width="150" height="76"/>
             <!-- Box/sandbox icon -->
-            <rect x="-12" y="-12" width="24" height="20" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-12 -6 h24 M0 -12 v20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
-            <text class="arch-card-title" x="0" y="22" text-anchor="middle">沙箱</text>
-            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">安全執行環境</text>
+            <rect x="-12" y="-20" width="24" height="20" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-12-14 h24 M0-20 v20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+            <text class="arch-card-title" x="0" y="14" text-anchor="middle">沙箱</text>
+            <text class="arch-card-sub" x="0" y="28" text-anchor="middle">安全執行環境</text>
             <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-90" y="-72" width="180" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">隔離容器執行代碼，防止越權操作</text>
+              <rect class="arch-tooltip-bg" x="-90" y="-75" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-57" text-anchor="middle">隔離容器執行代碼，防止越權操作</text>
             </g>
           </g>
 
           <!-- Unoserver -->
-          <g class="arch-component" transform="translate(810,410)">
-            <rect class="arch-card-bg" x="-70" y="-35" width="140" height="80"/>
+          <g class="arch-component" transform="translate(750,448)">
+            <rect class="arch-card-bg" x="-75" y="-38" width="150" height="76"/>
             <!-- Document icon -->
-            <rect x="-10" y="-14" width="20" height="24" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
-            <path d="M-5 -4 h10 M-5 2 h10 M-5 8 h6" stroke="var(--gold)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
-            <text class="arch-card-title" x="0" y="22" text-anchor="middle">Unoserver</text>
-            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">文檔處理引擎</text>
+            <rect x="-10" y="-22" width="20" height="24" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-5-12 h10 M-5-6 h10 M-5 0 h6" stroke="var(--gold)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+            <text class="arch-card-title" x="0" y="14" text-anchor="middle">Unoserver</text>
+            <text class="arch-card-sub" x="0" y="28" text-anchor="middle">文檔處理引擎</text>
             <g class="arch-tooltip">
-              <rect class="arch-tooltip-bg" x="-80" y="-72" width="160" height="28"/>
-              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">PDF/Word/PPT 格式轉換與修訂對比</text>
+              <rect class="arch-tooltip-bg" x="-85" y="-75" width="170" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-57" text-anchor="middle">PDF/Word/PPT 格式轉換與修訂對比</text>
             </g>
           </g>
 
@@ -9145,7 +9212,7 @@ section {
      AUDIO ELEMENT + PLAYER UI
      ============================================================ -->
 <audio id="narration" preload="metadata">
-  <source src="nuoqi-tts-presentation.mp3" type="audio/mpeg">
+  <source src="nuoqi-tts-jiaxin.mp3" type="audio/mpeg">
 </audio>
 
 <div id="audio-player" role="region" aria-label="音頻播放器">
@@ -9169,7 +9236,7 @@ section {
   <div class="ap-center">
     <div style="display:flex; align-items:center; gap:8px;">
       <div id="ap-section-title" class="ap-title">準備中…</div>
-      <span style="font-size:10px; color:var(--gold); border:1px solid rgba(201,168,76,0.3); border-radius:4px; padding:1px 6px; white-space:nowrap; letter-spacing:0.5px; flex-shrink:0;">AI 多角色語音演示</span>
+      <button id="ap-voice-toggle" style="font-size:10px; color:var(--gold); background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); border-radius:4px; padding:2px 8px; white-space:nowrap; letter-spacing:0.5px; flex-shrink:0; cursor:pointer; transition:all 0.2s;" title="切換音色">嘉欣</button>
     </div>
     <div class="ap-progress-area">
       <div class="ap-chapter-preview" id="ap-chapter-preview">
@@ -9688,6 +9755,24 @@ section {
   const player       = document.getElementById('audio-player');
   const audio        = document.getElementById('narration');
   const playBtn      = document.getElementById('ap-play-btn');
+
+  // Voice toggle
+  const voiceToggle = document.getElementById('ap-voice-toggle');
+  const voiceMap = { '嘉欣': 'nuoqi-tts-jiaxin.mp3', '盈勛': 'nuoqi-tts-yingxun.mp3' };
+  let currentVoice = '嘉欣';
+  voiceToggle.addEventListener('click', function() {
+    var wasPlaying = !audio.paused;
+    var pos = audio.currentTime;
+    currentVoice = currentVoice === '嘉欣' ? '盈勛' : '嘉欣';
+    voiceToggle.textContent = currentVoice;
+    audio.src = voiceMap[currentVoice];
+    audio.load();
+    audio.addEventListener('canplay', function onReady() {
+      audio.removeEventListener('canplay', onReady);
+      audio.currentTime = pos;
+      if (wasPlaying) audio.play();
+    });
+  });
   const iconPlay     = document.getElementById('ap-icon-play');
   const iconPause    = document.getElementById('ap-icon-pause');
   const titleEl      = document.getElementById('ap-section-title');
