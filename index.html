@@ -5900,6 +5900,342 @@ section {
   flex-shrink: 0;
 }
 
+/* ============================================================
+   DIAGRAM: Channel Topology (hub-and-spoke in I-b)
+   ============================================================ */
+.channel-topology {
+  margin-top: 64px;
+  text-align: center;
+}
+.channel-topology h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.channel-topology .topo-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+}
+.topo-svg-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.topo-svg-wrap svg {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+}
+.topo-node {
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+.topo-node:hover .topo-node-circle {
+  filter: drop-shadow(0 0 12px rgba(201,168,76,0.7));
+  stroke: var(--gold-light);
+}
+.topo-node:hover .topo-node-label {
+  fill: var(--gold-light);
+}
+.topo-spoke {
+  stroke: rgba(201,168,76,0.25);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+}
+.topo-node:hover ~ .topo-spoke-highlight,
+.topo-spoke:hover {
+  stroke: var(--gold);
+}
+.topo-center-ring {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+}
+.topo-center-fill {
+  fill: rgba(201,168,76,0.08);
+}
+.topo-center-label {
+  fill: var(--gold);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 600;
+}
+.topo-node-circle {
+  fill: rgba(255,255,255,0.04);
+  stroke: rgba(201,168,76,0.4);
+  stroke-width: 1.5;
+  transition: all 0.3s;
+}
+.topo-node-label {
+  fill: var(--text-secondary);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  transition: fill 0.3s;
+}
+.topo-node-icon {
+  fill: var(--gold);
+  opacity: 0.8;
+}
+@keyframes topo-dot-travel {
+  0%   { offset-distance: 100%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { offset-distance: 0%; opacity: 0; }
+}
+.topo-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 0 0 8px var(--gold);
+  offset-rotate: 0deg;
+  animation: topo-dot-travel 3s linear infinite;
+}
+/* SVG animated dots */
+.topo-moving-dot {
+  fill: var(--gold);
+  filter: drop-shadow(0 0 4px rgba(201,168,76,0.8));
+}
+/* Tooltip on hover */
+.topo-tooltip {
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.topo-node:hover .topo-tooltip {
+  opacity: 1;
+}
+.topo-tooltip-bg {
+  fill: rgba(8,8,8,0.92);
+  stroke: rgba(201,168,76,0.3);
+  stroke-width: 1;
+  rx: 6;
+}
+.topo-tooltip-text {
+  fill: var(--text-secondary);
+  font-size: 9px;
+  font-family: var(--font-sans);
+}
+@media (max-width: 768px) {
+  .topo-svg-wrap svg { max-width: 340px; }
+  .channel-topology h3 { font-size: 18px; }
+}
+
+/* ============================================================
+   DIAGRAM: System Architecture (II-c)
+   ============================================================ */
+.arch-diagram {
+  position: relative;
+  margin-top: 48px;
+}
+.arch-svg-wrap {
+  display: flex;
+  justify-content: center;
+}
+.arch-svg-wrap svg {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+}
+.arch-layer-label {
+  fill: var(--gold);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.arch-card-bg {
+  fill: rgba(255,255,255,0.035);
+  stroke: rgba(201,168,76,0.25);
+  stroke-width: 1;
+  rx: 8;
+  transition: all 0.3s;
+}
+.arch-component:hover .arch-card-bg {
+  fill: rgba(201,168,76,0.08);
+  stroke: var(--gold);
+  filter: drop-shadow(0 0 16px rgba(201,168,76,0.3));
+}
+.arch-card-title {
+  fill: var(--white);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+.arch-card-sub {
+  fill: var(--text-tertiary);
+  font-size: 9px;
+  font-family: var(--font-sans);
+}
+.arch-card-icon {
+  fill: var(--gold);
+  opacity: 0.85;
+}
+.arch-connector {
+  stroke: rgba(201,168,76,0.2);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+  fill: none;
+}
+@keyframes arch-flow {
+  to { stroke-dashoffset: -20; }
+}
+.arch-connector-animated {
+  animation: arch-flow 2s linear infinite;
+}
+.arch-brain-pulse {
+  fill: rgba(201,168,76,0.06);
+  animation: arch-pulse 3s ease-in-out infinite;
+}
+@keyframes arch-pulse {
+  0%, 100% { opacity: 0.3; r: 38; }
+  50%      { opacity: 0.7; r: 44; }
+}
+.arch-component {
+  cursor: pointer;
+}
+.arch-tooltip {
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.arch-component:hover .arch-tooltip {
+  opacity: 1;
+}
+.arch-tooltip-bg {
+  fill: rgba(8,8,8,0.95);
+  stroke: rgba(201,168,76,0.35);
+  stroke-width: 1;
+  rx: 6;
+}
+.arch-tooltip-text {
+  fill: var(--text-secondary);
+  font-size: 10px;
+  font-family: var(--font-sans);
+}
+@media (max-width: 768px) {
+  .arch-svg-wrap svg { max-width: 100%; }
+}
+
+/* ============================================================
+   DIAGRAM: Data Flow (II-d)
+   ============================================================ */
+.dataflow-diagram {
+  margin-top: 48px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.dataflow-svg-wrap {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+.dataflow-svg-wrap svg {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+}
+.df-step {
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+.df-step:hover .df-card-bg {
+  fill: rgba(201,168,76,0.1);
+  stroke: var(--gold);
+  filter: drop-shadow(0 0 12px rgba(201,168,76,0.25));
+}
+.df-card-bg {
+  fill: rgba(255,255,255,0.035);
+  stroke: rgba(201,168,76,0.25);
+  stroke-width: 1;
+  rx: 10;
+  transition: all 0.3s;
+}
+.df-card-bg-local {
+  fill: rgba(16,185,129,0.05);
+  stroke: rgba(16,185,129,0.3);
+}
+.df-card-bg-external {
+  fill: rgba(245,158,11,0.06);
+  stroke: rgba(245,158,11,0.4);
+}
+.df-step:hover .df-card-bg-local {
+  stroke: var(--green);
+  fill: rgba(16,185,129,0.12);
+  filter: drop-shadow(0 0 12px rgba(16,185,129,0.3));
+}
+.df-step:hover .df-card-bg-external {
+  stroke: var(--terminal-yellow);
+  fill: rgba(245,158,11,0.12);
+  filter: drop-shadow(0 0 12px rgba(245,158,11,0.3));
+}
+.df-icon {
+  fill: var(--gold);
+  opacity: 0.85;
+}
+.df-icon-local {
+  fill: var(--green);
+}
+.df-icon-external {
+  fill: var(--terminal-yellow);
+}
+.df-title {
+  fill: var(--white);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+.df-tag {
+  font-size: 9px;
+  font-family: var(--font-sans);
+}
+.df-tag-local {
+  fill: var(--green);
+}
+.df-tag-external {
+  fill: var(--terminal-yellow);
+}
+.df-arrow {
+  stroke: rgba(201,168,76,0.3);
+  stroke-width: 1.5;
+  fill: none;
+  marker-end: url(#df-arrowhead);
+}
+.df-arrow-external {
+  stroke: rgba(245,158,11,0.5);
+  stroke-dasharray: 6 4;
+}
+@keyframes df-dot-move {
+  0%   { offset-distance: 0%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.df-moving-dot {
+  fill: var(--gold);
+  r: 3;
+  filter: drop-shadow(0 0 4px rgba(201,168,76,0.8));
+}
+/* Staggered reveal for data flow steps */
+.df-step { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+.df-step.df-visible { opacity: 1; transform: translateY(0); }
+.df-step:nth-child(2) { transition-delay: 0.1s; }
+.df-step:nth-child(3) { transition-delay: 0.2s; }
+.df-step:nth-child(4) { transition-delay: 0.3s; }
+.df-step:nth-child(5) { transition-delay: 0.4s; }
+.df-step:nth-child(6) { transition-delay: 0.5s; }
+.df-step:nth-child(7) { transition-delay: 0.6s; }
+
+/* Data flow mobile: vertical layout */
+@media (max-width: 768px) {
+  .dataflow-svg-wrap svg { max-width: 100%; }
+  .dataflow-diagram { padding: 0 8px; }
+}
+
 </style>
 </head>
 <body>
@@ -6257,6 +6593,141 @@ section {
       </div>
 
     </div>
+
+    <!-- Channel Topology: hub-and-spoke diagram -->
+    <div class="channel-topology reveal">
+      <h3>六大渠道，統一接入</h3>
+      <p class="topo-sub">所有通訊渠道匯聚一處，Lawrence 統一管理、統一回覆</p>
+      <div class="topo-svg-wrap">
+        <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
+          <!-- Spokes (lines from center to nodes) -->
+          <line class="topo-spoke" x1="260" y1="260" x2="140" y2="100"/>
+          <line class="topo-spoke" x1="260" y1="260" x2="380" y2="100"/>
+          <line class="topo-spoke" x1="260" y1="260" x2="450" y2="260"/>
+          <line class="topo-spoke" x1="260" y1="260" x2="380" y2="420"/>
+          <line class="topo-spoke" x1="260" y1="260" x2="140" y2="420"/>
+          <line class="topo-spoke" x1="260" y1="260" x2="70"  y2="260"/>
+
+          <!-- Animated dots traveling along spokes -->
+          <circle class="topo-moving-dot" r="3">
+            <animateMotion dur="2.5s" repeatCount="indefinite" path="M140,100 L260,260"/>
+          </circle>
+          <circle class="topo-moving-dot" r="3">
+            <animateMotion dur="2.8s" repeatCount="indefinite" path="M380,100 L260,260"/>
+          </circle>
+          <circle class="topo-moving-dot" r="3">
+            <animateMotion dur="3.1s" repeatCount="indefinite" path="M450,260 L260,260"/>
+          </circle>
+          <circle class="topo-moving-dot" r="3">
+            <animateMotion dur="2.6s" repeatCount="indefinite" path="M380,420 L260,260"/>
+          </circle>
+          <circle class="topo-moving-dot" r="3">
+            <animateMotion dur="2.9s" repeatCount="indefinite" path="M140,420 L260,260"/>
+          </circle>
+          <circle class="topo-moving-dot" r="3">
+            <animateMotion dur="3.3s" repeatCount="indefinite" path="M70,260 L260,260"/>
+          </circle>
+
+          <!-- Center node: Lawrence -->
+          <circle class="topo-center-fill" cx="260" cy="260" r="48"/>
+          <circle class="topo-center-ring" cx="260" cy="260" r="48"/>
+          <!-- Shield icon in center -->
+          <path d="M260 232 l-16 8 v10 c0 9 6.5 17.5 16 19.5 9.5-2 16-10.5 16-19.5 v-10 z" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+          <path d="M253 252 l4 4 8-8" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text class="topo-center-label" x="260" y="290" text-anchor="middle">Lawrence</text>
+
+          <!-- Outer pulse ring -->
+          <circle cx="260" cy="260" r="52" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.3">
+            <animate attributeName="r" values="52;62;52" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Node 1: 飛書 (top-left) -->
+          <g class="topo-node">
+            <circle class="topo-node-circle" cx="140" cy="100" r="32"/>
+            <!-- Chat bubble icon -->
+            <rect x="126" y="88" width="28" height="18" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M134 92h12M134 98h8" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+            <text class="topo-node-label" x="140" y="142" text-anchor="middle">飛書</text>
+            <g class="topo-tooltip">
+              <rect class="topo-tooltip-bg" x="80" y="48" width="120" height="32" rx="6"/>
+              <text class="topo-tooltip-text" x="140" y="62" text-anchor="middle">Session 隔離</text>
+              <text class="topo-tooltip-text" x="140" y="74" text-anchor="middle">消息路由 · 自動應答</text>
+            </g>
+          </g>
+
+          <!-- Node 2: WhatsApp (top-right) -->
+          <g class="topo-node">
+            <circle class="topo-node-circle" cx="380" cy="100" r="32"/>
+            <!-- Phone icon -->
+            <rect x="369" y="85" width="22" height="30" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <circle cx="380" cy="108" r="2" fill="var(--gold)" opacity="0.6"/>
+            <text class="topo-node-label" x="380" y="142" text-anchor="middle">WhatsApp</text>
+            <g class="topo-tooltip">
+              <rect class="topo-tooltip-bg" x="320" y="48" width="120" height="32" rx="6"/>
+              <text class="topo-tooltip-text" x="380" y="62" text-anchor="middle">Session 隔離</text>
+              <text class="topo-tooltip-text" x="380" y="74" text-anchor="middle">消息路由 · 自動應答</text>
+            </g>
+          </g>
+
+          <!-- Node 3: Telegram (right) -->
+          <g class="topo-node">
+            <circle class="topo-node-circle" cx="450" cy="260" r="32"/>
+            <!-- Paper plane icon -->
+            <path d="M438 254 l24-8 -10 20 -6-6 -8 6z" fill="none" stroke="var(--gold)" stroke-width="1.2" stroke-linejoin="round"/>
+            <text class="topo-node-label" x="450" y="302" text-anchor="middle">Telegram</text>
+            <g class="topo-tooltip">
+              <rect class="topo-tooltip-bg" x="390" y="208" width="120" height="32" rx="6"/>
+              <text class="topo-tooltip-text" x="450" y="222" text-anchor="middle">Session 隔離</text>
+              <text class="topo-tooltip-text" x="450" y="234" text-anchor="middle">消息路由 · 自動應答</text>
+            </g>
+          </g>
+
+          <!-- Node 4: 郵件 (bottom-right) -->
+          <g class="topo-node">
+            <circle class="topo-node-circle" cx="380" cy="420" r="32"/>
+            <!-- Envelope icon -->
+            <rect x="364" y="410" width="32" height="22" rx="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M364 412 l16 11 16-11" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <text class="topo-node-label" x="380" y="462" text-anchor="middle">郵件 IMAP</text>
+            <g class="topo-tooltip">
+              <rect class="topo-tooltip-bg" x="320" y="368" width="120" height="32" rx="6"/>
+              <text class="topo-tooltip-text" x="380" y="382" text-anchor="middle">Session 隔離</text>
+              <text class="topo-tooltip-text" x="380" y="394" text-anchor="middle">消息路由 · 自動應答</text>
+            </g>
+          </g>
+
+          <!-- Node 5: Slack (bottom-left) -->
+          <g class="topo-node">
+            <circle class="topo-node-circle" cx="140" cy="420" r="32"/>
+            <!-- Hash/grid icon for Slack -->
+            <path d="M130 414 v16 M138 414 v16 M126 420 h16 M126 426 h16" stroke="var(--gold)" stroke-width="1.3" stroke-linecap="round"/>
+            <text class="topo-node-label" x="140" y="462" text-anchor="middle">Slack</text>
+            <g class="topo-tooltip">
+              <rect class="topo-tooltip-bg" x="80" y="368" width="120" height="32" rx="6"/>
+              <text class="topo-tooltip-text" x="140" y="382" text-anchor="middle">Session 隔離</text>
+              <text class="topo-tooltip-text" x="140" y="394" text-anchor="middle">消息路由 · 自動應答</text>
+            </g>
+          </g>
+
+          <!-- Node 6: Web Chat (left) -->
+          <g class="topo-node">
+            <circle class="topo-node-circle" cx="70" cy="260" r="32"/>
+            <!-- Globe/web icon -->
+            <circle cx="70" cy="256" r="10" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M60 256 h20 M70 246 v20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+            <ellipse cx="70" cy="256" rx="5" ry="10" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+            <text class="topo-node-label" x="70" y="302" text-anchor="middle">Web Chat</text>
+            <g class="topo-tooltip">
+              <rect class="topo-tooltip-bg" x="10" y="208" width="120" height="32" rx="6"/>
+              <text class="topo-tooltip-text" x="70" y="222" text-anchor="middle">Session 隔離</text>
+              <text class="topo-tooltip-text" x="70" y="234" text-anchor="middle">消息路由 · 自動應答</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -6495,6 +6966,375 @@ section {
       <div class="comparison-hl-card">
         <div class="comparison-hl-title">服務閉環</div>
         <p class="comparison-hl-desc">從部署到上手，全程陪跑，不止賣軟件</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     SECTION II-c: 技術架構 (System Architecture Diagram)
+     ============================================================ -->
+<section id="architecture" class="section-padding" style="background:#0d0d0d;">
+  <div class="container">
+    <div class="section-label reveal">
+      <span class="section-num">II-c · 技術架構</span>
+      <span class="section-line"></span>
+    </div>
+    <h2 class="heading-lg reveal">Lawrence 的工位全景</h2>
+    <p class="reveal" style="font-size:15px;color:var(--text-secondary);margin-top:12px;text-align:center;">每一個組件都運行在你的本地環境，數據從不離開你的控制範圍。</p>
+
+    <div class="arch-diagram reveal">
+      <div class="arch-svg-wrap">
+        <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- LAYER LABELS -->
+          <text class="arch-layer-label" x="20" y="52">通訊渠道</text>
+          <text class="arch-layer-label" x="20" y="210">核心服務</text>
+          <text class="arch-layer-label" x="20" y="398">基礎設施</text>
+
+          <!-- Layer divider lines -->
+          <line x1="20" y1="62" x2="880" y2="62" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
+          <line x1="20" y1="152" x2="880" y2="152" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
+          <line x1="20" y1="340" x2="880" y2="340" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
+
+          <!-- ===== TOP LAYER: 6 Channel Icons ===== -->
+          <!-- Feishu -->
+          <g class="arch-component" transform="translate(100,80)">
+            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
+            <rect x="-16" y="0" width="32" height="20" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-8 4h16M-8 12h10" stroke="var(--gold)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+            <text class="arch-card-title" x="0" y="36" text-anchor="middle">飛書</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">飛書機器人 · 事件訂閱</text>
+            </g>
+          </g>
+          <!-- WhatsApp -->
+          <g class="arch-component" transform="translate(233,80)">
+            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
+            <rect x="-10" y="-2" width="20" height="28" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <circle cx="0" cy="20" r="2" fill="var(--gold)" opacity="0.5"/>
+            <text class="arch-card-title" x="0" y="36" text-anchor="middle">WhatsApp</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">Baileys · QR 配對連線</text>
+            </g>
+          </g>
+          <!-- Telegram -->
+          <g class="arch-component" transform="translate(366,80)">
+            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
+            <path d="M-10 8 l20-8 -8 18 -5-5 -7 5z" fill="none" stroke="var(--gold)" stroke-width="1.2" stroke-linejoin="round"/>
+            <text class="arch-card-title" x="0" y="36" text-anchor="middle">Telegram</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">Bot API · Webhook 回調</text>
+            </g>
+          </g>
+          <!-- Email -->
+          <g class="arch-component" transform="translate(500,80)">
+            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
+            <rect x="-14" y="0" width="28" height="18" rx="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-14 2 l14 9 14-9" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <text class="arch-card-title" x="0" y="36" text-anchor="middle">郵件</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">IMAP/SMTP · MIME 解析</text>
+            </g>
+          </g>
+          <!-- Slack -->
+          <g class="arch-component" transform="translate(633,80)">
+            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
+            <path d="M-8 0 v14 M0 0 v14 M-12 6 h18 M-12 10 h18" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/>
+            <text class="arch-card-title" x="0" y="36" text-anchor="middle">Slack</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">Socket Mode · 即時通訊</text>
+            </g>
+          </g>
+          <!-- Web -->
+          <g class="arch-component" transform="translate(766,80)">
+            <rect class="arch-card-bg" x="-45" y="-10" width="90" height="56"/>
+            <circle cx="0" cy="8" r="10" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-10 8 h20 M0 -2 v20" stroke="var(--gold)" stroke-width="0.7" opacity="0.5"/>
+            <ellipse cx="0" cy="8" rx="5" ry="10" fill="none" stroke="var(--gold)" stroke-width="0.7" opacity="0.5"/>
+            <text class="arch-card-title" x="0" y="36" text-anchor="middle">Web</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-60" y="-45" width="120" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-27" text-anchor="middle">WebSocket · 嵌入式聊天</text>
+            </g>
+          </g>
+
+          <!-- ===== Connectors: Top → Middle ===== -->
+          <path class="arch-connector arch-connector-animated" d="M100,136 L250,168"/>
+          <path class="arch-connector arch-connector-animated" d="M233,136 L250,168"/>
+          <path class="arch-connector arch-connector-animated" d="M366,136 L350,168"/>
+          <path class="arch-connector arch-connector-animated" d="M500,136 L350,168"/>
+          <path class="arch-connector arch-connector-animated" d="M633,136 L350,168"/>
+          <path class="arch-connector arch-connector-animated" d="M766,136 L350,168"/>
+
+          <!-- ===== MIDDLE LAYER: 3 Core Services ===== -->
+          <!-- Gateway -->
+          <g class="arch-component" transform="translate(200,220)">
+            <rect class="arch-card-bg" x="-80" y="-40" width="160" height="100"/>
+            <!-- Router icon -->
+            <circle cx="0" cy="-12" r="12" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M0 -24 v-4 M-14 -6 l-4-4 M14 -6 l4-4" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="0" cy="-12" r="3" fill="var(--gold)" opacity="0.4"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">Gateway</text>
+            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">通訊網關</text>
+            <text class="arch-card-sub" x="0" y="48" text-anchor="middle">消息路由 · Session 管理</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-90" y="-78" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-60" text-anchor="middle">統一接收六大渠道消息，智能分發至 Agent</text>
+            </g>
+          </g>
+
+          <!-- Lawrence AI Agent (center, largest) -->
+          <g class="arch-component" transform="translate(450,230)">
+            <rect class="arch-card-bg" x="-100" y="-60" width="200" height="120" style="stroke:var(--gold);stroke-width:1.5;"/>
+            <!-- Animated pulse behind brain -->
+            <circle class="arch-brain-pulse" cx="0" cy="-18" r="38"/>
+            <!-- Brain icon -->
+            <path d="M-12 -14 c-8-12 8-20 12-8 c4-12 20-4 12 8" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M0 -22 v28" stroke="var(--gold)" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+            <circle cx="0" cy="-18" r="4" fill="var(--gold)" opacity="0.3"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle" style="font-size:14px;">Lawrence AI Agent</text>
+            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">意圖理解 · 任務分解</text>
+            <text class="arch-card-sub" x="0" y="48" text-anchor="middle">自主決策 · 人工審批</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-100" y="-100" width="200" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-82" text-anchor="middle">核心 AI 引擎：理解需求、規劃執行、協調所有組件</text>
+            </g>
+          </g>
+
+          <!-- Memory System -->
+          <g class="arch-component" transform="translate(720,220)">
+            <rect class="arch-card-bg" x="-80" y="-40" width="160" height="100"/>
+            <!-- Memory/database icon -->
+            <ellipse cx="0" cy="-16" rx="16" ry="6" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-16 -16 v14 c0 3.3 7.2 6 16 6 s16-2.7 16-6 v-14" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <ellipse cx="0" cy="-8" rx="16" ry="6" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
+            <text class="arch-card-title" x="0" y="18" text-anchor="middle">Memory</text>
+            <text class="arch-card-sub" x="0" y="34" text-anchor="middle">記憶系統</text>
+            <text class="arch-card-sub" x="0" y="48" text-anchor="middle">長期記憶 · 語義檢索</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-90" y="-78" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-60" text-anchor="middle">知識庫向量檢索，跨 Session 記憶持久化</text>
+            </g>
+          </g>
+
+          <!-- Connectors: Gateway → Agent → Memory -->
+          <path class="arch-connector arch-connector-animated" d="M280,220 L350,220"/>
+          <path class="arch-connector arch-connector-animated" d="M550,230 L640,220"/>
+
+          <!-- ===== Connectors: Middle → Bottom ===== -->
+          <path class="arch-connector arch-connector-animated" d="M200,280 L200,360"/>
+          <path class="arch-connector arch-connector-animated" d="M400,290 L380,360"/>
+          <path class="arch-connector arch-connector-animated" d="M480,290 L550,360"/>
+          <path class="arch-connector arch-connector-animated" d="M720,280 L720,360"/>
+
+          <!-- ===== BOTTOM LAYER: 4 Infrastructure Components ===== -->
+          <!-- PostgreSQL -->
+          <g class="arch-component" transform="translate(150,410)">
+            <rect class="arch-card-bg" x="-80" y="-35" width="160" height="80"/>
+            <!-- Cylinder icon -->
+            <ellipse cx="0" cy="-10" rx="14" ry="5" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-14 -10 v18 c0 2.8 6.3 5 14 5 s14-2.2 14-5 v-18" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <text class="arch-card-title" x="0" y="22" text-anchor="middle">PostgreSQL</text>
+            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">向量數據庫 (pgvector)</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-90" y="-72" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">語義搜索 + 結構化存儲，數據永不離開本地</text>
+            </g>
+          </g>
+
+          <!-- Forgejo -->
+          <g class="arch-component" transform="translate(380,410)">
+            <rect class="arch-card-bg" x="-80" y="-35" width="160" height="80"/>
+            <!-- Git branch icon -->
+            <circle cx="-6" cy="-10" r="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <circle cx="6" cy="-2" r="3" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-6 -7 v10 M-6 0 c0-4 12-8 12-5" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <text class="arch-card-title" x="0" y="22" text-anchor="middle">Forgejo</text>
+            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">代碼與 CI/CD</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-90" y="-72" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">自託管 Git + Actions，Agent 工作流引擎</text>
+            </g>
+          </g>
+
+          <!-- Sandbox -->
+          <g class="arch-component" transform="translate(600,410)">
+            <rect class="arch-card-bg" x="-80" y="-35" width="160" height="80"/>
+            <!-- Box/sandbox icon -->
+            <rect x="-12" y="-12" width="24" height="20" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-12 -6 h24 M0 -12 v20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+            <text class="arch-card-title" x="0" y="22" text-anchor="middle">沙箱</text>
+            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">安全執行環境</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-90" y="-72" width="180" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">隔離容器執行代碼，防止越權操作</text>
+            </g>
+          </g>
+
+          <!-- Unoserver -->
+          <g class="arch-component" transform="translate(810,410)">
+            <rect class="arch-card-bg" x="-70" y="-35" width="140" height="80"/>
+            <!-- Document icon -->
+            <rect x="-10" y="-14" width="20" height="24" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.2"/>
+            <path d="M-5 -4 h10 M-5 2 h10 M-5 8 h6" stroke="var(--gold)" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+            <text class="arch-card-title" x="0" y="22" text-anchor="middle">Unoserver</text>
+            <text class="arch-card-sub" x="0" y="36" text-anchor="middle">文檔處理引擎</text>
+            <g class="arch-tooltip">
+              <rect class="arch-tooltip-bg" x="-80" y="-72" width="160" height="28"/>
+              <text class="arch-tooltip-text" x="0" y="-54" text-anchor="middle">PDF/Word/PPT 格式轉換與修訂對比</text>
+            </g>
+          </g>
+
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ============================================================
+     SECTION II-d: 數據流向 (Data Flow Diagram)
+     ============================================================ -->
+<section id="data-flow" class="section-alt section-padding">
+  <div class="container">
+    <div class="section-label reveal">
+      <span class="section-num">II-d · 數據流向</span>
+      <span class="section-line"></span>
+    </div>
+    <h2 class="heading-lg reveal">你的數據，始終在你的掌控之中</h2>
+    <p class="reveal" style="font-size:15px;color:var(--text-secondary);margin-top:12px;text-align:center;">一個真實場景：從客戶郵件到合規回覆的完整數據鏈路。</p>
+
+    <div class="dataflow-diagram reveal">
+      <div class="dataflow-svg-wrap">
+        <svg viewBox="0 0 960 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="df-arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="rgba(201,168,76,0.5)"/>
+            </marker>
+            <marker id="df-arrowhead-yellow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="rgba(245,158,11,0.6)"/>
+            </marker>
+          </defs>
+
+          <!-- Moving dot along entire path -->
+          <circle class="df-moving-dot" r="3" fill="var(--gold)">
+            <animateMotion dur="6s" repeatCount="indefinite" path="M60,120 L200,120 L340,120 L500,120 L660,120 L800,120 L900,120" />
+          </circle>
+
+          <!-- Step 1: 客戶郵件進入 -->
+          <g class="df-step" style="opacity:1;transform:none;">
+            <rect class="df-card-bg df-card-bg-local" x="20" y="40" width="120" height="150" rx="10"/>
+            <!-- Envelope icon -->
+            <rect x="52" y="65" width="36" height="24" rx="3" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+            <path d="M52 67 l18 13 18-13" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+            <text class="df-title" x="80" y="112" text-anchor="middle">客戶郵件進入</text>
+            <rect x="42" y="122" width="76" height="20" rx="10" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)" stroke-width="0.8"/>
+            <text class="df-tag df-tag-local" x="80" y="136" text-anchor="middle">本地接收</text>
+            <!-- Step number -->
+            <circle cx="36" cy="56" r="10" fill="rgba(16,185,129,0.15)" stroke="var(--green)" stroke-width="0.8"/>
+            <text x="36" y="60" text-anchor="middle" fill="var(--green)" font-size="10" font-weight="600" font-family="var(--font-sans)">1</text>
+          </g>
+
+          <!-- Arrow 1→2 -->
+          <line class="df-arrow" x1="140" y1="115" x2="170" y2="115"/>
+
+          <!-- Step 2: Gateway 解析分發 -->
+          <g class="df-step" style="opacity:1;transform:none;">
+            <rect class="df-card-bg df-card-bg-local" x="175" y="40" width="120" height="150" rx="10"/>
+            <!-- Router icon -->
+            <circle cx="235" cy="76" r="12" fill="none" stroke="var(--green)" stroke-width="1.3"/>
+            <path d="M235 58 v-4 M221 82 l-4 4 M249 82 l4 4" stroke="var(--green)" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="235" cy="76" r="3" fill="var(--green)" opacity="0.4"/>
+            <text class="df-title" x="235" y="112" text-anchor="middle">Gateway 解析</text>
+            <rect x="197" y="122" width="76" height="20" rx="10" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)" stroke-width="0.8"/>
+            <text class="df-tag df-tag-local" x="235" y="136" text-anchor="middle">本地處理</text>
+            <circle cx="191" cy="56" r="10" fill="rgba(16,185,129,0.15)" stroke="var(--green)" stroke-width="0.8"/>
+            <text x="191" y="60" text-anchor="middle" fill="var(--green)" font-size="10" font-weight="600" font-family="var(--font-sans)">2</text>
+          </g>
+
+          <!-- Arrow 2→3 -->
+          <line class="df-arrow" x1="295" y1="115" x2="325" y2="115"/>
+
+          <!-- Step 3: Lawrence 分析意圖 -->
+          <g class="df-step" style="opacity:1;transform:none;">
+            <rect class="df-card-bg df-card-bg-local" x="330" y="40" width="120" height="150" rx="10"/>
+            <!-- Brain icon -->
+            <path d="M380 64 c-8-12 8-20 12-8 c4-12 20-4 12 8" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="392" cy="68" r="3" fill="var(--green)" opacity="0.3"/>
+            <text class="df-title" x="390" y="112" text-anchor="middle">Lawrence 分析</text>
+            <rect x="352" y="122" width="76" height="20" rx="10" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)" stroke-width="0.8"/>
+            <text class="df-tag df-tag-local" x="390" y="136" text-anchor="middle">本地推理</text>
+            <circle cx="346" cy="56" r="10" fill="rgba(16,185,129,0.15)" stroke="var(--green)" stroke-width="0.8"/>
+            <text x="346" y="60" text-anchor="middle" fill="var(--green)" font-size="10" font-weight="600" font-family="var(--font-sans)">3</text>
+          </g>
+
+          <!-- Arrow 3→4 (DASHED YELLOW - data leaves) -->
+          <line class="df-arrow df-arrow-external" x1="450" y1="115" x2="480" y2="115" marker-end="url(#df-arrowhead-yellow)"/>
+
+          <!-- Step 4: LLM API 調用 (EXTERNAL) -->
+          <g class="df-step" style="opacity:1;transform:none;">
+            <rect class="df-card-bg df-card-bg-external" x="485" y="40" width="120" height="150" rx="10"/>
+            <!-- Cloud icon -->
+            <path d="M535 75 c-2-10-16-10-18 0 c-8-2-10 8-4 12 h28 c6-4 4-14-6-12z" fill="none" stroke="var(--terminal-yellow)" stroke-width="1.3"/>
+            <text class="df-title" x="545" y="112" text-anchor="middle">LLM API 調用</text>
+            <rect x="503" y="122" width="84" height="20" rx="10" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.35)" stroke-width="0.8"/>
+            <text class="df-tag df-tag-external" x="545" y="136" text-anchor="middle">僅片段離開</text>
+            <circle cx="501" cy="56" r="10" fill="rgba(245,158,11,0.12)" stroke="var(--terminal-yellow)" stroke-width="0.8"/>
+            <text x="501" y="60" text-anchor="middle" fill="var(--terminal-yellow)" font-size="10" font-weight="600" font-family="var(--font-sans)">4</text>
+            <!-- Warning indicator -->
+            <text x="545" y="172" text-anchor="middle" fill="var(--terminal-yellow)" font-size="9" font-family="var(--font-sans)" opacity="0.7">⚠ 唯一外部調用</text>
+          </g>
+
+          <!-- Arrow 4→5 (DASHED YELLOW back) -->
+          <line class="df-arrow df-arrow-external" x1="605" y1="115" x2="635" y2="115" marker-end="url(#df-arrowhead)"/>
+
+          <!-- Step 5: 生成回覆草稿 -->
+          <g class="df-step" style="opacity:1;transform:none;">
+            <rect class="df-card-bg df-card-bg-local" x="640" y="40" width="120" height="150" rx="10"/>
+            <!-- Document icon -->
+            <rect x="686" y="62" width="22" height="28" rx="2" fill="none" stroke="var(--green)" stroke-width="1.3"/>
+            <path d="M690 72 h14 M690 78 h14 M690 84 h8" stroke="var(--green)" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+            <text class="df-title" x="700" y="112" text-anchor="middle">生成回覆草稿</text>
+            <rect x="662" y="122" width="76" height="20" rx="10" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)" stroke-width="0.8"/>
+            <text class="df-tag df-tag-local" x="700" y="136" text-anchor="middle">本地生成</text>
+            <circle cx="656" cy="56" r="10" fill="rgba(16,185,129,0.15)" stroke="var(--green)" stroke-width="0.8"/>
+            <text x="656" y="60" text-anchor="middle" fill="var(--green)" font-size="10" font-weight="600" font-family="var(--font-sans)">5</text>
+          </g>
+
+          <!-- Arrow 5→6 -->
+          <line class="df-arrow" x1="760" y1="115" x2="790" y2="115"/>
+
+          <!-- Step 6: 人工審批發出 -->
+          <g class="df-step" style="opacity:1;transform:none;">
+            <rect class="df-card-bg df-card-bg-local" x="795" y="40" width="120" height="150" rx="10"/>
+            <!-- Checkmark icon -->
+            <circle cx="855" cy="76" r="14" fill="none" stroke="var(--green)" stroke-width="1.3"/>
+            <path d="M847 76 l5 5 10-10" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <text class="df-title" x="855" y="112" text-anchor="middle">人工審批發出</text>
+            <rect x="817" y="122" width="76" height="20" rx="10" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.3)" stroke-width="0.8"/>
+            <text class="df-tag df-tag-local" x="855" y="136" text-anchor="middle">人工把關</text>
+            <circle cx="811" cy="56" r="10" fill="rgba(16,185,129,0.15)" stroke="var(--green)" stroke-width="0.8"/>
+            <text x="811" y="60" text-anchor="middle" fill="var(--green)" font-size="10" font-weight="600" font-family="var(--font-sans)">6</text>
+          </g>
+
+          <!-- Legend -->
+          <g transform="translate(340, 220)">
+            <circle cx="0" cy="0" r="5" fill="rgba(16,185,129,0.2)" stroke="var(--green)" stroke-width="1"/>
+            <text x="12" y="4" fill="var(--text-secondary)" font-size="10" font-family="var(--font-sans)">數據留在本地</text>
+            <circle cx="130" cy="0" r="5" fill="rgba(245,158,11,0.15)" stroke="var(--terminal-yellow)" stroke-width="1"/>
+            <text x="142" y="4" fill="var(--text-secondary)" font-size="10" font-family="var(--font-sans)">僅脫敏片段觸及外部</text>
+          </g>
+
+        </svg>
       </div>
     </div>
   </div>
